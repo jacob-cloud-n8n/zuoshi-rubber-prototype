@@ -1,0 +1,657 @@
+
+<!doctype html>
+<html lang="zh-TW">
+<head><script data-od-sandbox-shim>(function(){
+  function makeStore(){
+    var data = {};
+    var api = {
+      getItem: function(k){ return Object.prototype.hasOwnProperty.call(data, k) ? data[k] : null; },
+      setItem: function(k, v){ data[k] = String(v); },
+      removeItem: function(k){ delete data[k]; },
+      clear: function(){ data = {}; },
+      key: function(i){ return Object.keys(data)[i] || null; }
+    };
+    Object.defineProperty(api, 'length', { get: function(){ return Object.keys(data).length; } });
+    return api;
+  }
+  function tryShim(name){
+    var works = false;
+    try { works = !!window[name] && typeof window[name].getItem === 'function'; void window[name].length; }
+    catch (_) { works = false; }
+    if (works) return;
+    try { Object.defineProperty(window, name, { configurable: true, value: makeStore() }); }
+    catch (_) { try { window[name] = makeStore(); } catch (__) {} }
+  }
+  tryShim('localStorage');
+  tryShim('sessionStorage');
+})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東莞市琢石橡塑製品有限公司 | 專業橡塑助劑研發與生產</title>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: oklch(98% 0.005 250);
+            --surface: oklch(100% 0 0);
+            --fg: oklch(22% 0.02 240);
+            --muted: oklch(50% 0.018 240);
+            --border: oklch(90% 0.008 240);
+            --accent: oklch(58% 0.16 145);
+            --accent-soft: oklch(95% 0.02 145);
+
+            --font-display: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+            --radius-sm: 2px;
+            --radius-md: 4px;
+            --radius-lg: 8px;
+            
+            --container-width: 1200px;
+            --header-height: 64px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-body); background-color: var(--bg); color: var(--fg); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.01em; font-weight: 600; }
+        a { color: inherit; text-decoration: none; }
+        .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+
+        header { height: var(--header-height); background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        nav { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .logo { font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 36px; width: auto; display: block; border-radius: 2px; }
+        
+        .nav-links { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
+        .nav-link { color: var(--muted); cursor: pointer; transition: 0.2s; border-bottom: 2px solid transparent; padding: 20px 0; }
+        .nav-link:hover, .nav-link.active { color: var(--fg); }
+        .nav-link.active { border-color: var(--accent); }
+
+        main { padding: 40px 0 100px; min-height: calc(100vh - 300px); }
+
+        /* Utility Components */
+        .badge { display: inline-block; padding: 2px 8px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); font-size: 11px; font-weight: 600; border-radius: 2px; text-transform: uppercase; }
+        .button { display: inline-flex; align-items: center; padding: 10px 20px; background: var(--fg); color: white; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; cursor: pointer; border: none; transition: 0.2s; }
+        .button:hover { background: var(--accent); }
+        .card { background: var(--surface); border: 1px solid var(--border); padding: 24px; border-radius: var(--radius-sm); transition: 0.2s; }
+        .card:hover { border-color: var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+
+        /* Tables */
+        .table-container { width: 100%; overflow-x: auto; margin-top: 24px; border: 1px solid var(--border); background: white; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { background: var(--bg); color: var(--muted); font-weight: 500; text-align: left; padding: 12px; border-bottom: 1px solid var(--border); }
+        td { padding: 12px; border-bottom: 1px solid var(--border); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: var(--accent-soft); }
+
+        /* Support Tabs */
+        .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+        .tab { padding: 8px 16px; background: var(--bg); border: 1px solid var(--border); font-size: 13px; cursor: pointer; border-radius: 2px; color: var(--muted); }
+        .tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* Molecular Structure Component */
+        .molecular-card {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            background: var(--bg);
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+        .molecule-viz {
+            width: 180px;
+            height: 120px;
+            background: white;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        /* Packaging Viz */
+        .drum-viz {
+            width: 44px;
+            height: 60px;
+            background: #d4a373; /* fiber drum color */
+            border: 1px solid #bc8a5f;
+            position: relative;
+            border-radius: 4px 4px 10px 10px;
+        }
+        .drum-viz::before, .drum-viz::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: #adb5bd; /* metal rings */
+            left: 0;
+        }
+        .drum-viz::before { top: 15%; }
+        .drum-viz::after { bottom: 15%; }
+
+        footer { background: var(--surface); border-top: 1px solid var(--border); padding: 60px 0; font-size: 13px; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1.5fr; gap: 40px; }
+        .footer-links h4 { margin-bottom: 20px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--fg); }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 8px; color: var(--muted); }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .hero h1 { font-size: 32px; }
+            .molecular-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const MoleculeSVG = ({ type }) => {
+            if (type === '1010') {
+                return (
+                    <svg viewBox="0 0 100 60" width="100%" height="100%">
+                        <path d="M10,30 L25,30 M25,30 L35,15 L50,15 L60,30 L50,45 L35,45 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                        <text x="5" y="32" fontSize="5" className="mono">HO-</text>
+                        <text x="35" y="12" fontSize="4" className="mono">C(CH3)3</text>
+                        <text x="35" y="52" fontSize="4" className="mono">C(CH3)3</text>
+                        <path d="M60,30 L75,30 M75,30 L85,20" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                        <text x="70" y="28" fontSize="4" className="mono">-CH2-CH2-C-O-</text>
+                        <text x="85" y="18" fontSize="6" className="mono">]4</text>
+                    </svg>
+                );
+            }
+            if (type === 'OB-1') {
+                return (
+                    <svg viewBox="0 0 120 40" width="100%" height="100%">
+                        <path d="M10,20 L25,10 L40,10 L50,20 L40,30 L25,30 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M50,20 L60,20 M60,20 L70,20 M70,20 L80,10 L95,10 L105,20 L95,30 L80,30 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                        <text x="55" y="18" fontSize="6" className="mono">-CH=CH-</text>
+                        <text x="25" y="15" fontSize="6" className="mono">N</text>
+                        <text x="90" y="15" fontSize="6" className="mono">N</text>
+                    </svg>
+                );
+            }
+            if (type === 'UV-531') {
+                return (
+                    <svg viewBox="0 0 100 40" width="100%" height="100%">
+                        <path d="M10,20 L20,10 L35,10 L45,20 L35,30 L20,30 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M45,20 L55,20 M55,20 L65,20 L75,10 L90,10 L100,20 L90,30 L75,30 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                        <text x="50" y="15" fontSize="6" className="mono">C=O</text>
+                        <text x="90" y="22" fontSize="5" className="mono">-OC8H17</text>
+                    </svg>
+                );
+            }
+            return (
+                <svg viewBox="0 0 100 40" width="100%" height="100%">
+                    <path d="M20,20 L40,10 L60,10 L80,20 L60,30 L40,30 Z" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                    <path d="M40,20 L60,20" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2"/>
+                </svg>
+            );
+        };
+
+        const App = () => {
+            const [currentPage, setCurrentPage] = useState('home');
+
+            const navigate = (p) => {
+                setCurrentPage(p);
+                window.scrollTo(0, 0);
+            };
+
+            return (
+                <div>
+                    <header>
+                        <div className="container">
+                            <nav>
+                                <div className="logo" onClick={() => navigate('home')} style={{cursor:'pointer'}}>
+                                    <img src="assets/zuoshi-logo.jpg" className="logo-img" alt="琢石橡塑 Logo" />
+                                    <div>琢石橡塑 <span style={{fontSize:'12px', fontWeight:400, color:'var(--muted)'}}>Zhuoshi Plastic</span></div>
+                                </div>
+                                <div className="nav-links">
+                                    <div className={`nav-link ${currentPage === 'home' ? 'active' : ''}`} onClick={() => navigate('home')}>首頁</div>
+                                    <div className={`nav-link ${currentPage === 'about' ? 'active' : ''}`} onClick={() => navigate('about')}>關於我們</div>
+                                    <div className={`nav-link ${currentPage === 'products' ? 'active' : ''}`} onClick={() => navigate('products')}>產品介紹</div>
+                                    <div className={`nav-link ${currentPage === 'support' ? 'active' : ''}`} onClick={() => navigate('support')}>技術規格</div>
+                                    <div className={`nav-link ${currentPage === 'contact' ? 'active' : ''}`} onClick={() => navigate('contact')}>聯絡我們</div>
+                                </div>
+                                <button className="button" onClick={() => navigate('contact')}>獲取報價</button>
+                            </nav>
+                        </div>
+                    </header>
+
+                    <main className="container">
+                        <div className="fade-in" key={currentPage}>
+                            {currentPage === 'home' && <HomePage onNavigate={navigate} />}
+                            {currentPage === 'about' && <AboutPage />}
+                            {currentPage === 'products' && <ProductsPage onNavigate={navigate} />}
+                            {currentPage === 'support' && <SupportPage />}
+                            {currentPage === 'contact' && <ContactPage />}
+                        </div>
+                    </main>
+
+                    <footer>
+                        <div className="container">
+                            <div className="footer-grid">
+                                <div>
+                                    <div className="logo" style={{marginBottom:'20px'}}>
+                                        <img src="assets/zuoshi-logo.jpg" className="logo-img" style={{height:'32px'}} alt="琢石橡塑 Logo" />
+                                        <span>東莞市琢石橡塑製品有限公司</span>
+                                    </div>
+                                    <p style={{color:'var(--muted)', maxWidth:'350px'}}>
+                                        專業從事橡塑材料添加助劑的研發、生產、銷售、貿易代理為一體的企業。生產產品性能穩定，品質可靠。
+                                    </p>
+                                </div>
+                                <div className="footer-links">
+                                    <h4>產品中心</h4>
+                                    <ul>
+                                        <li>發泡劑 / 發泡母粒</li>
+                                        <li>耐磨劑 / 膨脹劑</li>
+                                        <li>抗氧化劑 / 螢光增白劑</li>
+                                        <li>高溫耐候型無機顏料</li>
+                                    </ul>
+                                </div>
+                                <div className="footer-links">
+                                    <h4>聯繫辦事處</h4>
+                                    <ul>
+                                        <li><strong>台中：</strong>04-22241106</li>
+                                        <li>台中市復興路三段314號9樓</li>
+                                        <li style={{marginTop:'12px'}}><strong>東莞：</strong>0769-83792005</li>
+                                        <li>廣東省東莞市沙田鎮齊沙管理區園區北路1號1樓</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style={{marginTop:'60px', paddingTop:'30px', borderTop:'1px solid var(--border)', fontSize:'12px', color:'var(--muted)', display:'flex', justifyContent:'space-between'}}>
+                                <span>© 2026 東莞市琢石橡塑製品有限公司 版權所有</span>
+                                <div style={{display:'flex', gap:'24px'}}>
+                                    <span>技術支援：智連系統</span>
+                                    <span>隱私政策</span>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const HomePage = ({ onNavigate }) => (
+            <div>
+                <section style={{padding:'60px 0', borderBottom:'1px solid var(--border)', marginBottom:'60px'}}>
+                    <div className="badge" style={{marginBottom:'16px'}}>專業橡塑助劑領航者</div>
+                    <h1 style={{fontSize:'56px', lineHeight:1.1, marginBottom:'24px', maxWidth:'800px'}}>
+                        跨越兩岸的研發實力<br /><span style={{color:'var(--accent)'}}>高品質橡塑解決方案</span>
+                    </h1>
+                    <p style={{fontSize:'18px', color:'var(--muted)', maxWidth:'600px', marginBottom:'40px'}}>
+                        琢石橡塑立足台灣，深耕東莞。我們致力於研發高性能、環保的化學助劑，滿足工業製造中最嚴苛的技術需求。
+                    </p>
+                    <div style={{display:'flex', gap:'12px'}}>
+                        <button className="button" onClick={() => onNavigate('products')}>瀏覽產品目錄</button>
+                        <button className="button" style={{background:'var(--bg)', color:'var(--fg)', border:'1px solid var(--border)'}} onClick={() => onNavigate('support')}>技術規格數據庫</button>
+                    </div>
+                </section>
+
+                <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', gap:'24px'}}>
+                    <div className="card">
+                        <h3 className="mono" style={{color:'var(--accent)', fontSize:'14px', marginBottom:'16px'}}>01 / 研發核心</h3>
+                        <h4>跨地區研發團隊</h4>
+                        <p style={{marginTop:'8px', fontSize:'14px', color:'var(--muted)'}}>結合台中總部與東莞生產基地，專注於分子級配方優化與性能測試。</p>
+                    </div>
+                    <div className="card">
+                        <h3 className="mono" style={{color:'var(--accent)', fontSize:'14px', marginBottom:'16px'}}>02 / 穩定供應</h3>
+                        <h4>兩岸協作網絡</h4>
+                        <p style={{marginTop:'8px', fontSize:'14px', color:'var(--muted)'}}>兩地辦事處聯動，提供即時的技術諮詢與穩定的物流供應服務。</p>
+                    </div>
+                    <div className="card">
+                        <h3 className="mono" style={{color:'var(--accent)', fontSize:'14px', marginBottom:'16px'}}>03 / 環保承諾</h3>
+                        <h4>全球標準認證</h4>
+                        <p style={{marginTop:'8px', fontSize:'14px', color:'var(--muted)'}}>全線產品符合 EN71、REACH、ROHS、FDA 等多項國際主流環保規範。</p>
+                    </div>
+                </div>
+
+                <section style={{marginTop:'100px'}}>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', marginBottom:'40px'}}>
+                        <h2>產品核心類別</h2>
+                        <span className="mono" style={{fontSize:'12px', color:'var(--muted)', cursor:'pointer'}} onClick={() => onNavigate('products')}>查看全部產品 →</span>
+                    </div>
+                    <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'1px', background:'var(--border)', border:'1px solid var(--border)'}}>
+                        {['發泡劑', '耐磨劑', '抗氧化劑', '無機顏料'].map(cat => (
+                            <div key={cat} style={{background:'white', padding:'40px 24px', textAlign:'center'}}>
+                                <div style={{width:'40px', height:'40px', background:'var(--bg)', margin:'0 auto 20px', borderRadius:'2px'}}></div>
+                                <h4 style={{fontSize:'16px'}}>{cat}</h4>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            </div>
+        );
+
+        const AboutPage = () => (
+            <div className="fade-in">
+                <div className="badge">INTRODUCTION / 公司簡介</div>
+                <h1 style={{marginTop:'16px', fontSize:'40px', marginBottom:'40px'}}>立足兩岸，連結全球橡塑工業</h1>
+                
+                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px', marginBottom:'80px'}}>
+                    <div>
+                        <p style={{marginBottom:'24px', fontSize:'16px'}}>
+                            <strong>東莞市琢石橡塑製品有限公司</strong>，是一家專業從事橡塑材料添加助劑的研發、生產、銷售、貿易代理為一體的企業。
+                        </p>
+                        <p style={{marginBottom:'24px', color:'var(--muted)'}}>
+                            我們在台中設有管理與研發總部，並在廣東省東莞市沙田鎮設有現代化生產與實驗基地。東莞基地毗鄰輪渡路、沿江高速及虎門輪渡碼頭，地理位置優越，交通物流極其便捷。
+                        </p>
+                        <ul style={{listStyle:'none', padding:0}}>
+                            {['兩岸專業技術人員協作', '領先的分子分析檢測儀器', '客製化配製與現場技術指導', '符合 REACH / SONY 等環保標準'].map(item => (
+                                <li key={item} style={{marginBottom:'12px', display:'flex', alignItems:'center', gap:'12px'}}>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span style={{fontSize:'14px'}}>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div style={{background:'var(--border)', height:'400px', borderRadius:'2px', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--muted)'}}>
+                        [ 研發實驗室實拍圖 ]
+                    </div>
+                </div>
+
+                <section style={{background:'var(--surface)', padding:'60px', border:'1px solid var(--border)'}}>
+                    <h3 style={{marginBottom:'32px'}}>服務範圍與實力</h3>
+                    <div style={{display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:'40px'}}>
+                        <div>
+                            <h4 style={{color:'var(--accent)', marginBottom:'8px'}}>研發深度</h4>
+                            <p style={{fontSize:'14px', color:'var(--muted)'}}>專精於分子結構調整，解決橡塑材料在擠出、注塑與發泡中的技術難題。</p>
+                        </div>
+                        <div>
+                            <h4 style={{color:'var(--accent)', marginBottom:'8px'}}>生產規模</h4>
+                            <p style={{fontSize:'14px', color:'var(--muted)'}}>東莞生產基地配備全套自動化生產線，確保產品的高純度與批次穩定性。</p>
+                        </div>
+                        <div>
+                            <h4 style={{color:'var(--accent)', marginBottom:'8px'}}>物流網絡</h4>
+                            <p style={{fontSize:'14px', color:'var(--muted)'}}>利用珠三角物流中心優勢，產品迅速銷往全國及海外市場。</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        );
+
+        const ProductsPage = ({ onNavigate }) => {
+            const categories = [
+                { title: '發泡劑 FOAMING AGENT', desc: '包含無機型、黃發泡劑及複配型發泡劑，產氣量穩定。' },
+                { title: '發泡/膨脹母粒 FOAM MASTERBATCH', desc: '適用於 PVC、TPU、TPR 等，降低比重並改善表面質感。' },
+                { title: '耐磨劑 ANTI-ABRASION', desc: '降低摩擦係數 15%~30%，提高樹脂加工性能與流動性。' },
+                { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERE', desc: '物理性膨脹劑，達成輕量化並避免製品凹陷。' },
+                { title: '抗氧化劑 ANTIOXIDANT', desc: '適用於類聚合物、彈性體及膠黏劑，防止熱氧化降解。' },
+                { title: '紫外線吸收劑 UV ABSORBENT', desc: '提升製品耐候性，防止光降解與褪色。' },
+                { title: '螢光增白劑 BRIGHTENER', desc: '賦予塑膠與纖維極佳的增白與增豔效果。' },
+                { title: '高溫耐候型無機顏料 PIGMENT', desc: '符合 FDA、EN71-3 標準的多色系無機顏料。' }
+            ];
+
+            return (
+                <div>
+                    <div className="badge">PRODUCT INDEX / 產品目錄</div>
+                    <h1 style={{marginTop:'16px', fontSize:'40px', marginBottom:'48px'}}>專業級化學助劑解決方案</h1>
+                    
+                    <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))', gap:'32px'}}>
+                        {categories.map(cat => (
+                            <div className="card" key={cat.title}>
+                                <div style={{width:'100%', aspectRatio:'16/9', background:'var(--bg)', marginBottom:'20px', borderRadius:'2px'}}></div>
+                                <h3 style={{fontSize:'16px', marginBottom:'12px', minHeight:'40px'}}>{cat.title}</h3>
+                                <p style={{fontSize:'13px', color:'var(--muted)', marginBottom:'24px', minHeight:'60px'}}>{cat.desc}</p>
+                                <button 
+                                    className="button" 
+                                    style={{width:'100%', justifyContent:'center', background:'transparent', border:'1px solid var(--border)', color:'var(--fg)'}}
+                                    onClick={() => onNavigate('support')}
+                                >
+                                    查看技術參數
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const SupportPage = () => {
+            const [activeTab, setActiveTab] = useState('foaming');
+
+            const tables = {
+                foaming: (
+                    <div className="fade-in">
+                        <h4>發泡劑 FOAMING AGENT (無機/複配型)</h4>
+                        <div className="table-container">
+                            <table className="mono">
+                                <thead>
+                                    <tr>
+                                        <th>品名</th>
+                                        <th>理論產氣量 (ml/g)</th>
+                                        <th>粒徑 (mμ)</th>
+                                        <th>適用範圍</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>白發泡劑 TH</td><td>≥ 100</td><td>3-5</td><td>PVC, TPR, PP, PE, ABS, PS</td></tr>
+                                    <tr><td>白發泡劑 D-350</td><td>100-110</td><td>3-5</td><td>PVC, TPR, PP, PE</td></tr>
+                                    <tr><td>AC-1000</td><td>220±10</td><td>10-12</td><td>PVC, PP, PE, ABS, EVA, TPE</td></tr>
+                                    <tr><td>AC-4000</td><td>220±10</td><td>3-5</td><td>PVC, PP, PE, ABS, EVA, TPE</td></tr>
+                                    <tr><td>AC-631</td><td>130±10</td><td>5-8</td><td>EVA, TPR</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                ),
+                rd_lab: (
+                    <div className="fade-in">
+                        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'24px'}}>
+                            <div>
+                                <h4>分子結構深度解析 / MOLECULAR ANALYSIS</h4>
+                                <p style={{fontSize:'13px', color:'var(--muted)', marginTop:'8px', marginBottom:'24px'}}>
+                                    我們通過精確控制分子的官能基團與鏈段長度，確保助劑在不同樹脂基體中的相容性與反應活性。
+                                </p>
+                                
+                                <div className="molecular-card">
+                                    <div className="molecule-viz">
+                                        <MoleculeSVG type="1010" />
+                                    </div>
+                                    <div>
+                                        <span className="badge">Antioxidant 1010</span>
+                                        <h5 style={{marginTop:'8px'}}>抗氧化劑 1010</h5>
+                                        <p style={{fontSize:'12px', color:'var(--muted)', marginTop:'4px'}}>CAS No: 6683-19-8</p>
+                                    </div>
+                                </div>
+
+                                <div className="molecular-card">
+                                    <div className="molecule-viz">
+                                        <MoleculeSVG type="OB-1" />
+                                    </div>
+                                    <div>
+                                        <span className="badge">Brightener OB-1</span>
+                                        <h5 style={{marginTop:'8px'}}>螢光增白劑 OB-1</h5>
+                                        <p style={{fontSize:'12px', color:'var(--muted)', marginTop:'4px'}}>CAS No: 1533-45-5</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style={{borderLeft:'1px solid var(--border)', paddingLeft:'24px'}}>
+                                <h4>包裝規格與微膠囊 / PACKAGING DATA</h4>
+                                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'16px', marginTop:'16px'}}>
+                                    <div className="card" style={{display:'flex', gap:'16px', alignItems:'center'}}>
+                                        <div className="drum-viz"></div>
+                                        <div>
+                                            <div className="mono" style={{fontSize:'12px', fontWeight:600}}>F-830D</div>
+                                            <div className="mono" style={{fontSize:'11px', color:'var(--muted)'}}>50 KG / 桶</div>
+                                            <div className="mono" style={{fontSize:'10px', color:'var(--accent)'}}>TMAX: 185°C</div>
+                                        </div>
+                                    </div>
+                                    <div className="card" style={{display:'flex', gap:'16px', alignItems:'center'}}>
+                                        <div className="drum-viz"></div>
+                                        <div>
+                                            <div className="mono" style={{fontSize:'12px', fontWeight:600}}>H-880D</div>
+                                            <div className="mono" style={{fontSize:'11px', color:'var(--muted)'}}>40 KG / 桶</div>
+                                            <div className="mono" style={{fontSize:'10px', color:'var(--accent)'}}>TMAX: 205°C</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 style={{marginTop:'40px', marginBottom:'16px'}}>研發測試項目</h4>
+                                <ul style={{listStyle:'none', fontSize:'13px'}}>
+                                    <li style={{marginBottom:'8px', display:'flex', justifyContent:'space-between'}}>
+                                        <span>HPLC 純度檢測</span>
+                                        <span className="badge" style={{background:'var(--bg)', border:'none'}}>CERTIFIED</span>
+                                    </li>
+                                    <li style={{marginBottom:'8px', display:'flex', justifyContent:'space-between'}}>
+                                        <span>TGA 熱失重分析</span>
+                                        <span className="badge" style={{background:'var(--bg)', border:'none'}}>CERTIFIED</span>
+                                    </li>
+                                    <li style={{display:'flex', justifyContent:'space-between'}}>
+                                        <span>粒徑 D50 分佈</span>
+                                        <span className="badge" style={{background:'var(--bg)', border:'none'}}>CERTIFIED</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                ),
+                pigment: (
+                    <div className="fade-in">
+                        <h4>高溫耐候型無機顏料矩陣</h4>
+                        <div className="table-container">
+                            <table className="mono">
+                                <thead>
+                                    <tr>
+                                        <th>產品名稱</th>
+                                        <th>成份 COMPOSITION</th>
+                                        <th>FDA</th>
+                                        <th>EN71-3</th>
+                                        <th>ROHS</th>
+                                        <th>SONY</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Yellow 182 (Y 53)</td><td>Ni Sb Ti (鎳銻鈦)</td><td>√</td><td>√</td><td>√</td><td>√</td></tr>
+                                    <tr><td>Yellow 193 (B 24)</td><td>Cr Sb Ti (鉻銻鈦)</td><td>√</td><td>√</td><td>√</td><td>√</td></tr>
+                                    <tr><td>Brown 19 (Bk 12)</td><td>Fe Zn Ti (鐵鋅鈦)</td><td>√</td><td>√</td><td>√</td><td>√</td></tr>
+                                    <tr><td>Blue 385 (B 28)</td><td>Co Al (鈷鋁)</td><td>√</td><td>√</td><td>√</td><td>√</td></tr>
+                                    <tr><td>Green 5 (G 50)</td><td>Ni Cr Zn Sb Ti</td><td>√</td><td>√</td><td>√</td><td>√</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                ),
+                others: (
+                    <div className="fade-in">
+                        <h4>輔助助劑參數表</h4>
+                        <div className="table-container">
+                            <table className="mono">
+                                <thead>
+                                    <tr>
+                                        <th>品名</th>
+                                        <th>熔點 (°C)</th>
+                                        <th>CAS No.</th>
+                                        <th>適用範圍</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1010 (抗氧化)</td><td>119-125</td><td>6683-19-8</td><td>類聚合物、彈性體、膠黏劑</td></tr>
+                                    <tr><td>1076 (抗氧化)</td><td>50-55</td><td>2082-79-3</td><td>聚烯烴, 工程塑料</td></tr>
+                                    <tr><td>KSN (增白劑)</td><td>269-271</td><td>5242-49-9</td><td>聚酯, 聚醯胺, 聚丙烯腈</td></tr>
+                                    <tr><td>OB-1 (增白劑)</td><td>358-360</td><td>1533-45-5</td><td>聚酯, 尼龍, 硬質PVC, EVA</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )
+            };
+
+            return (
+                <div>
+                    <div className="badge">TECHNICAL SPEC / 技術規格</div>
+                    <h1 style={{marginTop:'16px', fontSize:'40px', marginBottom:'40px'}}>產品技術數據庫</h1>
+                    
+                    <div className="tabs">
+                        <div className={`tab ${activeTab === 'foaming' ? 'active' : ''}`} onClick={() => setActiveTab('foaming')}>發泡劑</div>
+                        <div className={`tab ${activeTab === 'rd_lab' ? 'active' : ''}`} onClick={() => setActiveTab('rd_lab')}>研發中心 (R&D)</div>
+                        <div className={`tab ${activeTab === 'pigment' ? 'active' : ''}`} onClick={() => setActiveTab('pigment')}>無機顏料</div>
+                        <div className={`tab ${activeTab === 'others' ? 'active' : ''}`} onClick={() => setActiveTab('others')}>其他助劑</div>
+                    </div>
+
+                    {tables[activeTab]}
+
+                    <div style={{marginTop:'48px', padding:'24px', background:'var(--surface)', border:'1px dashed var(--accent)'}}>
+                        <p style={{fontSize:'13px'}}><strong>備註：</strong>以上技術資料及數據僅供參考，實際可依客戶需求進行相關加工所需條件進行複配調整。歡迎諮詢我們的技術部門獲取專屬解決方案。</p>
+                    </div>
+                </div>
+            );
+        };
+
+        const ContactPage = () => (
+            <div className="fade-in">
+                <div className="badge">CONTACT / 聯絡我們</div>
+                <h1 style={{marginTop:'16px', fontSize:'40px', marginBottom:'48px'}}>與我們的技術專家建立聯繫</h1>
+
+                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'60px', marginBottom:'80px'}}>
+                    <div className="card" style={{borderLeft:'4px solid var(--accent)'}}>
+                        <h4 className="mono" style={{color:'var(--accent)', fontSize:'12px', marginBottom:'16px'}}>TAICHUNG / 台灣總部</h4>
+                        <p style={{fontSize:'22px', fontWeight:600, marginBottom:'12px'}}>台中辦事處</p>
+                        <div style={{fontSize:'14px', color:'var(--muted)'}}>
+                            <p style={{marginBottom:'8px'}}>地 址：台中市復興路三段314號9樓</p>
+                            <p style={{marginBottom:'8px'}}>電 話：04-22241106（代表號）</p>
+                            <p>傳 真：04-22221013</p>
+                        </div>
+                    </div>
+
+                    <div className="card" style={{borderLeft:'4px solid var(--fg)'}}>
+                        <h4 className="mono" style={{color:'var(--muted)', fontSize:'12px', marginBottom:'16px'}}>DONGGUAN / 生產基地</h4>
+                        <p style={{fontSize:'22px', fontWeight:600, marginBottom:'12px'}}>東莞辦事處</p>
+                        <div style={{fontSize:'14px', color:'var(--muted)'}}>
+                            <p style={{marginBottom:'8px'}}>地 址：廣東省東莞市沙田鎮齊沙管理區園區北路1號1樓</p>
+                            <p style={{marginBottom:'8px'}}>電 話：0769-83792005</p>
+                            <p>傳 真：0769-83792035</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'80px'}}>
+                    <div>
+                        <h3 style={{marginBottom:'24px'}}>交通指引</h3>
+                        <p style={{fontSize:'14px', color:'var(--muted)', marginBottom:'24px'}}>
+                            東莞基地地理位置毗鄰東莞市輪渡路，近沿江高速及虎門輪渡碼頭。交通便捷，物流發達，確保全中國範圍快速交付。
+                        </p>
+                        <div style={{background:'var(--border)', height:'250px', borderRadius:'2px', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--muted)', fontSize:'13px'}}>
+                            [ 地圖區域展示 / MAP PLACEHOLDER ]
+                        </div>
+                    </div>
+
+                    <div style={{background:'white', border:'1px solid var(--border)', padding:'40px'}}>
+                        <h3 style={{marginBottom:'24px'}}>技術需求諮詢</h3>
+                        <div style={{marginBottom:'20px'}}>
+                            <label className="mono" style={{fontSize:'11px', display:'block', marginBottom:'8px'}}>聯絡人 / Name</label>
+                            <input type="text" style={{width:'100%', padding:'12px', border:'1px solid var(--border)', borderRadius:'2px'}} />
+                        </div>
+                        <div style={{marginBottom:'20px'}}>
+                            <label className="mono" style={{fontSize:'11px', display:'block', marginBottom:'8px'}}>聯繫電話 / Phone</label>
+                            <input type="text" style={{width:'100%', padding:'12px', border:'1px solid var(--border)', borderRadius:'2px'}} />
+                        </div>
+                        <div style={{marginBottom:'24px'}}>
+                            <label className="mono" style={{fontSize:'11px', display:'block', marginBottom:'8px'}}>需求描述 / Message</label>
+                            <textarea style={{width:'100%', padding:'12px', border:'1px solid var(--border)', borderRadius:'2px', height:'100px'}}></textarea>
+                        </div>
+                        <button className="button" style={{width:'100%', justifyContent:'center'}}>發送諮詢</button>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
