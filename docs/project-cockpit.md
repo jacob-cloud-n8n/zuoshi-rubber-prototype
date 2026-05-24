@@ -3,7 +3,7 @@
 ## Current State
 
 - Date: 2026-05-24
-- Status: Initial static prototype prepared for GitHub client review.
+- Status: Initial static prototype published and shared for client review.
 - Source draft: `/Users/jacob/Downloads/琢石橡塑_網頁原型建議案_V1_20260524.html`
 - Local project folder: `/Users/jacob/Documents/zuoshi-rubber-prototype`
 
@@ -22,6 +22,13 @@
 
 ## Next Steps
 
-- Share the GitHub Pages URL with the client for first review.
 - Collect copy, product, contact, and brand corrections.
 - Decide whether the next iteration remains a static prototype or becomes a structured Astro site.
+
+## Shutdown Log
+
+### 2026-05-24
+
+- GitHub Pages preview published and confirmed reachable.
+- Preview link provided to the client for first review.
+- Work paused pending client feedback.
