@@ -2,8 +2,8 @@
 
 ## Current State
 
-- Date: 2026-05-24
-- Status: Initial static prototype published and shared for client review.
+- Date: 2026-05-25
+- Status: Initial static prototype is under client review; custom domain handoff items are recorded pending client confirmation.
 - Source draft: `/Users/jacob/Downloads/琢石橡塑_網頁原型建議案_V1_20260524.html`
 - Local project folder: `/Users/jacob/Documents/zuoshi-rubber-prototype`
 
@@ -25,7 +25,45 @@
 - Collect copy, product, contact, and brand corrections.
 - Decide whether the next iteration remains a static prototype or becomes a structured Astro site.
 
+## Custom Domain Handoff
+
+- Candidate production domain: `jasper-newmater.com`
+- DNS provider observed on 2026-05-25: GoDaddy (`ns37.domaincontrol.com`, `ns38.domaincontrol.com`)
+- Existing routing observed on 2026-05-25:
+  - Root domain currently resolves to `35.172.94.1` and `100.24.208.97`.
+  - `www.jasper-newmater.com` currently points to `s.multiscreensite.com`.
+- Impact: attaching the domain to the new site will replace the current website routing for the root domain and `www`.
+
+### Client Confirmation Checklist
+
+- [ ] Confirm the intended production domain spelling is exactly `jasper-newmater.com`.
+- [ ] Confirm whether the website currently displayed on that domain is an old site to be replaced.
+- [ ] Confirm the approved go-live date and acceptable switching window.
+- [ ] Confirm who can provide GoDaddy DNS access or perform the requested DNS edits.
+- [ ] Confirm whether both `jasper-newmater.com` and `www.jasper-newmater.com` should open the new website.
+- [ ] Confirm whether any company email uses this domain so mail-related DNS records must remain untouched.
+- [ ] Confirm final website copy, products, contact details, and legal/privacy content before the domain switch.
+- [ ] Confirm whether the inquiry form needs actual message submission before public launch.
+
+### Implementation Checklist After Approval
+
+- [ ] Capture or export the existing DNS records before editing.
+- [ ] Finish production-ready site content and required form behavior.
+- [ ] Add `jasper-newmater.com` as the GitHub Pages custom domain.
+- [ ] Replace root-domain website A records with GitHub Pages A records.
+- [ ] Replace the `www` CNAME value with `jacob-cloud-n8n.github.io`.
+- [ ] Leave mail and verification records such as MX and unrelated TXT records unchanged.
+- [ ] Verify root and `www` DNS propagation.
+- [ ] Enable and verify HTTPS after GitHub issues the certificate.
+- [ ] Check both public URLs and preserve the previous DNS snapshot for rollback.
+
 ## Shutdown Log
+
+### 2026-05-25
+
+- Confirmed that `jasper-newmater.com` currently routes to an existing website service.
+- Recorded client questions and implementation steps required before a GitHub Pages domain switch.
+- No DNS or public-site configuration changes were made; work paused pending client confirmation.
 
 ### 2026-05-24
 
