@@ -2,8 +2,8 @@
 
 ## Current State
 
-- Date: 2026-05-25
-- Status: Initial static prototype is under client review; custom domain handoff items are recorded pending client confirmation.
+- Date: 2026-05-29
+- Status: First client revision is published to GitHub Pages and ready for client review.
 - Source draft: `/Users/jacob/Downloads/琢石橡塑_網頁原型建議案_V1_20260524.html`
 - Local project folder: `/Users/jacob/Documents/zuoshi-rubber-prototype`
 
@@ -22,7 +22,7 @@
 
 ## Next Steps
 
-- Collect copy, product, contact, and brand corrections.
+- Collect feedback on the first client revision.
 - Decide whether the next iteration remains a static prototype or becomes a structured Astro site.
 
 ## Custom Domain Handoff
@@ -58,6 +58,14 @@
 - [ ] Check both public URLs and preserve the previous DNS snapshot for rollback.
 
 ## Shutdown Log
+
+### 2026-05-29
+
+- Replaced `index.html` with the first client revision from `/Users/jacob/Downloads/zhuoshi-final-0529.html`.
+- Added the image assets referenced by the revised homepage.
+- Verified local homepage and referenced images returned HTTP 200.
+- Published commit `66e8f45` to GitHub Pages and confirmed the public preview returned HTTP 200.
+- Work paused pending client feedback on the first revision.
 
 ### 2026-05-25
 
