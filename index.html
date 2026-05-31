@@ -1,35 +1,12 @@
 
 <!doctype html>
 <html lang="zh-TW">
-<head><script data-od-sandbox-shim>(function(){
-  function makeStore(){
-    var data = {};
-    var api = {
-      getItem: function(k){ return Object.prototype.hasOwnProperty.call(data, k) ? data[k] : null; },
-      setItem: function(k, v){ data[k] = String(v); },
-      removeItem: function(k){ delete data[k]; },
-      clear: function(){ data = {}; },
-      key: function(i){ return Object.keys(data)[i] || null; }
-    };
-    Object.defineProperty(api, 'length', { get: function(){ return Object.keys(data).length; } });
-    return api;
-  }
-  function tryShim(name){
-    var works = false;
-    try { works = !!window[name] && typeof window[name].getItem === 'function'; void window[name].length; }
-    catch (_) { works = false; }
-    if (works) return;
-    try { Object.defineProperty(window, name, { configurable: true, value: makeStore() }); }
-    catch (_) { try { window[name] = makeStore(); } catch (__) {} }
-  }
-  tryShim('localStorage');
-  tryShim('sessionStorage');
-})();</script>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>東莞市琢石橡塑製品有限公司 | 專業橡塑助劑研發與生產</title>
-    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -83,18 +60,20 @@
         header.shrunk { height: var(--header-shrunk); background: rgba(255, 255, 255, 0.98); box-shadow: 0 15px 40px rgba(0,0,0,0.04); }
 
         nav { display: flex; justify-content: space-between; align-items: center; height: 100%; }
-        .logo { font-weight: 700; font-size: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.4s ease; }
+        .logo { font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 16px; transition: all 0.4s ease; }
         .logo-img { height: 40px; width: auto; display: block; border-radius: 2px; }
+        .brand-name { display: flex; flex-direction: column; }
+        .brand-name span:last-child { font-size: 9px; color: var(--muted); letter-spacing: 0.05em; font-weight: 500; text-transform: uppercase; margin-top: 2px; }
         
         .nav-links { display: flex; gap: 8px; font-size: 15px; font-weight: 500; height: 100%; align-items: center; }
-        .nav-link { color: var(--muted); cursor: pointer; transition: 0.3s; padding: 10px 20px; border-radius: var(--radius-sm); position: relative; }
+        .nav-link { color: var(--muted); cursor: pointer; transition: 0.3s; padding: 10px 18px; border-radius: var(--radius-sm); position: relative; }
         .nav-link:hover { color: var(--fg); background: var(--bg); }
         .nav-link.active { color: var(--accent); font-weight: 600; }
-        .nav-link.active::after { content: ''; position: absolute; bottom: -8px; left: 20px; right: 20px; height: 3px; background: var(--accent); animation: slideIn 0.5s ease; }
+        .nav-link.active::after { content: ''; position: absolute; bottom: -8px; left: 18px; right: 18px; height: 3px; background: var(--accent); animation: slideIn 0.5s ease; }
 
         @keyframes slideIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-        main { padding: 40px 0 120px; }
+        main { padding: 60px 0 120px; }
 
         .badge { display: inline-block; padding: 6px 16px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent); font-size: 12px; font-weight: 700; border-radius: 4px; text-transform: uppercase; margin-bottom: 32px; letter-spacing: 0.1em; }
         .button { display: inline-flex; align-items: center; padding: 14px 40px; background: var(--fg); color: white; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: 0.4s; }
@@ -121,7 +100,7 @@
         .phi-list b { color: var(--fg); font-weight: 600; }
 
         .lab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 32px; margin-top: 48px; }
-        .lab-item { background: white; border: 1px solid var(--border); padding: 24px; text-align: center; border-radius: var(--radius-md); transition: transform 0.4s ease; }
+        .lab-item { background: white; border: 1px solid var(--border); padding: 24px; text-align: center; border-radius: var(--radius-md); transition: 0.3s; }
         .lab-item:hover { transform: translateY(-5px); border-color: var(--accent); }
         .lab-img-box { width: 100%; aspect-ratio: 4/3; background: var(--bg); margin-bottom: 20px; overflow: hidden; display: flex; align-items: flex-start; justify-content: center; border-radius: 4px; }
         .lab-img-box img { width: 100%; height: 100%; object-fit: cover; }
@@ -149,7 +128,7 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .container { padding: 0 30px; }
-            .swd-grid { display: flex; flex-direction: column; }
+            .footer-grid { grid-template-columns: 1fr; gap: 60px; }
         }
     </style>
 </head>
@@ -186,6 +165,8 @@
                 window.scrollTo({ top: 0, behavior: 'instant' });
             };
 
+            const COMPANY_EN = "ENGRAVE STONE RUBBER & PLASTIC PRODUCT CO., LTD.";
+
             return (
                 <div>
                     <header className={scrolled ? 'shrunk' : ''}>
@@ -193,7 +174,10 @@
                             <nav>
                                 <div className="logo" onClick={() => navigate('home')} style={{cursor:'pointer'}}>
                                     <img src="mpjk9dcm-琢石logo.jpg" className="logo-img" alt="Logo" />
-                                    <div className="mono" style={{fontSize: '15px', fontWeight: 700}}>ZHUOSHI <span style={{color: 'var(--muted)', fontWeight: 400}}>PLASTIC</span></div>
+                                    <div className="brand-name">
+                                        <span>東莞市琢石橡塑製品有限公司</span>
+                                        <span>{COMPANY_EN}</span>
+                                    </div>
                                 </div>
                                 <div className="nav-links">
                                     {['home', 'about', 'products', 'support', 'contact'].map(p => (
@@ -217,11 +201,11 @@
 
                     <main>
                         <div key={currentPage} className="fade-in">
-                            {currentPage === 'home' && <HomePage onNavigate={navigate} />}
-                            {currentPage === 'about' && <AboutPage />}
+                            {currentPage === 'home' && <HomePage onNavigate={navigate} companyEn={COMPANY_EN} />}
+                            {currentPage === 'about' && <AboutPage companyEn={COMPANY_EN} />}
                             {currentPage === 'products' && <ProductsPage onNavigate={navigate} />}
                             {currentPage === 'support' && <SupportPage />}
-                            {currentPage === 'contact' && <ContactPage />}
+                            {currentPage === 'contact' && <ContactPage companyEn={COMPANY_EN} />}
                         </div>
                     </main>
 
@@ -231,14 +215,17 @@
                                 <div>
                                     <div className="logo" style={{marginBottom:'32px'}}>
                                         <img src="mpjk9dcm-琢石logo.jpg" className="logo-img" style={{height:'36px'}} alt="Logo" />
-                                        <span style={{fontSize: '18px'}}>東莞市琢石橡塑製品有限公司</span>
+                                        <div className="brand-name" style={{marginLeft: '12px'}}>
+                                            <span style={{fontSize: '18px'}}>東莞市琢石橡塑製品有限公司</span>
+                                            <span style={{fontSize: '8px'}}>{COMPANY_EN}</span>
+                                        </div>
                                     </div>
                                     <p style={{color:'var(--muted)', maxWidth:'450px', fontSize: '14px'}}>
-                                        專業從事橡塑材料添加助劑研發與生產，通過精確檢測與創新技術，為全球高端製造業提供穩定可靠的工業化學解決方案。
+                                        專業從事橡塑材料添加助劑研發與生產，通過精確分子級檢測與創新技術，為全球高端製造業提供穩定可靠的工業化學解決方案。
                                     </p>
                                 </div>
                                 <div className="footer-links">
-                                    <h4 style={{fontSize: '13px', marginBottom: '24px', letterSpacing: '0.05em'}}>核心產品</h4>
+                                    <h4 style={{fontSize: '13px', marginBottom: '24px', letterSpacing: '0.05em'}}>PRODUCT LINE</h4>
                                     <ul className="mono" style={{fontSize: '12px', lineHeight: 2.5}}>
                                         <li>發泡劑系列 FOAMING</li>
                                         <li>耐磨劑系列 ANTI-ABRASION</li>
@@ -247,17 +234,17 @@
                                     </ul>
                                 </div>
                                 <div className="footer-links">
-                                    <h4 style={{fontSize: '13px', marginBottom: '24px', letterSpacing: '0.05em'}}>聯繫網絡</h4>
+                                    <h4 style={{fontSize: '13px', marginBottom: '24px', letterSpacing: '0.05em'}}>GLOBAL NETWORK</h4>
                                     <ul style={{fontSize: '13px', lineHeight: 2.2}}>
-                                        <li><strong>台中核心：</strong>04-22241106</li>
-                                        <li style={{color:'var(--muted)'}}>台中市復興路三段314號9樓</li>
-                                        <li style={{marginTop:'12px'}}><strong>東莞基地：</strong>0769-83792005</li>
+                                        <li><strong>台灣辦事處：</strong>佶暘新材料科技有限公司</li>
+                                        <li style={{color:'var(--muted)'}}>臺南市鹽水區歡雅里尾寮10之17號1樓</li>
+                                        <li style={{marginTop:'12px'}}><strong>東莞生產基地：</strong>0769-83792005</li>
                                         <li style={{color:'var(--muted)'}}>東莞市沙田鎮齊沙村齊沙一路1號</li>
                                     </ul>
                                 </div>
                             </div>
                             <div style={{marginTop:'100px', paddingTop:'40px', borderTop:'1px solid var(--border)', fontSize:'11px', color:'var(--muted)', display:'flex', justifyContent:'space-between', alignItems: 'center'}}>
-                                <span>© 2026 Zhuoshi Rubber & Plastic. All rights reserved.</span>
+                                <span>© 2026 ENGRAVE STONE RUBBER & PLASTIC PRODUCT CO., LTD. 版權所有</span>
                                 <div style={{display:'flex', gap:'32px'}}>
                                     <span>納稅信用 A 級企業</span>
                                     <span>法律顧問：李憲璋律師團隊</span>
@@ -269,7 +256,7 @@
             );
         };
 
-        const HomePage = ({ onNavigate }) => {
+        const HomePage = ({ onNavigate, companyEn }) => {
             const r1 = useReveal();
             const r2 = useReveal();
             const r3 = useReveal();
@@ -277,11 +264,11 @@
                 <div className="container">
                     <section className="reveal" ref={r1} style={{padding:'80px 0', textAlign: 'center'}}>
                         <div className="badge">Innovation • Precision • Sustainability</div>
-                        <h1 style={{fontSize:'80px', lineHeight:1.1, marginBottom:'40px'}}>
+                        <h1 style={{fontSize:'72px', lineHeight:1.1, marginBottom:'40px'}}>
                             賦能橡塑性能<br /><span style={{color:'var(--accent)'}}>定義助劑新標桿</span>
                         </h1>
                         <p style={{fontSize:'20px', color:'var(--muted)', maxWidth:'850px', margin:'0 auto 64px', lineHeight: 1.6}}>
-                            東莞市琢石橡塑製品有限公司，集研發、生產與貿易代理於一體，致力於為橡膠、塑膠及EVA發泡產業提供分子級高性能化學助劑。
+                            {companyEn}<br />集研發、生產與貿易代理於一體，致力於為橡膠、塑膠及 EVA 發泡產業提供分子級高性能化學助劑。
                         </p>
                         <div style={{display:'flex', gap:'24px', justifyContent: 'center'}}>
                             <button className="button" onClick={() => onNavigate('products')}>瀏覽產品中心</button>
@@ -319,9 +306,9 @@
 
                     <div className="swd-grid reveal" ref={r3} style={{marginTop: '100px'}}>
                         <div className="card col-4">
-                            <div className="mono" style={{color: 'var(--accent)', fontSize: '13px', marginBottom: '24px'}}>01 / R&D ASSETS</div>
+                            <div className="mono" style={{color: 'var(--accent)', fontSize: '13px', marginBottom: '24px'}}>01 / R&D CENTER</div>
                             <h4>數據驅動研發</h4>
-                            <p style={{fontSize: '14px', color: 'var(--muted)', marginTop: '12px'}}>配備 13 項精密實驗室儀器，對每一批次原料進行穩定性監控。</p>
+                            <p style={{fontSize: '14px', color: 'var(--muted)', marginTop: '12px'}}>配備 13 項精密實驗室儀器，對原料穩定性與分散性進行分子級監控。</p>
                         </div>
                         <div className="card col-4">
                             <div className="mono" style={{color: 'var(--accent)', fontSize: '13px', marginBottom: '24px'}}>02 / COMPLIANCE</div>
@@ -331,14 +318,14 @@
                         <div className="card col-4">
                             <div className="mono" style={{color: 'var(--accent)', fontSize: '13px', marginBottom: '24px'}}>03 / NETWORK</div>
                             <h4>跨區協作服務</h4>
-                            <p style={{fontSize: '15px', color: 'var(--muted)', marginTop: '12px'}}>聯動台中管理核心與東莞製造基地，提供穩定的物流供應。</p>
+                            <p style={{fontSize: '15px', color: 'var(--muted)', marginTop: '12px'}}>聯動台灣管理核心與東莞製造基地，提供穩定的物流供應。</p>
                         </div>
                     </div>
                 </div>
             );
         };
 
-        const AboutPage = () => {
+        const AboutPage = ({ companyEn }) => {
             const r1 = useReveal();
             const r2 = useReveal();
             const rFactory = useReveal();
@@ -358,12 +345,19 @@
                 <div className="fade-in">
                     <div className="container" style={{marginBottom: 'var(--section-gap)'}}>
                         <section className="reveal" ref={r1}>
-                            <div className="badge">ABOUT ZHUOSHI / 企業簡介</div>
-                            <div className="swd-grid" style={{alignItems: 'center'}}>
+                            <div className="badge">ABOUT US / 企業簡介</div>
+                            <div className="swd-grid" style={{alignItems: 'start'}}>
                                 <div className="col-7">
-                                    <h2 style={{fontSize:'52px', lineHeight: 1.1, marginBottom:'40px'}}>卓越橡塑助劑<br />的一體化領先方案</h2>
-                                    <p style={{fontSize:'18px', marginBottom:'24px', fontWeight: 500, color: 'var(--fg)'}}>東莞市琢石橡塑製品有限公司，是一家專業研發、生產與銷售為一體的橡塑材料添加助劑領航企業。</p>
-                                    <p style={{color:'var(--muted)', fontSize:'16px', marginBottom:'48px', maxWidth:'650px', lineHeight: 1.9}}>公司部位於東莞沙田齊沙工業區。我們擁有專業資深的技術團隊與現代化檢測儀器，能精確對接客戶需求，提供從“配方研發”到“技術服務”的全生命週期保障。</p>
+                                    <h2 style={{fontSize:'48px', lineHeight: 1.2, marginBottom:'32px'}}>企業定位與區位優勢</h2>
+                                    <p style={{fontSize:'17px', color:'var(--fg)', marginBottom:'32px', lineHeight: 1.8}}>
+                                        <b>{companyEn}</b> 是一家集橡塑材料添加助劑研發、生產、銷售及貿易代理於一體的專業型企業，總部坐落於廣東省東莞市沙田鎮齊沙工業區。公司毗鄰東莞輪渡路，緊鄰沿江高速與虎門輪渡碼頭，交通網絡密集、物流體系發達，為業務輻射全國乃至全球提供了高效的區位支撐。
+                                    </p>
+                                    
+                                    <h3 style={{fontSize:'28px', marginBottom:'20px'}}>產品應用與市場佈局</h3>
+                                    <p style={{fontSize:'16px', color:'var(--muted)', marginBottom:'48px', lineHeight: 1.8}}>
+                                        公司產品性能穩定、品質可靠，廣泛應用於橡膠、塑膠、塑膠抽粒改性、EVA 發泡成型、油墨等多領域。憑藉優質的產品與服務，銷售網絡已覆蓋全國，持續為新老客戶創造價值。
+                                    </p>
+
                                     <div style={{display: 'flex', gap: '64px'}}>
                                         <div><div className="mono" style={{fontSize:'28px', fontWeight:700, color:'var(--accent)'}}>13+</div><div style={{fontSize:'12px', color:'var(--muted)'}}>精密實驗設備</div></div>
                                         <div><div className="mono" style={{fontSize:'28px', fontWeight:700, color:'var(--accent)'}}>A級</div><div style={{fontSize:'12px', color:'var(--muted)'}}>納稅信用企業</div></div>
@@ -372,9 +366,29 @@
                                 </div>
                                 <div className="col-5">
                                     <div className="factory-frame reveal-right" ref={rFactory}>
-                                        <img src="mpqht26b-截圖-2026-05-29-下午1.24.42.png" className="factory-img" alt="生產基地" />
+                                        <img src="mps16nte-截圖-2026-05-30-下午3.28.18.png" className="factory-img" alt="生產基地" />
                                     </div>
-                                    <p style={{fontSize:'12px', color:'var(--muted)', marginTop:'20px', textAlign:'right', fontStyle: 'italic'}}>東莞生產基地 / 現代化混合中心實拍</p>
+                                    <p style={{fontSize:'12px', color:'var(--muted)', marginTop:'20px', textAlign:'right', fontStyle: 'italic'}}>東莞生產基地 / 現代化混合與包裝中心</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div className="container" style={{marginBottom: 'var(--section-gap)'}}>
+                        <section className="reveal" ref={useReveal()}>
+                            <h2 style={{fontSize: '40px', marginBottom: '60px', textAlign: 'center'}}>核心實力：技術、品控與定制化服務</h2>
+                            <div className="swd-grid">
+                                <div className="card col-4">
+                                    <h4 style={{color: 'var(--accent)', marginBottom: '16px'}}>技術與生產實力</h4>
+                                    <p style={{fontSize: '15px', color: 'var(--muted)'}}>深耕塑膠助劑領域，擁有資深技術研發團隊與智能化生產、檢測設備，可精準把控產品性能與品質穩定性。</p>
+                                </div>
+                                <div className="card col-4">
+                                    <h4 style={{color: 'var(--accent)', marginBottom: '16px'}}>定制化服務</h4>
+                                    <p style={{fontSize: '15px', color: 'var(--muted)'}}>以客戶需求為導向，提供助劑產品推薦、客制化配方調配服務，為不同場景打造「優良、經濟、實用」的解決方案。</p>
+                                </div>
+                                <div className="card col-4">
+                                    <h4 style={{color: 'var(--accent)', marginBottom: '16px'}}>品質認證</h4>
+                                    <p style={{fontSize: '15px', color: 'var(--muted)'}}>全系列產品通過 SGS、ITS 等權威機構檢測，嚴格符合 EN71、REACH 等國際環保標準，品質保障能力獲行業認可。</p>
                                 </div>
                             </div>
                         </section>
@@ -401,9 +415,8 @@
         };
 
         const ProductsPage = ({ onNavigate }) => {
-            const r = useReveal();
             const categories = [
-                { title: '發泡劑 FOAMING AGENT', desc: '包括 white發泡、黃發泡及高效複配型，產氣穩定。' },
+                { title: '發泡劑 FOAMING AGENT', desc: '包括白發泡、黃發泡及高效複配型，產氣穩定。' },
                 { title: '發泡/膨脹母粒 FOAM MASTERBATCH', desc: '針對 PVC、TPU、TPR 等輕量化成型與表面優化。' },
                 { title: '耐磨劑 ANTI-ABRASION MASTERBATCH', desc: '降低摩擦係數 15%-30%，顯著提升脫模性能。' },
                 { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERE', desc: '物理性膨脹，解決製品凹陷、縮水與翹曲難題。' },
@@ -414,7 +427,7 @@
                 <div className="container">
                     <div className="badge">PRODUCT SOLUTIONS / 產品中心</div>
                     <h2 style={{fontSize:'56px', marginBottom:'80px'}}>高品質添加助劑全系列</h2>
-                    <div className="swd-grid reveal" ref={r}>
+                    <div className="swd-grid reveal" ref={useReveal()}>
                         {categories.map((cat, i) => (
                             <div className="card col-4" key={i}>
                                 <div style={{width:'100%', aspectRatio:'16/9', background:'var(--bg)', marginBottom:'24px', display:'grid', placeItems:'center', color:'var(--muted)', fontSize: '11px', borderRadius:'2px'}}>PRODUCT IMAGE</div>
@@ -435,6 +448,7 @@
                 { title: 'SGS REACH 報告', img: 'mpqhvqoy-截圖-2026-05-29-下午1.23.19.png', desc: '符合歐盟 REACH 高關注物質檢測標準。' },
                 { title: 'SGS ROHS 報告', img: 'mpqhvqp2-截圖-2026-05-29-下午1.23.26.png', desc: '10項有害物質限制指令合規檢測。' },
                 { title: '海洋運輸鑑定報告', img: 'mpqhvqp6-截圖-2026-05-29-下午1.23.34.png', desc: '全球物流安全通關鑑定書。' },
+                { title: '航空運輸鑑定報告', img: 'mpqhvqp8-截圖-2026-05-29-下午1.23.40.png', desc: '空運危險性鑑定通過。' },
                 { title: '納稅信用 A 級證書', img: 'mpqhwegv-截圖-2026-05-29-下午1.24.00.png', desc: '2024 年度最高納稅信用等級納稅人。' }
             ];
             return (
@@ -450,7 +464,7 @@
                         {activeTab === 'foaming' && (
                             <div className="table-container">
                                 <table>
-                                    <thead><tr><th>品名</th><th>產氣量 (ml/g)</th><th>分解溫度 (°C)</th><th>推薦基體</th></tr></thead>
+                                    <thead><tr><th>產品品名</th><th>產氣量 (ml/g)</th><th>分解溫度 (°C)</th><th>推薦基體</th></tr></thead>
                                     <tbody className="mono">
                                         <tr><td>白發泡劑 TH</td><td>≥ 100</td><td>150-180</td><td>PVC, TPR, PP</td></tr>
                                         <tr><td>AC-1000 (黃)</td><td>220±10</td><td>200-210</td><td>PE, ABS, EVA</td></tr>
@@ -462,11 +476,11 @@
                         {activeTab === 'others' && (
                             <div className="table-container">
                                 <table>
-                                    <thead><tr><th>CAS No.</th><th>品名</th><th>熔點 (°C)</th><th>主要功能</th></tr></thead>
+                                    <thead><tr><th>CAS No.</th><th>產品名稱</th><th>熔點 (°C)</th><th>主要功能</th></tr></thead>
                                     <tbody className="mono">
                                         <tr><td>6683-19-8</td><td>抗氧化劑 1010</td><td>119-125</td><td>受阻酚主抗氧</td></tr>
                                         <tr><td>1533-45-5</td><td>增白劑 OB-1</td><td>358-360</td><td>硬質塑膠增白</td></tr>
-                                        <tr><td>1843-05-6</td><td>UV吸收劑 531</td><td>47-49</td><td>二苯甲酮類光穩定</td></tr>
+                                        <tr><td>1843-05-6</td><td>UV 吸收劑 531</td><td>47-49</td><td>二苯甲酮類光穩定</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -489,24 +503,24 @@
             );
         };
 
-        const ContactPage = () => (
+        const ContactPage = ({ companyEn }) => (
             <div className="container">
                 <div className="badge">CONTACT / 聯絡我們</div>
                 <h2 style={{fontSize:'56px', marginBottom:'80px'}}>建立長期穩定的合作關係</h2>
                 <div className="swd-grid reveal" ref={useReveal()}>
                     <div className="col-5">
                         <div className="card" style={{marginBottom:'32px', borderLeft:'8px solid var(--accent)'}}>
-                            <div className="mono" style={{color:'var(--accent)', fontSize:'12px', marginBottom:'16px'}}>TAIWAN</div>
-                            <p style={{fontSize:'22px', fontWeight:700}}>台中辦事處</p>
-                            <div style={{fontSize:'15px', color:'var(--muted)', marginTop:'20px', lineHeight: 2}}>
-                                <p>地址：台中市復興路三段314號9樓</p>
-                                <p>電話：04-22241106（代表號）</p>
+                            <div className="mono" style={{color:'var(--accent)', fontSize:'13px', marginBottom:'16px'}}>TAIWAN OFFICE</div>
+                            <p style={{fontSize:'22px', fontWeight:700}}>台灣辦事處</p>
+                            <div style={{fontSize:'15px', color:'var(--muted)', marginTop:'24px', lineHeight: 2}}>
+                                <p><strong>佶暘新材料科技有限公司</strong></p>
+                                <p>地址：臺南市鹽水區歡雅里尾寮10之17號1樓</p>
                             </div>
                         </div>
                         <div className="card" style={{borderLeft:'8px solid var(--fg)'}}>
-                            <div className="mono" style={{color:'var(--muted)', fontSize:'13px', marginBottom:'16px'}}>DONGGUAN</div>
+                            <div className="mono" style={{color:'var(--muted)', fontSize:'13px', marginBottom:'16px'}}>PRODUCTION BASE</div>
                             <p style={{fontSize:'22px', fontWeight:700}}>東莞辦事處 / 生產基地</p>
-                            <div style={{fontSize:'15px', color:'var(--muted)', marginTop:'20px', lineHeight: 2}}>
+                            <div style={{fontSize:'16px', color:'var(--muted)', marginTop:'24px', lineHeight: 2}}>
                                 <p>地址：廣東省東莞市沙田鎮齊沙村齊沙一路1號</p>
                                 <p>電話：0769-83792005 / 81698047</p>
                             </div>
