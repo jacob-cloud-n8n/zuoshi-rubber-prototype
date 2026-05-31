@@ -78,3 +78,14 @@
 - GitHub Pages preview published and confirmed reachable.
 - Preview link provided to the client for first review.
 - Work paused pending client feedback.
+
+### 2026-05-31 (Zuo Shi Design Critique & Optimization)
+
+- Synced and committed the latest prototype version from Open Design local repository (May 30 snapshot) including high-fidelity factory assets.
+- Conducted design review/critique and created `docs/specs_zuoshi_critique.md` to eliminate generic "AI slop" characteristics.
+- Defined and invoked `opencode` execution subagent to rewrite `index.html`:
+  - Upgraded styling palette to warm Alabaster, deep Graphite Charcoal, and rich Terracotta.
+  - Replaced `"PRODUCT IMAGE"` placeholder text with custom dynamic hex-grid polymer SVG illustrations.
+  - Fixed single-page routing refresh bug with custom React Hash Router state tracking.
+- Successfully verified and pushed changes to GitHub Pages; verified the live preview returns HTTP 200.
+
