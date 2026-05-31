@@ -11,21 +11,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: oklch(98% 0.005 250);
+            /* 質感深沉工業灰色盤 */
+            --bg: oklch(98% 0.003 30);        /* 帶極微暖意的石灰白底色 */
             --surface: oklch(100% 0 0);
-            --fg: oklch(22% 0.02 240);
-            --muted: oklch(50% 0.018 240);
-            --border: oklch(90% 0.008 240);
-            --accent: oklch(58% 0.16 145);
-            --accent-soft: oklch(95% 0.02 145);
+            --fg: oklch(15% 0.01 30);         /* 深石墨灰，避免純黑的生硬 */
+            --muted: oklch(48% 0.01 30);       /* 啞光灰 */
+            --border: oklch(92% 0.005 30);
+            
+            /* 專業化學/高分子象徵色：琥珀金 / 鐵鏽橙 */
+            --accent: oklch(62% 0.16 48);      /* 溫潤高質感赤土橙 (Terracotta) */
+            --accent-soft: oklch(96% 0.02 48); /* 淺色半透明底色 */
 
-            --font-display: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            --font-display: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-body: 'Inter', -apple-system, system-ui, sans-serif;
             --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
 
-            --radius-sm: 2px;
-            --radius-md: 4px;
-            --radius-lg: 16px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 24px;
             
             --container-width: 1280px;
             --header-height: 88px;
@@ -87,7 +90,7 @@
         .col-7 { grid-column: span 7; }
         .col-5 { grid-column: span 5; }
 
-        .phi-row { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: center; background: white; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 80px; }
+        .phi-row { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; align-items: center; background: var(--surface); border: none; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 80px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.03); }
         .phi-row.flipped { grid-template-columns: 1.2fr 1fr; }
         .phi-img-side { width: 100%; height: 400px; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 40px; }
         .phi-img-side img { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -151,7 +154,12 @@
         };
 
         const App = () => {
-            const [currentPage, setCurrentPage] = useState('home');
+            const getHashPage = () => {
+                const hash = window.location.hash.replace('#', '');
+                return ['home', 'about', 'products', 'support', 'contact'].includes(hash) ? hash : 'home';
+            };
+
+            const [currentPage, setCurrentPage] = useState(getHashPage());
             const [scrolled, setScrolled] = useState(false);
 
             useEffect(() => {
@@ -160,9 +168,22 @@
                 return () => window.removeEventListener('scroll', handleScroll);
             }, []);
 
+            useEffect(() => {
+                const handleHashChange = () => {
+                    setCurrentPage(getHashPage());
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                };
+                window.addEventListener('hashchange', handleHashChange);
+                return () => window.removeEventListener('hashchange', handleHashChange);
+            }, []);
+
             const navigate = (p) => {
-                setCurrentPage(p);
-                window.scrollTo({ top: 0, behavior: 'instant' });
+                const nextHash = p === 'home' ? '' : p;
+                if (window.location.hash === `#${nextHash}` || (window.location.hash === '' && nextHash === '')) {
+                    window.scrollTo({ top: 0, behavior: 'instant' });
+                } else {
+                    window.location.hash = nextHash;
+                }
             };
 
             const COMPANY_EN = "ENGRAVE STONE RUBBER & PLASTIC PRODUCT CO., LTD.";
@@ -263,9 +284,8 @@
             return (
                 <div className="container">
                     <section className="reveal" ref={r1} style={{padding:'80px 0', textAlign: 'center'}}>
-                        <div className="badge">Innovation • Precision • Sustainability</div>
                         <h1 style={{fontSize:'72px', lineHeight:1.1, marginBottom:'40px'}}>
-                            賦能橡塑性能<br /><span style={{color:'var(--accent)'}}>定義助劑新標桿</span>
+                            賦能橡塑性能<br /><span style={{color:'var(--accent)'}}>分子級精密助劑的創新研發與製造</span>
                         </h1>
                         <p style={{fontSize:'20px', color:'var(--muted)', maxWidth:'850px', margin:'0 auto 64px', lineHeight: 1.6}}>
                             {companyEn}<br />集研發、生產與貿易代理於一體，致力於為橡膠、塑膠及 EVA 發泡產業提供分子級高性能化學助劑。
@@ -430,7 +450,39 @@
                     <div className="swd-grid reveal" ref={useReveal()}>
                         {categories.map((cat, i) => (
                             <div className="card col-4" key={i}>
-                                <div style={{width:'100%', aspectRatio:'16/9', background:'var(--bg)', marginBottom:'24px', display:'grid', placeItems:'center', color:'var(--muted)', fontSize: '11px', borderRadius:'2px'}}>PRODUCT IMAGE</div>
+                                <div style={{width:'100%', aspectRatio:'16/9', background:'var(--bg)', marginBottom:'24px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'var(--radius-md)', overflow:'hidden', position:'relative', border:'1px solid var(--border)'}}>
+                                    <svg viewBox="0 0 200 112" style={{width:'100%', height:'100%', opacity:0.85}} xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <radialGradient id={`glow-${i}`} cx="50%" cy="50%" r="50%">
+                                                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.15" />
+                                                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+                                            </radialGradient>
+                                        </defs>
+                                        <rect width="200" height="112" fill="none"/>
+                                        <circle cx="100" cy="56" r="60" fill={`url(#glow-${i})`} />
+                                        
+                                        <path d="M 70 30 L 100 12 L 130 30 L 130 66 L 100 84 L 70 66 Z" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.3" />
+                                        <path d="M 100 12 L 100 30 M 70 30 L 85 38.5 M 130 30 L 115 38.5 M 130 66 L 115 57.5 M 70 66 L 85 57.5 M 100 84 L 100 66" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.2" />
+                                        
+                                        <path d="M 70 30 L 40 12 L 10 30 L 10 66 L 40 84 L 70 66" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.15" />
+                                        <path d="M 130 30 L 160 12 L 190 30 L 190 66 L 160 84 L 130 66" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.15" />
+                                        
+                                        <circle cx="100" cy="12" r="3" fill="var(--accent)" />
+                                        <circle cx="70" cy="30" r="3" fill="var(--accent)" />
+                                        <circle cx="130" cy="30" r="3" fill="var(--accent)" />
+                                        <circle cx="130" cy="66" r="3" fill="var(--accent)" />
+                                        <circle cx="100" cy="84" r="3" fill="var(--accent)" />
+                                        <circle cx="70" cy="66" r="3" fill="var(--accent)" />
+                                        
+                                        <circle cx="40" cy="12" r="2" fill="var(--accent)" fillOpacity="0.5" />
+                                        <circle cx="160" cy="12" r="2" fill="var(--accent)" fillOpacity="0.5" />
+                                        <circle cx="10" cy="30" r="2" fill="var(--accent)" fillOpacity="0.5" />
+                                        <circle cx="190" cy="30" r="2" fill="var(--accent)" fillOpacity="0.5" />
+                                        
+                                        <circle cx="100" cy="48" r="12" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.4" strokeDasharray="3 3" />
+                                    </svg>
+                                    <div style={{position:'absolute', bottom:'8px', right:'12px', fontSize:'9px', color:'var(--muted)', letterSpacing:'0.1em', fontFamily:'var(--font-mono)'}}>POLYMER SPEC</div>
+                                </div>
                                 <h4>{cat.title}</h4>
                                 <p style={{fontSize:'14px', color:'var(--muted)', marginTop:'16px', marginBottom:'32px', minHeight: '60px'}}>{cat.desc}</p>
                                 <button className="button" style={{width:'100%', background:'transparent', border:'1px solid var(--border)', color:'var(--fg)'}} onClick={() => onNavigate('support')}>查看技術參數</button>
