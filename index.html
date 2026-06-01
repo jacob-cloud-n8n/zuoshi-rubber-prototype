@@ -522,19 +522,8 @@
             );
         };
 
-        const ProductDetailPage = ({ onNavigate, productId }) => {
-            // Set default productId if undefined
-            const currentId = productId || 'microspheres';
-            const [activeTab, setActiveTab] = useState('overview');
-            const rDetail = useReveal();
-
-            useEffect(() => {
-                // Reset active tab to overview when product changes
-                setActiveTab('overview');
-            }, [currentId]);
-
-            // Database of all 6 products based exactly on PDF catalog pages 8-13
-            const productDb = {
+        // Database of all 6 products based exactly on PDF catalog pages 8-13
+        const productDb = {
                 'microspheres': {
                     title: '熱膨脹微膠囊',
                     enTitle: 'EXPANDABLE MICROSPHERES',
@@ -556,8 +545,7 @@
                     rows: [
                         { model: 'S-101', appearance: '淡白色粉末狀', size: '15-30', startTemp: '130-145℃', peakTemp: '185-200℃', pack: '50KG/紙桶' },
                         { model: 'F-700', appearance: '淡白色粉末狀', size: '15-25', startTemp: '145-155℃', peakTemp: '190-205℃', pack: '50KG/紙桶' },
-                        { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃', pack: '20KG/紙箱
-50KG/紙桶' },
+                        { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃', pack: '20KG/紙箱 / 50KG/紙桶' },
                         { model: 'H-850D (S)', appearance: '淡白色粉末狀', size: '28-35', startTemp: '145-155℃', peakTemp: '195-215℃', pack: '40KG/紙桶' }
                     ]
                 },
