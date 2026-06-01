@@ -437,7 +437,7 @@
 
                 const ProductsPage = ({ onNavigate }) => {
             const categories = [
-                { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERE', desc: '物理性膨脹，解決製品凹陷、縮水與翹曲難題。其發泡過程均勻平緩、粒徑分布均一。', id: 'microspheres' },
+                { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERES', desc: '發泡過程均勻平緩、粒徑分布均一（粒徑分布窄，粒度成型完整）。', id: 'microspheres' },
                 { title: '發泡劑 FOAMING AGENT', desc: '包括白發泡、黃發泡及高效複配型，產氣穩定。' },
                 { title: '發泡/膨脹母粒 FOAM MASTERBATCH', desc: '針對 PVC、TPU、TPR 等輕量化成型與表面優化。' },
                 { title: '耐磨劑 ANTI-ABRASION MASTERBATCH', desc: '降低摩擦係數 15%-30%，顯著提升脫模性能。' },
@@ -505,10 +505,10 @@
             const rDetail = useReveal();
 
             const specs = [
-                { model: 'S-101', appearance: '淡白色粉末狀', size: '15-30', startTemp: '130-145℃', peakTemp: '185-200℃' },
-                { model: 'F-700', appearance: '淡白色粉末狀', size: '15-25', startTemp: '145-155℃', peakTemp: '190-205℃' },
-                { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃' },
-                { model: 'H-850D(S)', appearance: '淡白色粉末狀', size: '28-35', startTemp: '145-155℃', peakTemp: '195-215℃' }
+                { model: 'S-101', appearance: '淡白色粉末狀', size: '15-30', startTemp: '130-145℃', peakTemp: '185-200℃', pack: '50KG/紙桶' },
+                { model: 'F-700', appearance: '淡白色粉末狀', size: '15-25', startTemp: '145-155℃', peakTemp: '190-205℃', pack: '50KG/紙桶' },
+                { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃', pack: '20KG/紙箱\n50KG/紙桶' },
+                { model: 'H-850D (S)', appearance: '淡白色粉末狀', size: '28-35', startTemp: '145-155℃', peakTemp: '195-215℃', pack: '40KG/紙桶' }
             ];
 
             return (
@@ -577,7 +577,7 @@
                                     {[
                                         { id: 'overview', name: '產品概述' },
                                         { id: 'apps', name: '應用領域' },
-                                        { id: 'storage', name: '儲藏/搬運' },
+                                        { id: 'storage', name: '注意事項' },
                                         { id: 'specs', name: '技術數據' }
                                     ].map(tab => (
                                         <div 
@@ -604,13 +604,11 @@
                                 <div style={{flex: 1, display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
                                     {activeTab === 'overview' && (
                                         <div className="fade-in" style={{lineHeight:1.8}}>
-                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>基礎物理膨脹特性</h4>
-                                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'24px'}}>
-                                                本產品為<strong>單物理性能膨脹劑</strong>。其作用效能主要在於加熱時，膨脹微膠囊中的熱膨脹殼層軟化，內部氣體壓力釋發，從而產生物理性的膨脹。
+                                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
+                                                產品為單物理性能膨脹劑，作用效能當加熱時，膨脹微膠囊中的熱膨脹殼層軟化，內氣體壓力釋發而產生物理性的膨脹。
                                             </p>
-                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>核心價值與優勢</h4>
                                             <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                                廣泛適用於工程塑料產品與熱塑性彈性體。能有效達成注塑成型中<strong>輕量化、尺寸安定性及減少翹曲、避免凹陷</strong>等精密物理需求，以均勻發泡的獨特性能，顯著提高成品良率與表面質感。
+                                                廣泛適用於工程塑料產品/熱塑性彈性體，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
                                             </p>
                                         </div>
                                     )}
@@ -635,19 +633,8 @@
 
                                     {activeTab === 'storage' && (
                                         <div className="fade-in" style={{lineHeight:1.8}}>
-                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'16px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>添加建議</h4>
-                                            <p style={{fontSize:'15px', color:'var(--fg)', marginBottom:'24px'}}>
-                                                <strong>注意事項</strong>：建議添加量，依客戶產品具體規格需求及所需之物理性能為採用程度，請自行測試後調整以達最佳效果。
-                                            </p>
-                                            
-                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'16px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>包裝與安全搬運</h4>
-                                            <p style={{fontSize:'15px', color:'var(--muted)', marginBottom:'24px'}}>
-                                                提供 <strong>50KG/紙桶、20KG/紙箱、40KG/紙桶</strong> 等多種安全包裝規格。搬運時請小心輕放，防止尖銳異物穿刺造成破包漏粉。
-                                            </p>
-
-                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'16px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>保存與儲藏條件</h4>
-                                            <p style={{fontSize:'15px', color:'var(--muted)'}}>
-                                                採用內襯塑料袋、外覆紙塑複合袋包裝，請置於避光、防水、乾燥環境中保存。為安全起見，強烈建議存放於<strong>低於室溫 40℃</strong> 陰涼通風處。
+                                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
+                                                注意事項：建議添加量，依客戶產品需求及物理性能為採用程度自行調整。
                                             </p>
                                         </div>
                                     )}
@@ -664,6 +651,7 @@
                                                             <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>未膨脹前粒徑 (µm)</th>
                                                             <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹起始溫度</th>
                                                             <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹峰值溫度</th>
+                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>包裝</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody className="mono" style={{fontSize:'13px'}}>
@@ -674,10 +662,14 @@
                                                                 <td style={{padding:'14px 18px'}}>{item.size}</td>
                                                                 <td style={{padding:'14px 18px'}}>{item.startTemp}</td>
                                                                 <td style={{padding:'14px 18px'}}>{item.peakTemp}</td>
+                                                                <td style={{padding:'14px 18px', whiteSpace:'pre-line'}}>{item.pack}</td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
                                                 </table>
+                                            </div>
+                                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
+                                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
                                             </div>
                                         </div>
                                     )}
