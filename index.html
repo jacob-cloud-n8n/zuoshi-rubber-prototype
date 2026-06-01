@@ -156,7 +156,7 @@
         const App = () => {
             const getHashPage = () => {
                 const hash = window.location.hash.replace('#', '');
-                return ['home', 'about', 'products', 'support', 'contact'].includes(hash) ? hash : 'home';
+                return ['home', 'about', 'products', 'product-detail', 'support', 'contact'].includes(hash) ? hash : 'home';
             };
 
             const [currentPage, setCurrentPage] = useState(getHashPage());
@@ -225,6 +225,7 @@
                             {currentPage === 'home' && <HomePage onNavigate={navigate} companyEn={COMPANY_EN} />}
                             {currentPage === 'about' && <AboutPage companyEn={COMPANY_EN} />}
                             {currentPage === 'products' && <ProductsPage onNavigate={navigate} />}
+                            {currentPage === 'product-detail' && <ProductDetailPage onNavigate={navigate} />}
                             {currentPage === 'support' && <SupportPage />}
                             {currentPage === 'contact' && <ContactPage companyEn={COMPANY_EN} />}
                         </div>
@@ -434,12 +435,12 @@
             );
         };
 
-        const ProductsPage = ({ onNavigate }) => {
+                const ProductsPage = ({ onNavigate }) => {
             const categories = [
+                { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERE', desc: '物理性膨脹，解決製品凹陷、縮水與翹曲難題。其發泡過程均勻平緩、粒徑分布均一。', id: 'microspheres' },
                 { title: '發泡劑 FOAMING AGENT', desc: '包括白發泡、黃發泡及高效複配型，產氣穩定。' },
                 { title: '發泡/膨脹母粒 FOAM MASTERBATCH', desc: '針對 PVC、TPU、TPR 等輕量化成型與表面優化。' },
                 { title: '耐磨劑 ANTI-ABRASION MASTERBATCH', desc: '降低摩擦係數 15%-30%，顯著提升脫模性能。' },
-                { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERE', desc: '物理性膨脹，解決製品凹陷、縮水與翹曲難題。' },
                 { title: '抗氧化劑 ANTIOXIDANT', desc: '1010/1076/168 系列，防止聚合物熱氧化降解。' },
                 { title: '功能添加劑 SPECIALTY AGENTS', desc: '增白劑 OB-1、UV吸收劑、高溫耐候無機顏料。' }
             ];
@@ -485,13 +486,215 @@
                                 </div>
                                 <h4>{cat.title}</h4>
                                 <p style={{fontSize:'14px', color:'var(--muted)', marginTop:'16px', marginBottom:'32px', minHeight: '60px'}}>{cat.desc}</p>
-                                <button className="button" style={{width:'100%', background:'transparent', border:'1px solid var(--border)', color:'var(--fg)'}} onClick={() => onNavigate('support')}>查看技術參數</button>
+                                <button 
+                                    className="button" 
+                                    style={{width:'100%', background: cat.id === 'microspheres' ? 'var(--accent)' : 'transparent', border:'1px solid var(--border)', color: cat.id === 'microspheres' ? 'white' : 'var(--fg)'}} 
+                                    onClick={() => onNavigate(cat.id === 'microspheres' ? 'product-detail' : 'support')}
+                                >
+                                    {cat.id === 'microspheres' ? '查看詳情' : '查看技術參數'}
+                                </button>
                             </div>
                         ))}
                     </div>
                 </div>
             );
         };
+
+        const ProductDetailPage = ({ onNavigate }) => {
+            const [activeTab, setActiveTab] = useState('overview');
+            const rDetail = useReveal();
+
+            const specs = [
+                { model: 'S-101', appearance: '淡白色粉末狀', size: '15-30', startTemp: '130-145℃', peakTemp: '185-200℃' },
+                { model: 'F-700', appearance: '淡白色粉末狀', size: '15-25', startTemp: '145-155℃', peakTemp: '190-205℃' },
+                { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃' },
+                { model: 'H-850D(S)', appearance: '淡白色粉末狀', size: '28-35', startTemp: '145-155℃', peakTemp: '195-215℃' }
+            ];
+
+            return (
+                <div className="container">
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'48px'}}>
+                        <div className="badge" style={{marginBottom:0}}>PRODUCT DETAIL / 產品詳情</div>
+                        <button className="button" style={{background:'transparent', border:'1px solid var(--border)', color:'var(--fg)', padding:'8px 20px', fontSize:'14px'}} onClick={() => onNavigate('products')}>
+                            ← 返回產品目錄
+                        </button>
+                    </div>
+
+                    <div className="swd-grid reveal" ref={rDetail}>
+                        {/* 左側欄: 大型產品幾何晶格圖 */}
+                        <div className="col-5">
+                            <div className="card" style={{padding:'40px', background:'var(--bg)', border:'1px solid var(--border)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', borderRadius:'var(--radius-lg)', textAlign:'center'}}>
+                                <div style={{width:'100%', aspectRatio:'1/1', background:'var(--surface)', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'var(--radius-md)', overflow:'hidden', position:'relative', border:'1px solid var(--border)', marginBottom:'32px', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
+                                    <svg viewBox="0 0 200 200" style={{width:'85%', height:'85%', opacity:0.95}} xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <radialGradient id="detail-glow" cx="50%" cy="50%" r="50%">
+                                                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.2" />
+                                                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+                                            </radialGradient>
+                                        </defs>
+                                        <rect width="200" height="200" fill="none"/>
+                                        <circle cx="100" cy="100" r="90" fill="url(#detail-glow)" />
+                                        
+                                        {/* Large Benzene/Polymer Molecular Geometry */}
+                                        <path d="M 100 30 L 152 60 L 152 120 L 100 150 L 48 120 L 48 60 Z" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeOpacity="0.5" />
+                                        <path d="M 100 45 L 139 67.5 L 139 112.5 L 100 135 L 61 112.5 L 61 67.5 Z" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.25" strokeDasharray="3 3" />
+                                        
+                                        <path d="M 100 30 L 100 10 M 152 60 L 169 50 M 152 120 L 169 130 M 100 150 L 100 170 M 48 120 L 31 130 M 48 60 L 31 50" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.4" />
+                                        
+                                        {/* Connected outer lattice */}
+                                        <path d="M 100 10 L 135 0 M 100 10 L 65 0 M 169 50 L 200 68 M 169 130 L 200 112 M 100 170 L 135 180 M 100 170 L 65 180 M 31 130 L 0 112 M 31 50 L 0 68" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.2" />
+                                        
+                                        <circle cx="100" cy="30" r="4.5" fill="var(--accent)" />
+                                        <circle cx="152" cy="60" r="4.5" fill="var(--accent)" />
+                                        <circle cx="152" cy="120" r="4.5" fill="var(--accent)" />
+                                        <circle cx="100" cy="150" r="4.5" fill="var(--accent)" />
+                                        <circle cx="48" cy="120" r="4.5" fill="var(--accent)" />
+                                        <circle cx="48" cy="60" r="4.5" fill="var(--accent)" />
+                                        
+                                        <circle cx="100" cy="10" r="3" fill="var(--accent)" fillOpacity="0.7" />
+                                        <circle cx="169" cy="50" r="3" fill="var(--accent)" fillOpacity="0.7" />
+                                        <circle cx="169" cy="130" r="3" fill="var(--accent)" fillOpacity="0.7" />
+                                        <circle cx="100" cy="170" r="3" fill="var(--accent)" fillOpacity="0.7" />
+                                        <circle cx="31" cy="130" r="3" fill="var(--accent)" fillOpacity="0.7" />
+                                        <circle cx="31" cy="50" r="3" fill="var(--accent)" fillOpacity="0.7" />
+                                        
+                                        <circle cx="100" cy="100" r="22" fill="none" stroke="var(--accent)" strokeWidth="2" strokeOpacity="0.4" />
+                                        <circle cx="100" cy="100" r="14" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.5" strokeDasharray="2 2" />
+                                    </svg>
+                                </div>
+                                <h3 style={{fontSize:'26px', color:'var(--fg)', marginBottom:'8px'}}>熱膨脹微膠囊</h3>
+                                <p className="mono" style={{fontSize:'13px', color:'var(--accent)', fontWeight:600, letterSpacing:'0.05em'}}>EXPANDABLE MICROSPHERES</p>
+                                <p style={{fontSize:'13px', color:'var(--muted)', marginTop:'16px', lineHeight:1.6}}>
+                                    發泡過程均勻平緩<br />粒徑分布均一、粒度成型完整
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* 右側主欄: 4-tab panel layout */}
+                        <div className="col-7">
+                            <div style={{background:'var(--surface)', border:'1px solid var(--border)', borderRadius:'var(--radius-lg)', padding:'48px', minHeight:'500px', display:'flex', flexDirection:'column', boxShadow:'0 20px 50px rgba(0,0,0,0.02)'}}>
+                                <div className="tabs" style={{marginBottom:'32px', borderBottom:'1px solid var(--border)', paddingBottom:'12px', gap:'12px', flexWrap:'wrap'}}>
+                                    {[
+                                        { id: 'overview', name: '產品概述' },
+                                        { id: 'apps', name: '應用領域' },
+                                        { id: 'storage', name: '儲藏/搬運' },
+                                        { id: 'specs', name: '技術數據' }
+                                    ].map(tab => (
+                                        <div 
+                                            key={tab.id}
+                                            className={`tab ${activeTab === tab.id ? 'active' : ''}`}
+                                            onClick={() => setActiveTab(tab.id)}
+                                            style={{
+                                                padding:'12px 24px', 
+                                                fontSize:'15px', 
+                                                borderRadius:'var(--radius-sm)',
+                                                background: activeTab === tab.id ? 'var(--accent)' : 'var(--bg)',
+                                                color: activeTab === tab.id ? 'white' : 'var(--muted)',
+                                                border: '1px solid ' + (activeTab === tab.id ? 'var(--accent)' : 'var(--border)'),
+                                                cursor:'pointer',
+                                                transition:'all 0.3s ease',
+                                                fontWeight: 600
+                                            }}
+                                        >
+                                            {tab.name}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div style={{flex: 1, display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
+                                    {activeTab === 'overview' && (
+                                        <div className="fade-in" style={{lineHeight:1.8}}>
+                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>基礎物理膨脹特性</h4>
+                                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'24px'}}>
+                                                本產品為<strong>單物理性能膨脹劑</strong>。其作用效能主要在於加熱時，膨脹微膠囊中的熱膨脹殼層軟化，內部氣體壓力釋發，從而產生物理性的膨脹。
+                                            </p>
+                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>核心價值與優勢</h4>
+                                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                                廣泛適用於工程塑料產品與熱塑性彈性體。能有效達成注塑成型中<strong>輕量化、尺寸安定性及減少翹曲、避免凹陷</strong>等精密物理需求，以均勻發泡的獨特性能，顯著提高成品良率與表面質感。
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {activeTab === 'apps' && (
+                                        <div className="fade-in" style={{lineHeight:1.8}}>
+                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>適用材質與工藝</h4>
+                                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'24px'}}>
+                                                適用於 <strong>PVC、SBS、SEBS、EVA、TPU、TPEE、EPDM、橡膠</strong> 等材料之各式 <strong>注塑、擠出、流涎</strong> 工藝。
+                                            </p>
+                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>典型應用場景</h4>
+                                            <ul style={{paddingLeft:'20px', fontSize:'15px', color:'var(--muted)', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px'}}>
+                                                <li>• 通用汽車零部件輕量化</li>
+                                                <li>• 樹脂性高檔鞋底</li>
+                                                <li>• 物理輕質需求及隔熱層</li>
+                                                <li>• 隔音層工藝產品</li>
+                                                <li>• 高檔發泡油墨膠漿</li>
+                                                <li>• 高級立體壁紙與粘著劑</li>
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    {activeTab === 'storage' && (
+                                        <div className="fade-in" style={{lineHeight:1.8}}>
+                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'16px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>添加建議</h4>
+                                            <p style={{fontSize:'15px', color:'var(--fg)', marginBottom:'24px'}}>
+                                                <strong>注意事項</strong>：建議添加量，依客戶產品具體規格需求及所需之物理性能為採用程度，請自行測試後調整以達最佳效果。
+                                            </p>
+                                            
+                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'16px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>包裝與安全搬運</h4>
+                                            <p style={{fontSize:'15px', color:'var(--muted)', marginBottom:'24px'}}>
+                                                提供 <strong>50KG/紙桶、20KG/紙箱、40KG/紙桶</strong> 等多種安全包裝規格。搬運時請小心輕放，防止尖銳異物穿刺造成破包漏粉。
+                                            </p>
+
+                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'16px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>保存與儲藏條件</h4>
+                                            <p style={{fontSize:'15px', color:'var(--muted)'}}>
+                                                採用內襯塑料袋、外覆紙塑複合袋包裝，請置於避光、防水、乾燥環境中保存。為安全起見，強烈建議存放於<strong>低於室溫 40℃</strong> 陰涼通風處。
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {activeTab === 'specs' && (
+                                        <div className="fade-in">
+                                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
+                                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
+                                                <table>
+                                                    <thead>
+                                                        <tr>
+                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀 (目測)</th>
+                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>未膨脹前粒徑 (µm)</th>
+                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹起始溫度</th>
+                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹峰值溫度</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className="mono" style={{fontSize:'13px'}}>
+                                                        {specs.map((item, idx) => (
+                                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
+                                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
+                                                                <td style={{padding:'14px 18px'}}>{item.appearance}</td>
+                                                                <td style={{padding:'14px 18px'}}>{item.size}</td>
+                                                                <td style={{padding:'14px 18px'}}>{item.startTemp}</td>
+                                                                <td style={{padding:'14px 18px'}}>{item.peakTemp}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style={{display:'flex', justifyContent:'center', marginTop:'64px'}}>
+                        <button className="button" onClick={() => onNavigate('products')}>
+                            返回產品目錄
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
 
         const SupportPage = () => {
             const [activeTab, setActiveTab] = useState('foaming');
