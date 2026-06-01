@@ -553,7 +553,7 @@
                             </p>
                         </div>
                     ),
-                    hasDiagram: True,
+                    hasDiagram: true,
                     specsTable: (
                         <div className="fade-in">
                             <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
@@ -617,7 +617,7 @@
                     ),
                     storage: (
                         <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color(--fg), marginBottom:'16px'}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
                                 <strong>內含添加物：</strong>熱塑型彈性體、分散劑、發泡劑、膨脹微膠囊等。
                             </p>
                             <p style={{fontSize:'16px', color:'var(--muted)', marginBottom:'16px'}}>
@@ -625,7 +625,7 @@
                             </p>
                         </div>
                     ),
-                    hasDiagram: False,
+                    hasDiagram: false,
                     specsTable: (
                         <div className="fade-in">
                             <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
@@ -695,7 +695,7 @@
                             </p>
                         </div>
                     ),
-                    hasDiagram: False,
+                    hasDiagram: false,
                     specsTable: (
                         <div className="fade-in">
                             <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
@@ -737,7 +737,7 @@
                 'chemical-foaming': {
                     title: '化學發泡劑',
                     enTitle: 'CHEMICAL FOAMING AGENTS',
-                    characteristics: '減少流痕 and 縮痕，提升表面光滑度，縮短成型時間、減輕重量和減省材料用於製造輕量化和多孔的塑料製品。',
+                    characteristics: '減少流痕和縮痕，提升表面光滑度，縮短成型時間、減輕重量和減省材料，用於製造輕量化和多孔的塑料製品。',
                     overview: (
                         <div className="fade-in" style={{lineHeight:1.8}}>
                             <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
@@ -774,7 +774,7 @@
                             </p>
                         </div>
                     ),
-                    hasDiagram: False,
+                    hasDiagram: false,
                     specsTable: (
                         <div className="fade-in">
                             <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
@@ -820,7 +820,7 @@
                     overview: (
                         <div className="fade-in" style={{lineHeight:1.8}}>
                             <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
-                                產品方便地添加到塑料樹脂中，在加工過程中產生氣體，形成細小的氣泡，從而降低產品 density，改善材料的隔熱、隔音和浮力等性能。
+                                產品方便地添加到塑料樹脂中，在加工過程中產生氣體，形成細小的氣泡，從而降低產品密度，改善材料的隔熱、隔音和浮力等性能。
                             </p>
                             <p style={{fontSize:'16px', color:'var(--muted)'}}>
                                 與最終產品相同的塑料樹脂，確保母粒與主料的良好兼容性，使發泡均勻分散。有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑性彈性體中，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
@@ -841,7 +841,7 @@
                             </p>
                         </div>
                     ),
-                    hasDiagram: False,
+                    hasDiagram: false,
                     specsTable: (
                         <div className="fade-in">
                             <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
@@ -907,7 +907,7 @@
                             </p>
                         </div>
                     ),
-                    hasDiagram: False,
+                    hasDiagram: false,
                     specsTable: (
                         <div className="fade-in">
                             <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
@@ -1116,7 +1116,10 @@
                     </div>
                 </div>
             );
-        };        const SupportPage = () => {
+        };
+
+
+        const SupportPage = () => {
             const [activeTab, setActiveTab] = useState('foaming');
             const r = useReveal();
             const certs = [
