@@ -156,7 +156,8 @@
         const App = () => {
             const getHashPage = () => {
                 const hash = window.location.hash.replace('#', '');
-                return ['home', 'about', 'products', 'product-detail', 'support', 'contact'].includes(hash) ? hash : 'home';
+                if (hash.startsWith('product-detail')) return 'product-detail';
+                return ['home', 'about', 'products', 'support', 'contact'].includes(hash) ? hash : 'home';
             };
 
             const [currentPage, setCurrentPage] = useState(getHashPage());
@@ -224,8 +225,13 @@
                         <div key={currentPage} className="fade-in">
                             {currentPage === 'home' && <HomePage onNavigate={navigate} companyEn={COMPANY_EN} />}
                             {currentPage === 'about' && <AboutPage companyEn={COMPANY_EN} />}
-                            {currentPage === 'products' && <ProductsPage onNavigate={navigate} />}
-                            {currentPage === 'product-detail' && <ProductDetailPage onNavigate={navigate} />}
+                            {currentPage === 'products' && <ProductsPage onNavigate={(p, id) => { if (id) { window.location.hash = p + '-' + id; } else { navigate(p); } }} />}
+                            {currentPage === 'product-detail' && (
+                                <ProductDetailPage 
+                                    onNavigate={navigate} 
+                                    productId={window.location.hash.replace('#product-detail-', '').replace('#', '').replace('product-detail-', '')} 
+                                />
+                            )}
                             {currentPage === 'support' && <SupportPage />}
                             {currentPage === 'contact' && <ContactPage companyEn={COMPANY_EN} />}
                         </div>
@@ -438,11 +444,11 @@
                 const ProductsPage = ({ onNavigate }) => {
             const categories = [
                 { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERES', desc: '發泡過程均勻平緩、粒徑分布均一（粒徑分布窄，粒度成型完整）。', id: 'microspheres' },
-                { title: '發泡劑 FOAMING AGENT', desc: '包括白發泡、黃發泡及高效複配型，產氣穩定。' },
-                { title: '發泡/膨脹母粒 FOAM MASTERBATCH', desc: '針對 PVC、TPU、TPR 等輕量化成型與表面優化。' },
-                { title: '耐磨劑 ANTI-ABRASION MASTERBATCH', desc: '降低摩擦係數 15%-30%，顯著提升脫模性能。' },
-                { title: '抗氧化劑 ANTIOXIDANT', desc: '1010/1076/168 系列，防止聚合物熱氧化降解。' },
-                { title: '功能添加劑 SPECIALTY AGENTS', desc: '增白劑 OB-1、UV吸收劑、高溫耐候無機顏料。' }
+                { title: '樹脂載體膨脹母粒 EXPANSION MASTERBATCH', desc: '樹脂載體膨脹母粒，為複合型膨脹發泡母粒。', id: 'expansion-masterbatch' },
+                { title: '耐磨助劑/矽酮母粒/耐刮擦助劑 ANTI-SCRATCH MASTERBATCH', desc: '本品適用於EVA發泡材、PVC、TPU線材、鞋材等磨耗測試。', id: 'anti-scratch' },
+                { title: '化學發泡劑 CHEMICAL FOAMING AGENT', desc: '減少流痕和縮痕，提升表面光滑度，縮短成型時間、減輕重量。', id: 'chemical-foaming' },
+                { title: '發泡助劑母粒 FOAMING AGENT MASTERBATCH', desc: '發泡助劑母粒，也稱為發泡母粒，是一種將發泡劑與載體樹脂混合。', id: 'foaming-masterbatch' },
+                { title: '顏料母粒-色母粒 COLOR MASTERBATCH', desc: '色母粒使顏料在製品中具有更好的分散性，有利於保持顏料的化學穩定性。', id: 'color-masterbatch' }
             ];
             return (
                 <div className="container">
@@ -488,10 +494,10 @@
                                 <p style={{fontSize:'14px', color:'var(--muted)', marginTop:'16px', marginBottom:'32px', minHeight: '60px'}}>{cat.desc}</p>
                                 <button 
                                     className="button" 
-                                    style={{width:'100%', background: cat.id === 'microspheres' ? 'var(--accent)' : 'transparent', border:'1px solid var(--border)', color: cat.id === 'microspheres' ? 'white' : 'var(--fg)'}} 
-                                    onClick={() => onNavigate(cat.id === 'microspheres' ? 'product-detail' : 'support')}
+                                    style={{width:'100%', background: 'var(--accent)', border:'1px solid var(--accent)', color: 'white'}} 
+                                    onClick={() => onNavigate('product-detail', cat.id)}
                                 >
-                                    {cat.id === 'microspheres' ? '查看詳情' : '查看技術參數'}
+                                    查看詳情
                                 </button>
                             </div>
                         ))}
@@ -500,16 +506,451 @@
             );
         };
 
-        const ProductDetailPage = ({ onNavigate }) => {
+        const ProductDetailPage = ({ onNavigate, productId }) => {
+            // Set default productId if undefined
+            const currentId = productId || 'microspheres';
             const [activeTab, setActiveTab] = useState('overview');
             const rDetail = useReveal();
 
-            const specs = [
-                { model: 'S-101', appearance: '淡白色粉末狀', size: '15-30', startTemp: '130-145℃', peakTemp: '185-200℃', pack: '50KG/紙桶' },
-                { model: 'F-700', appearance: '淡白色粉末狀', size: '15-25', startTemp: '145-155℃', peakTemp: '190-205℃', pack: '50KG/紙桶' },
-                { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃', pack: '20KG/紙箱\n50KG/紙桶' },
-                { model: 'H-850D (S)', appearance: '淡白色粉末狀', size: '28-35', startTemp: '145-155℃', peakTemp: '195-215℃', pack: '40KG/紙桶' }
-            ];
+            useEffect(() => {
+                // Reset active tab to overview when product changes
+                setActiveTab('overview');
+            }, [currentId]);
+
+            // Database of all 6 products based exactly on PDF catalog pages 8-13
+            const productDb = {
+                'microspheres': {
+                    title: '熱膨脹微膠囊',
+                    enTitle: 'EXPANDABLE MICROSPHERES',
+                    characteristics: '發泡過程均勻平緩、粒徑分布均一（粒徑分布窄，粒度成型完整）。',
+                    overview: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
+                                產品為單物理性能膨脹劑，作用效能當加熱時，膨脹微膠囊中的熱膨脹殼層軟化，內氣體壓力釋發而產生物理性的膨脹。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                廣泛適用於工程塑料產品/熱塑性彈性體，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
+                            </p>
+                        </div>
+                    ),
+                    apps: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
+                                適用PVC、SBS、SEBS、EVA、TPU、TPEE、EPDM、橡膠等材料各注塑/擠出/流涎工藝。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
+                                通用汽車零部件，樹脂性鞋底、發泡油墨膠漿、壁紙、粘著劑等應用。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
+                                物理輕質需求及隔熱層、隔音層工藝產品。
+                            </p>
+                        </div>
+                    ),
+                    storage: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
+                                注意事項：建議添加量，依客戶產品需求及物理性能為採用程度自行調整。
+                            </p>
+                        </div>
+                    ),
+                    hasDiagram: True,
+                    specsTable: (
+                        <div className="fade-in">
+                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
+                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀 (目測)</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>未膨脹前粒徑 (µm)</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹起始溫度</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹峰值溫度</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>包裝</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="mono" style={{fontSize:'13px'}}>
+                                        {[
+                                            { model: 'S-101', appearance: '淡白色粉末狀', size: '15-30', startTemp: '130-145℃', peakTemp: '185-200℃', pack: '50KG/紙桶' },
+                                            { model: 'F-700', appearance: '淡白色粉末狀', size: '15-25', startTemp: '145-155℃', peakTemp: '190-205℃', pack: '50KG/紙桶' },
+                                            { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃', pack: '20KG/紙箱\n50KG/紙桶' },
+                                            { model: 'H-850D (S)', appearance: '淡白色粉末狀', size: '28-35', startTemp: '145-155℃', peakTemp: '195-215℃', pack: '40KG/紙桶' }
+                                        ].map((item, idx) => (
+                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
+                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.appearance}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.size}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.startTemp}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.peakTemp}</td>
+                                                <td style={{padding:'14px 18px', whiteSpace:'pre-line'}}>{item.pack}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
+                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
+                            </div>
+                        </div>
+                    )
+                },
+                'expansion-masterbatch': {
+                    title: '樹脂載體膨脹母粒',
+                    enTitle: 'EXPANSION MASTERBATCH',
+                    characteristics: '樹脂載體膨脹母粒，為複合型膨脹發泡母粒。',
+                    overview: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
+                                產品為複合型發泡母粒，作用效能當加熱時，膨脹母粒中的膨脹熱塑性殼層軟化，內氣體壓力釋發而產生化學及物理性的膨脹。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑性彈性體中，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
+                            </p>
+                        </div>
+                    ),
+                    apps: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
+                                TPE（SEBS、SBS），TPU，PE，鞋材、密封條。可應用於注塑、擠出、流涎等輕質工藝條件。
+                            </p>
+                        </div>
+                    ),
+                    storage: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color(--fg), marginBottom:'16px'}}>
+                                <strong>內含添加物：</strong>熱塑型彈性體、分散劑、發泡劑、膨脹微膠囊等。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)', marginBottom:'16px'}}>
+                                <strong>儲藏/搬運：</strong>內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。
+                            </p>
+                        </div>
+                    ),
+                    hasDiagram: False,
+                    specsTable: (
+                        <div className="fade-in">
+                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
+                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="mono" style={{fontSize:'13px'}}>
+                                        {[
+                                            { model: 'TP-13', resin: 'SBS', app: 'TPR鞋材、SEBS複合材注塑/擠出/流涎' },
+                                            { model: 'TP-SQR', resin: '複合材料', app: 'TPU、SEBS複合材料' },
+                                            { model: 'TP-30W', resin: '複合材料', app: 'TPR、SEBS、TPU' },
+                                            { model: 'DU-500', resin: '複合材料', app: 'TPR、SEBS、PS、TPU' },
+                                            { model: 'DU-55', resin: 'EVA', app: 'TPU注塑/擠出，SEBS、SBS、輕質複合材' }
+                                        ].map((item, idx) => (
+                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
+                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.resin}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.app}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
+                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
+                            </div>
+                        </div>
+                    )
+                },
+                'anti-scratch': {
+                    title: '耐磨助劑/矽酮母粒/耐刮擦助劑',
+                    enTitle: 'ANTI-SCRATCH MASTERBATCH',
+                    characteristics: '本品適用於EVA發泡材、PVC、TPU線材、鞋材等磨耗測試適用於較高要求的EVA發泡材料，DIN耐磨耗性能可達80以內（實際係數視實際配方而定）優異的耐磨、止滑、貼合加工性能，不影響成品良率，不產生析出、黃垢、吐霜、氣泡等現象。',
+                    overview: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
+                                產品為有機耐磨酮在EVA/SBS的分散體，用於與EVA/SBS相容的體系。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                相較於低分子量的酮添加劑而言，添加性能更優越，可避免塑料在螺杆中打滑，提高脫模性能，降低摩擦係數及提高其他性能。
+                            </p>
+                        </div>
+                    ),
+                    apps: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
+                                EVA發泡材、PVC料、TPU電線電纜料、SBS/SEBS複合材料。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)', marginBottom:'16px'}}>
+                                <strong>加入方式：</strong>直接加入與膠料共同混煉，適合EVA造粒、EVA發泡，TPU、TPR、TPE、PVC等塑料材料，直接與原材料一同攪拌均勻後進入擠出機擠出、模壓、注塑成型。
+                            </p>
+                        </div>
+                    ),
+                    storage: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'15px', color:'var(--fg)', marginBottom:'16px'}}>
+                                <strong>建議用量：</strong>于EVA或類熱塑型膠粒中，添加0.1-2.0wt%產品可提高樹脂的加工性能與流動性，包括模具填充良好、擠出力榘降低、內部潤滑性和脫模性變好，出料速度變快，制品較少翹曲等。如添加2~10%則表面性能會改善，包括潤滑性能及滑動性能變好，摩擦係數降低，抗磨損性增加等。
+                            </p>
+                            <p style={{fontSize:'15px', color:'var(--muted)'}}>
+                                <strong>認證：</strong>本產品已通過SGS/ EN 71-3項目檢測合格。
+                            </p>
+                        </div>
+                    ),
+                    hasDiagram: False,
+                    specsTable: (
+                        <div className="fade-in">
+                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
+                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀 (目測)</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>有效含量 (%)</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用範圍</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="mono" style={{fontSize:'13px'}}>
+                                        {[
+                                            { model: 'ES-8156', appearance: '淡白色顆粒', resin: 'EVA', content: '45', scope: 'EVA/TPU/PVC/PA' },
+                                            { model: 'ES-2155', appearance: '淡白色顆粒', resin: 'PE', content: '50', scope: 'PE/PP/PC/PA/ABS' },
+                                            { model: 'TR-6350', appearance: '淡白色顆粒', resin: 'SBS', content: '50', scope: 'TPR/TPE' },
+                                            { model: 'VS-525', appearance: '淡白色顆粒', resin: 'EVA', content: '40', scope: 'TPU/PVC' }
+                                        ].map((item, idx) => (
+                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
+                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.appearance}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.resin}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.content}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.scope}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
+                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
+                            </div>
+                        </div>
+                    )
+                },
+                'chemical-foaming': {
+                    title: '化學發泡劑',
+                    enTitle: 'CHEMICAL FOAMING AGENTS',
+                    characteristics: '減少流痕 and 縮痕，提升表面光滑度，縮短成型時間、減輕重量和減省材料用於製造輕量化和多孔的塑料製品。',
+                    overview: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
+                                化學發泡劑是為了在合成樹脂或橡膠等高分子材料中混料後，通過熱分解來產生氣體，為了製造海綿（Sponge）產品而添加的化工產品。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)', marginBottom:'16px'}}>
+                                <strong>有機化學發泡劑 (Organic Chemical Blowing Agent)：</strong>指一類在特定溫度下分解並產生氣體的有機化合物，常用於塑料、橡膠等材料的發泡，以製造輕質、有彈性的製品。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                <strong>無機化學發泡劑 (Inorganic Chemical Blowing Agent)：</strong>系通過化學分解反應產生氣體的一類發泡材料，主要包含碳酸氫鈉、碳酸銨、亞硝酸銨等化合物，屬於化學發泡劑的細分類別。這類發泡劑通過在特定溫度下分解釋放二氧化碳等氣體，廣泛應用於橡膠製品、食品加工等領域。
+                            </p>
+                        </div>
+                    ),
+                    apps: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'12px'}}>
+                                • 利用EVA樹脂制成的泡沫塑料，鞋材、防噪音材料、玩具、其他EVA海綿等。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'12px'}}>
+                                • 利用PE樹脂制成的泡沫塑料，用於汽車門板、管道保溫材料、墊子等產品。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'12px'}}>
+                                • 利用PVC樹脂制成的泡沫塑料，有絕緣管、人造皮革、發泡壁紙、地板裝飾材等。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                另亦可依客需求開發配制新品定制。
+                            </p>
+                        </div>
+                    ),
+                    storage: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
+                                <strong>儲藏/搬運：</strong>內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。
+                            </p>
+                        </div>
+                    ),
+                    hasDiagram: False,
+                    specsTable: (
+                        <div className="fade-in">
+                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
+                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>理論發氣量 (ml/g)</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>發泡劑主體</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="mono" style={{fontSize:'13px'}}>
+                                        {[
+                                            { model: 'AC-3000', gas: '210-220', main: '偶氮二甲酰胺', scope: 'EVA、PVC、PP、PE、SEBS、SBS' },
+                                            { model: 'AC-Z', gas: '195-205', main: '偶氮二甲酰胺', scope: 'EVA、PVC、PP、PE、SEBS、SBS' },
+                                            { model: 'GAT-8', gas: '135-155', main: '偶氮二甲酰胺', scope: 'SBS' },
+                                            { model: 'GAT-2000', gas: '100-110', main: '碳酸氫鈉', scope: 'PP、PE、PS、SBS' },
+                                            { model: 'G-04', gas: '90-100', main: '碳酸氫鈉', scope: 'SBS（微細發泡孔表相）' },
+                                            { model: 'TH', gas: '105-115', main: '碳酸氫鈉', scope: 'PVC、PE、SBS（粗發泡孔表相）' }
+                                        ].map((item, idx) => (
+                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
+                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.gas}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.main}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.scope}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
+                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
+                            </div>
+                        </div>
+                    )
+                },
+                'foaming-masterbatch': {
+                    title: '發泡助劑母粒',
+                    enTitle: 'FOAMING AGENT MASTERBATCH',
+                    characteristics: '發泡助劑母粒，也稱為發泡母粒，是一種將發泡劑與載體樹脂混合制成的濃縮顆粒，用於製造輕量化和多孔的塑料製品。母粒中的核心成分，它在受熱或特定條件下會分解產生氣體，例如氮氣、二氧化碳等。',
+                    overview: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
+                                產品方便地添加到塑料樹脂中，在加工過程中產生氣體，形成細小的氣泡，從而降低產品 density，改善材料的隔熱、隔音和浮力等性能。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                與最終產品相同的塑料樹脂，確保母粒與主料的良好兼容性，使發泡均勻分散。有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑性彈性體中，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
+                            </p>
+                        </div>
+                    ),
+                    apps: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
+                                發泡劑母粒在建築領域中廣泛用於製作保溫材料。由於其具有輕質、吸聲、隔熱等特點，母粒還被用於包裝材料的應用。具有良好的抗衝擊性和緩衝性能，被廣泛應用於產品包裝中，起到保護商品不受損的作用。發泡母粒還被用於交通工具、電子器件的製造以及醫療器械等多個領域。
+                            </p>
+                        </div>
+                    ),
+                    storage: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
+                                <strong>儲藏/搬運：</strong>內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。
+                            </p>
+                        </div>
+                    ),
+                    hasDiagram: False,
+                    specsTable: (
+                        <div className="fade-in">
+                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
+                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>發泡劑主體</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="mono" style={{fontSize:'13px'}}>
+                                        {[
+                                            { model: 'DU-50', resin: 'EVA', main: '碳酸氫鈉', scope: '通用於PE與PP、ABS、PPO，在加工時可均勻分散在主體塑料樹脂顆粒，使制品各部份維持穩定性發泡氣孔，降低最終產品密度，抑制收縮翹曲現象。' },
+                                            { model: '5315-P', resin: 'PE複合材料', main: '偶氮二甲酰胺', scope: '通用於PE與PVC，在加工時可均勻分散在主體塑料樹脂顆粒，使制品各部份維持穩定性發泡氣孔，降低最終產品密度，抑制凹陷現象。' }
+                                        ].map((item, idx) => (
+                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
+                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.resin}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.main}</td>
+                                                <td style={{padding:'14px 18px', fontSize:'12px', lineHeight:1.4}}>{item.scope}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
+                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
+                            </div>
+                        </div>
+                    )
+                },
+                'color-masterbatch': {
+                    title: '顏料母粒-色母粒',
+                    enTitle: 'COLOR MASTERBATCH',
+                    characteristics: '色母粒使顏料在製品中具有更好的分散性，有利於保持顏料的化學穩定性.保證製品顏色的穩定，保護操作人員的健康，適配自動化無塵車間生產工藝條件、保持環境的潔淨。',
+                    overview: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
+                                它由顏料或染料、載體和添加劑三種基本要素所組成，是把超常量的顏料或染料均勻地載附於樹脂之中而得到的聚集體。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                可客制化配色，按載體樹脂、用途、環保要求定制確保母粒與主料的良好兼容性。有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑/熱固性彈性體中以均勻性能並提高產品良率。
+                            </p>
+                        </div>
+                    ),
+                    apps: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
+                                色母粒著色和製品加工一次完成，避免造粒著色對塑料的加熱過程，對保護塑料製品的品質提升良率。
+                            </p>
+                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
+                                可針對載體樹脂，工藝用途，加工溫度條件等領域進行特殊配製與配色。塑料行業中，色母粒市場需求集中在工程塑料製品（家電、汽車）、建築塑料製品（管材、型材）、農用薄膜製品、塑料包裝製品等方面。家電、汽車、建築塑料製品應用。
+                            </p>
+                        </div>
+                    ),
+                    storage: (
+                        <div className="fade-in" style={{lineHeight:1.8}}>
+                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
+                                <strong>儲藏/搬運：</strong>內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。
+                            </p>
+                        </div>
+                    ),
+                    hasDiagram: False,
+                    specsTable: (
+                        <div className="fade-in">
+                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
+                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>顏色</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>顏料應用</th>
+                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="mono" style={{fontSize:'13px'}}>
+                                        {[
+                                            { model: '5075B', resin: 'TPU', color: '黑', pigment: '碳黑', scope: 'TPU注塑/擠出/流涎應用' },
+                                            { model: 'X-25', resin: 'PE', color: '黑', pigment: '碳黑', scope: 'PE電線/電纜 一般吹膜/注塑/擠出應用' },
+                                            { model: 'CW-18', resin: 'PE', color: '白', pigment: '鈦白粉', scope: '一般級白色母 常規注塑/擠出應用' },
+                                            { model: 'CW-133', resin: 'PE', color: '白', pigment: '鈦白粉', scope: '高濃度白色母 高級注塑/吹膜應用' },
+                                            { model: '熒光色母', resin: 'EVA/PE/TPU', color: '熒光多色', pigment: '熒光顏料/鈦白粉', scope: 'EVA/PE/TPU 發泡級/常規注塑/超臨界發泡' },
+                                            { model: '彩色色母', resin: 'EVA/PE/TPU', color: '可定制多色', pigment: '有機顏料/無機顏料', scope: 'EVA/PE/TPU 發泡級/常規注塑/超臨界發泡' }
+                                        ].map((item, idx) => (
+                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
+                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.resin}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.color}</td>
+                                                <td style={{padding:'14px 18px'}}>{item.pigment}</td>
+                                                <td style={{padding:'14px 18px', fontSize:'12px'}}>{item.scope}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
+                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
+                            </div>
+                        </div>
+                    )
+                }
+            };
+
+            const product = productDb[currentId] || productDb['microspheres'];
 
             return (
                 <div className="container">
@@ -521,51 +962,108 @@
                     </div>
 
                     <div className="swd-grid reveal" ref={rDetail}>
-                        {/* 左側欄: 大型產品幾何晶格圖 */}
+                        {/* 左側欄: 大型幾何圖或膨脹模式圖 */}
                         <div className="col-5">
                             <div className="card" style={{padding:'40px', background:'var(--bg)', border:'1px solid var(--border)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', borderRadius:'var(--radius-lg)', textAlign:'center'}}>
-                                <div style={{width:'100%', aspectRatio:'1/1', background:'var(--surface)', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'var(--radius-md)', overflow:'hidden', position:'relative', border:'1px solid var(--border)', marginBottom:'32px', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
-                                    <svg viewBox="0 0 200 200" style={{width:'85%', height:'85%', opacity:0.95}} xmlns="http://www.w3.org/2000/svg">
-                                        <defs>
-                                            <radialGradient id="detail-glow" cx="50%" cy="50%" r="50%">
-                                                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.2" />
-                                                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-                                            </radialGradient>
-                                        </defs>
-                                        <rect width="200" height="200" fill="none"/>
-                                        <circle cx="100" cy="100" r="90" fill="url(#detail-glow)" />
-                                        
-                                        {/* Large Benzene/Polymer Molecular Geometry */}
-                                        <path d="M 100 30 L 152 60 L 152 120 L 100 150 L 48 120 L 48 60 Z" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeOpacity="0.5" />
-                                        <path d="M 100 45 L 139 67.5 L 139 112.5 L 100 135 L 61 112.5 L 61 67.5 Z" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.25" strokeDasharray="3 3" />
-                                        
-                                        <path d="M 100 30 L 100 10 M 152 60 L 169 50 M 152 120 L 169 130 M 100 150 L 100 170 M 48 120 L 31 130 M 48 60 L 31 50" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.4" />
-                                        
-                                        {/* Connected outer lattice */}
-                                        <path d="M 100 10 L 135 0 M 100 10 L 65 0 M 169 50 L 200 68 M 169 130 L 200 112 M 100 170 L 135 180 M 100 170 L 65 180 M 31 130 L 0 112 M 31 50 L 0 68" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.2" />
-                                        
-                                        <circle cx="100" cy="30" r="4.5" fill="var(--accent)" />
-                                        <circle cx="152" cy="60" r="4.5" fill="var(--accent)" />
-                                        <circle cx="152" cy="120" r="4.5" fill="var(--accent)" />
-                                        <circle cx="100" cy="150" r="4.5" fill="var(--accent)" />
-                                        <circle cx="48" cy="120" r="4.5" fill="var(--accent)" />
-                                        <circle cx="48" cy="60" r="4.5" fill="var(--accent)" />
-                                        
-                                        <circle cx="100" cy="10" r="3" fill="var(--accent)" fillOpacity="0.7" />
-                                        <circle cx="169" cy="50" r="3" fill="var(--accent)" fillOpacity="0.7" />
-                                        <circle cx="169" cy="130" r="3" fill="var(--accent)" fillOpacity="0.7" />
-                                        <circle cx="100" cy="170" r="3" fill="var(--accent)" fillOpacity="0.7" />
-                                        <circle cx="31" cy="130" r="3" fill="var(--accent)" fillOpacity="0.7" />
-                                        <circle cx="31" cy="50" r="3" fill="var(--accent)" fillOpacity="0.7" />
-                                        
-                                        <circle cx="100" cy="100" r="22" fill="none" stroke="var(--accent)" strokeWidth="2" strokeOpacity="0.4" />
-                                        <circle cx="100" cy="100" r="14" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.5" strokeDasharray="2 2" />
-                                    </svg>
-                                </div>
-                                <h3 style={{fontSize:'26px', color:'var(--fg)', marginBottom:'8px'}}>熱膨脹微膠囊</h3>
-                                <p className="mono" style={{fontSize:'13px', color:'var(--accent)', fontWeight:600, letterSpacing:'0.05em'}}>EXPANDABLE MICROSPHERES</p>
-                                <p style={{fontSize:'13px', color:'var(--muted)', marginTop:'16px', lineHeight:1.6}}>
-                                    發泡過程均勻平緩<br />粒徑分布均一、粒度成型完整
+                                {product.hasDiagram ? (
+                                    <div style={{width:'100%', aspectRatio:'3/2', background:'var(--surface)', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'var(--radius-md)', overflow:'hidden', position:'relative', border:'1px solid var(--border)', marginBottom:'32px', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
+                                        <svg viewBox="0 0 300 200" style={{width:'100%', height:'100%'}} xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                                <radialGradient id="diagram-glow" cx="50%" cy="50%" r="50%">
+                                                    <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.15" />
+                                                    <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+                                                </radialGradient>
+                                                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                                    <path d="M 0 2 L 10 5 L 0 8 z" fill="var(--accent)" />
+                                                </marker>
+                                            </defs>
+                                            
+                                            {/* Grid background */}
+                                            <g stroke="var(--border)" strokeWidth="0.5" opacity="0.3">
+                                                <line x1="0" y1="30" x2="300" y2="30" />
+                                                <line x1="0" y1="60" x2="300" y2="60" />
+                                                <line x1="0" y1="90" x2="300" y2="90" />
+                                                <line x1="0" y1="120" x2="300" y2="120" />
+                                                <line x1="0" y1="150" x2="300" y2="150" />
+                                                <line x1="0" y1="180" x2="300" y2="180" />
+                                                
+                                                <line x1="50" y1="0" x2="50" y2="200" />
+                                                <line x1="100" y1="0" x2="100" y2="200" />
+                                                <line x1="150" y1="0" x2="150" y2="200" />
+                                                <line x1="200" y1="0" x2="200" y2="200" />
+                                                <line x1="250" y1="0" x2="250" y2="200" />
+                                            </g>
+
+                                            {/* Diagram Title */}
+                                            <text x="150" y="24" textAnchor="middle" fill="var(--fg)" fontWeight="700" fontSize="13px" letterSpacing="0.05em">膨脹模式圖解 (Expansion Model)</text>
+
+                                            {/* Before Expansion */}
+                                            <g transform="translate(60, 110)">
+                                                <circle cx="0" cy="0" r="30" fill="url(#diagram-glow)" stroke="var(--accent)" strokeWidth="1.5" />
+                                                <circle cx="0" cy="0" r="18" fill="var(--accent-soft)" stroke="var(--accent)" strokeWidth="1" strokeDasharray="3 3" />
+                                                <text x="0" y="4" textAnchor="middle" fill="var(--fg)" fontSize="10px" fontWeight="600">發泡劑</text>
+                                                <text x="0" y="-38" textAnchor="middle" fill="var(--muted)" fontSize="10px" fontWeight="500">外殼樹脂</text>
+                                                <line x1="0" y1="-32" x2="0" y2="-22" stroke="var(--muted)" strokeWidth="0.8" markerStart="url(#arrow)" />
+                                                
+                                                <text x="0" y="48" textAnchor="middle" fill="var(--fg)" fontSize="11px" fontWeight="700">膨脹前</text>
+                                                <text x="0" y="62" textAnchor="middle" fill="var(--muted)" fontSize="9px" className="mono">10~50µm</text>
+                                            </g>
+
+                                            {/* Heating Arrow */}
+                                            <g transform="translate(125, 110)">
+                                                <line x1="0" y1="0" x2="40" y2="0" stroke="var(--accent)" strokeWidth="2.5" markerEnd="url(#arrow)" />
+                                                <text x="20" y="-12" textAnchor="middle" fill="var(--accent)" fontSize="11px" fontWeight="700">加熱</text>
+                                            </g>
+
+                                            {/* After Expansion */}
+                                            <g transform="translate(230, 110)">
+                                                <circle cx="0" cy="0" r="50" fill="url(#diagram-glow)" stroke="var(--accent)" strokeWidth="2.5" />
+                                                
+                                                {/* Scattered gas markers */}
+                                                <circle cx="0" cy="-25" r="1.5" fill="var(--accent)" />
+                                                <circle cx="20" cy="-15" r="1.5" fill="var(--accent)" />
+                                                <circle cx="-20" cy="10" r="1.5" fill="var(--accent)" />
+                                                <circle cx="15" cy="20" r="1.5" fill="var(--accent)" />
+                                                <circle cx="-10" cy="-10" r="1.5" fill="var(--accent)" />
+                                                
+                                                <text x="0" y="66" textAnchor="middle" fill="var(--fg)" fontSize="11px" fontWeight="700">膨脹後</text>
+                                                <text x="0" y="80" textAnchor="middle" fill="var(--muted)" fontSize="9px" className="mono">30~200µm</text>
+                                            </g>
+                                        </svg>
+                                    </div>
+                                ) : (
+                                    <div style={{width:'100%', aspectRatio:'1/1', background:'var(--surface)', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'var(--radius-md)', overflow:'hidden', position:'relative', border:'1px solid var(--border)', marginBottom:'32px', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
+                                        <svg viewBox="0 0 200 200" style={{width:'85%', height:'85%', opacity:0.95}} xmlns="http://www.w3.org/2000/svg">
+                                            <defs>
+                                                <radialGradient id="detail-glow-dyn" cx="50%" cy="50%" r="50%">
+                                                    <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.2" />
+                                                    <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+                                                </radialGradient>
+                                            </defs>
+                                            <rect width="200" height="200" fill="none"/>
+                                            <circle cx="100" cy="100" r="90" fill="url(#detail-glow-dyn)" />
+                                            
+                                            {/* Beautiful Polymer Molecular Lattice SVG structure */}
+                                            <path d="M 100 30 L 152 60 L 152 120 L 100 150 L 48 120 L 48 60 Z" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeOpacity="0.5" />
+                                            <path d="M 100 45 L 139 67.5 L 139 112.5 L 100 135 L 61 112.5 L 61 67.5 Z" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.25" strokeDasharray="3 3" />
+                                            <path d="M 100 30 L 100 10 M 152 60 L 169 50 M 152 120 L 169 130 M 100 150 L 100 170 M 48 120 L 31 130 M 48 60 L 31 50" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.4" />
+                                            
+                                            <circle cx="100" cy="30" r="4.5" fill="var(--accent)" />
+                                            <circle cx="152" cy="60" r="4.5" fill="var(--accent)" />
+                                            <circle cx="152" cy="120" r="4.5" fill="var(--accent)" />
+                                            <circle cx="100" cy="150" r="4.5" fill="var(--accent)" />
+                                            <circle cx="48" cy="120" r="4.5" fill="var(--accent)" />
+                                            <circle cx="48" cy="60" r="4.5" fill="var(--accent)" />
+                                            
+                                            <circle cx="100" cy="100" r="22" fill="none" stroke="var(--accent)" strokeWidth="2" strokeOpacity="0.4" />
+                                            <circle cx="100" cy="100" r="14" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.5" strokeDasharray="2 2" />
+                                        </svg>
+                                    </div>
+                                )}
+                                <h3 style={{fontSize:'26px', color:'var(--fg)', marginBottom:'8px'}}>{product.title}</h3>
+                                <p className="mono" style={{fontSize:'13px', color:'var(--accent)', fontWeight:600, letterSpacing:'0.05em'}}>{product.enTitle}</p>
+                                <p style={{fontSize:'13px', color:'var(--muted)', marginTop:'16px', lineHeight:1.6, padding:'0 12px'}}>
+                                    {product.characteristics}
                                 </p>
                             </div>
                         </div>
@@ -577,7 +1075,7 @@
                                     {[
                                         { id: 'overview', name: '產品概述' },
                                         { id: 'apps', name: '應用領域' },
-                                        { id: 'storage', name: '注意事項' },
+                                        { id: 'storage', name: product.title === '熱膨脹微膠囊' ? '注意事項' : '儲藏/搬運' },
                                         { id: 'specs', name: '技術數據' }
                                     ].map(tab => (
                                         <div 
@@ -602,77 +1100,10 @@
                                 </div>
 
                                 <div style={{flex: 1, display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
-                                    {activeTab === 'overview' && (
-                                        <div className="fade-in" style={{lineHeight:1.8}}>
-                                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
-                                                產品為單物理性能膨脹劑，作用效能當加熱時，膨脹微膠囊中的熱膨脹殼層軟化，內氣體壓力釋發而產生物理性的膨脹。
-                                            </p>
-                                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                                廣泛適用於工程塑料產品/熱塑性彈性體，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    {activeTab === 'apps' && (
-                                        <div className="fade-in" style={{lineHeight:1.8}}>
-                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>適用材質與工藝</h4>
-                                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'24px'}}>
-                                                適用於 <strong>PVC、SBS、SEBS、EVA、TPU、TPEE、EPDM、橡膠</strong> 等材料之各式 <strong>注塑、擠出、流涎</strong> 工藝。
-                                            </p>
-                                            <h4 style={{fontSize:'20px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>典型應用場景</h4>
-                                            <ul style={{paddingLeft:'20px', fontSize:'15px', color:'var(--muted)', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px'}}>
-                                                <li>• 通用汽車零部件輕量化</li>
-                                                <li>• 樹脂性高檔鞋底</li>
-                                                <li>• 物理輕質需求及隔熱層</li>
-                                                <li>• 隔音層工藝產品</li>
-                                                <li>• 高檔發泡油墨膠漿</li>
-                                                <li>• 高級立體壁紙與粘著劑</li>
-                                            </ul>
-                                        </div>
-                                    )}
-
-                                    {activeTab === 'storage' && (
-                                        <div className="fade-in" style={{lineHeight:1.8}}>
-                                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
-                                                注意事項：建議添加量，依客戶產品需求及物理性能為採用程度自行調整。
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    {activeTab === 'specs' && (
-                                        <div className="fade-in">
-                                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
-                                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
-                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀 (目測)</th>
-                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>未膨脹前粒徑 (µm)</th>
-                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹起始溫度</th>
-                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹峰值溫度</th>
-                                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>包裝</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody className="mono" style={{fontSize:'13px'}}>
-                                                        {specs.map((item, idx) => (
-                                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
-                                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
-                                                                <td style={{padding:'14px 18px'}}>{item.appearance}</td>
-                                                                <td style={{padding:'14px 18px'}}>{item.size}</td>
-                                                                <td style={{padding:'14px 18px'}}>{item.startTemp}</td>
-                                                                <td style={{padding:'14px 18px'}}>{item.peakTemp}</td>
-                                                                <td style={{padding:'14px 18px', whiteSpace:'pre-line'}}>{item.pack}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
-                                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
-                                            </div>
-                                        </div>
-                                    )}
+                                    {activeTab === 'overview' && product.overview}
+                                    {activeTab === 'apps' && product.apps}
+                                    {activeTab === 'storage' && product.storage}
+                                    {activeTab === 'specs' && product.specsTable}
                                 </div>
                             </div>
                         </div>
@@ -685,10 +1116,7 @@
                     </div>
                 </div>
             );
-        };
-
-
-        const SupportPage = () => {
+        };        const SupportPage = () => {
             const [activeTab, setActiveTab] = useState('foaming');
             const r = useReveal();
             const certs = [
