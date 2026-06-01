@@ -442,13 +442,29 @@
         };
 
                 const ProductsPage = ({ onNavigate }) => {
-            const categories = [
+                        const categories = [
                 { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERES', desc: '發泡過程均勻平緩、粒徑分布均一（粒徑分布窄，粒度成型完整）。', id: 'microspheres' },
                 { title: '樹脂載體膨脹母粒 EXPANSION MASTERBATCH', desc: '樹脂載體膨脹母粒，為複合型膨脹發泡母粒。', id: 'expansion-masterbatch' },
                 { title: '耐磨助劑/矽酮母粒/耐刮擦助劑 ANTI-SCRATCH MASTERBATCH', desc: '本品適用於EVA發泡材、PVC、TPU線材、鞋材等磨耗測試。', id: 'anti-scratch' },
                 { title: '化學發泡劑 CHEMICAL FOAMING AGENT', desc: '減少流痕和縮痕，提升表面光滑度，縮短成型時間、減輕重量。', id: 'chemical-foaming' },
                 { title: '發泡助劑母粒 FOAMING AGENT MASTERBATCH', desc: '發泡助劑母粒，也稱為發泡母粒，是一種將發泡劑與載體樹脂混合。', id: 'foaming-masterbatch' },
-                { title: '顏料母粒-色母粒 COLOR MASTERBATCH', desc: '色母粒使顏料在製品中具有更好的分散性，有利於保持顏料的化學穩定性。', id: 'color-masterbatch' }
+                { title: '顏料母粒-色母粒 COLOR MASTERBATCH', desc: '色母粒使顏料在製品中具有更好的分散性，有利於保持顏料的化學穩定性。', id: 'color-masterbatch' },
+                { title: '螢光增白劑 FLUORESCENT WHITENING AGENT', desc: '增白劑，是無色到淺色有機化合物。吸收紫外光轉化為紫至藍色螢光，產生更明亮外觀。', id: 'brightener' },
+                { title: '抗氧化劑 ANTIOXIDANT', desc: '主要用於防止聚合物材料和油脂、塗料在光照和熱作用下氧化降解。', id: 'antioxidant' },
+                { title: '紫外線吸收劑 ULTRAVIOLET ABSORBENT', desc: '可在 290-400 nm 範圍內吸收紫外線光，化學穩定性好，揮發性低。', id: 'uv-absorber' },
+                { title: 'EVA抗靜電助劑-粉末 EVA ANTISTATIC ADDITIVE', desc: 'EVP-715 為專用型醋酸乙烯抗靜電助劑，降低摩擦係數，抑制靜電產生。', id: 'antistatic-eva' },
+                { title: '螢光顏料 FLUORESCENT PIGMENTS', desc: '在受到紫外線或其他特定波長光照射時，呈現出鮮豔的「螢光」效果。', id: 'fluorescent-pigment-p18' },
+                { title: 'TPU耐黃變助劑母粒 TPU YELLOWING RESISTANCE MASTERBATCH', desc: '專用型聚氨酯耐黃變母粒，兼具抗熱氧化與光穩定劑作用，能有效與樹脂融合。', id: 'yellowing-resistance' },
+                { title: 'TPU抗靜電助劑母粒 TPU ANTISTATIC MASTERBATCH', desc: 'ESU-320 為專用型熱塑聚氨酯彈性體母粒，屬長效性內加型抗靜電添加劑。', id: 'antistatic-tpu' },
+                { title: '鐳雕助劑 LASER MARKING POWDER', desc: '塑料工藝中可進行直接混拌注塑或造粒再行加工，過程中不改變加工工藝參數。', id: 'laser-marking' },
+                { title: '紅色顏料 RED PIGMENT', desc: '提供優異之耐遷移性、耐光性及耐熱性能，廣泛適用於各類塑膠著色及高溫加工。', id: 'pigment-red' },
+                { title: '酞菁顏料/紫色顏料 PHTHALOCYANINE & VIOLET PIGMENT', desc: '高效能酞菁藍、酞菁綠及紫色顏料，耐光度達 7-8 級，耐溫高達 280-300℃。', id: 'pigment-phthalocyanine' },
+                { title: '螢光顏料 (高牢度) HIGH-FASTNESS FLUORESCENT PIGMENT', desc: '超亮螢光顏料，專為塑料與油墨著色調配，展現鮮明發光效果，兼顧耐溫性。', id: 'fluorescent-pigment-p24' },
+                { title: '氧化鐵顏料 IRON OXIDE PIGMENT', desc: '經典氧化鐵紅、鐵黃、鐵黑顏料，極佳耐遷移性與高化學穩定性，無機著色產品。', id: 'pigment-iron-oxide' },
+                { title: '群青/鈦白粉/炭黑 ULTRAMARINE & TITANIUM & CARBON BLACK', desc: '經典白、黑、群青藍無機顏料，擁有優異之耐光、高耐溫與極佳耐遷移性。', id: 'pigment-ultramarine' },
+                { title: '耐高溫無機顏料 HIGH TEMPERATURE INORGANIC PIGMENT', desc: '頂級複合無機金屬氧化物顏料 (CICP)，耐溫高達 750-1200℃，極佳耐化學性。', id: 'pigment-high-temp' },
+                { title: '紅色顏料/橙色顏料 RED & ORANGE PIGMENT', desc: '中高端工程著色紅色與橙色顏料，卓越抗遷移與耐候性能，無鹵素環保認證。', id: 'pigment-orange-red' },
+                { title: '黃色顏料 YELLOW PIGMENT', desc: '中高端工程著色黃色顏料，發色強度優異，分散性好，極佳熱穩定性與光穩定保護。', id: 'pigment-yellow' }
             ];
             return (
                 <div className="container">
@@ -523,432 +539,853 @@
                     title: '熱膨脹微膠囊',
                     enTitle: 'EXPANDABLE MICROSPHERES',
                     characteristics: '發泡過程均勻平緩、粒徑分布均一（粒徑分布窄，粒度成型完整）。',
-                    overview: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
-                                產品為單物理性能膨脹劑，作用效能當加熱時，膨脹微膠囊中的熱膨脹殼層軟化，內氣體壓力釋發而產生物理性的膨脹。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                廣泛適用於工程塑料產品/熱塑性彈性體，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
-                            </p>
-                        </div>
-                    ),
-                    apps: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
-                                適用PVC、SBS、SEBS、EVA、TPU、TPEE、EPDM、橡膠等材料各注塑/擠出/流涎工藝。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
-                                通用汽車零部件，樹脂性鞋底、發泡油墨膠漿、壁紙、粘著劑等應用。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
-                                物理輕質需求及隔熱層、隔音層工藝產品。
-                            </p>
-                        </div>
-                    ),
-                    storage: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
-                                注意事項：建議添加量，依客戶產品需求及物理性能為採用程度自行調整。
-                            </p>
-                        </div>
-                    ),
+                    overview: [
+                        '產品為單物理性能膨脹劑，作用效能當加熱時，膨脹微膠囊中的熱膨脹殼層軟化，內氣體壓力釋發而產生物理性的膨脹。',
+                        '廣泛適用於工程塑料產品/熱塑性彈性體，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。'
+                    ],
+                    apps: [
+                        '適用PVC、SBS、SEBS、EVA、TPU、TPEE、EPDM、橡膠等材料各注塑/擠出/流涎工藝。',
+                        '通用汽車零部件，樹脂性鞋底、發泡油墨膠漿、壁紙、粘著劑等應用。',
+                        '物理輕質需求及隔熱層、隔音層工藝產品。'
+                    ],
+                    storage: [
+                        '注意事項：建議添加量，依客戶產品需求及物理性能為採用程度自行調整。'
+                    ],
                     hasDiagram: true,
-                    specsTable: (
-                        <div className="fade-in">
-                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
-                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀 (目測)</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>未膨脹前粒徑 (µm)</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹起始溫度</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹峰值溫度</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>包裝</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="mono" style={{fontSize:'13px'}}>
-                                        {[
-                                            { model: 'S-101', appearance: '淡白色粉末狀', size: '15-30', startTemp: '130-145℃', peakTemp: '185-200℃', pack: '50KG/紙桶' },
-                                            { model: 'F-700', appearance: '淡白色粉末狀', size: '15-25', startTemp: '145-155℃', peakTemp: '190-205℃', pack: '50KG/紙桶' },
-                                            { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃', pack: '20KG/紙箱\n50KG/紙桶' },
-                                            { model: 'H-850D (S)', appearance: '淡白色粉末狀', size: '28-35', startTemp: '145-155℃', peakTemp: '195-215℃', pack: '40KG/紙桶' }
-                                        ].map((item, idx) => (
-                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
-                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.appearance}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.size}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.startTemp}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.peakTemp}</td>
-                                                <td style={{padding:'14px 18px', whiteSpace:'pre-line'}}>{item.pack}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
-                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
-                            </div>
-                        </div>
-                    )
+                    tableType: 'microspheres',
+                    rows: [
+                        { model: 'S-101', appearance: '淡白色粉末狀', size: '15-30', startTemp: '130-145℃', peakTemp: '185-200℃', pack: '50KG/紙桶' },
+                        { model: 'F-700', appearance: '淡白色粉末狀', size: '15-25', startTemp: '145-155℃', peakTemp: '190-205℃', pack: '50KG/紙桶' },
+                        { model: 'DU-808', appearance: '淡白色粉末狀', size: '22-32', startTemp: '135-150℃', peakTemp: '190-210℃', pack: '20KG/紙箱
+50KG/紙桶' },
+                        { model: 'H-850D (S)', appearance: '淡白色粉末狀', size: '28-35', startTemp: '145-155℃', peakTemp: '195-215℃', pack: '40KG/紙桶' }
+                    ]
                 },
                 'expansion-masterbatch': {
                     title: '樹脂載體膨脹母粒',
                     enTitle: 'EXPANSION MASTERBATCH',
                     characteristics: '樹脂載體膨脹母粒，為複合型膨脹發泡母粒。',
-                    overview: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
-                                產品為複合型發泡母粒，作用效能當加熱時，膨脹母粒中的膨脹熱塑性殼層軟化，內氣體壓力釋發而產生化學及物理性的膨脹。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑性彈性體中，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
-                            </p>
-                        </div>
-                    ),
-                    apps: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
-                                TPE（SEBS、SBS），TPU，PE，鞋材、密封條。可應用於注塑、擠出、流涎等輕質工藝條件。
-                            </p>
-                        </div>
-                    ),
-                    storage: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
-                                <strong>內含添加物：</strong>熱塑型彈性體、分散劑、發泡劑、膨脹微膠囊等。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)', marginBottom:'16px'}}>
-                                <strong>儲藏/搬運：</strong>內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。
-                            </p>
-                        </div>
-                    ),
+                    overview: [
+                        '產品為複合型發泡母粒，作用效能當加熱時，膨脹母粒中的膨脹熱塑性殼層軟化，內氣體壓力釋發而產生化學及物理性的膨脹。',
+                        '有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑性彈性體中，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。'
+                    ],
+                    apps: [
+                        'TPE（SEBS、SBS），TPU，PE，鞋材、密封條。可應用於注塑、擠出、流涎等輕質工藝條件。'
+                    ],
+                    storage: [
+                        '內含添加物：熱塑型彈性體、分散劑、發泡劑、膨脹微膠囊等。',
+                        '儲藏/搬運：內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。'
+                    ],
                     hasDiagram: false,
-                    specsTable: (
-                        <div className="fade-in">
-                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
-                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="mono" style={{fontSize:'13px'}}>
-                                        {[
-                                            { model: 'TP-13', resin: 'SBS', app: 'TPR鞋材、SEBS複合材注塑/擠出/流涎' },
-                                            { model: 'TP-SQR', resin: '複合材料', app: 'TPU、SEBS複合材料' },
-                                            { model: 'TP-30W', resin: '複合材料', app: 'TPR、SEBS、TPU' },
-                                            { model: 'DU-500', resin: '複合材料', app: 'TPR、SEBS、PS、TPU' },
-                                            { model: 'DU-55', resin: 'EVA', app: 'TPU注塑/擠出，SEBS、SBS、輕質複合材' }
-                                        ].map((item, idx) => (
-                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
-                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.resin}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.app}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
-                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
-                            </div>
-                        </div>
-                    )
+                    tableType: 'expansion_masterbatch',
+                    rows: [
+                        { model: 'TP-13', resin: 'SBS', app: 'TPR鞋材、SEBS複合材注塑/擠出/流涎' },
+                        { model: 'TP-SQR', resin: '複合材料', app: 'TPU、SEBS複合材料' },
+                        { model: 'TP-30W', resin: '複合材料', app: 'TPR、SEBS、TPU' },
+                        { model: 'DU-500', resin: '複合材料', app: 'TPR、SEBS、PS、TPU' },
+                        { model: 'DU-55', resin: 'EVA', app: 'TPU注塑/擠出，SEBS、SBS、輕質複合材' }
+                    ]
                 },
                 'anti-scratch': {
                     title: '耐磨助劑/矽酮母粒/耐刮擦助劑',
                     enTitle: 'ANTI-SCRATCH MASTERBATCH',
-                    characteristics: '本品適用於EVA發泡材、PVC、TPU線材、鞋材等磨耗測試適用於較高要求的EVA發泡材料，DIN耐磨耗性能可達80以內（實際係數視實際配方而定）優異的耐磨、止滑、貼合加工性能，不影響成品良率，不產生析出、黃垢、吐霜、氣泡等現象。',
-                    overview: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
-                                產品為有機耐磨酮在EVA/SBS的分散體，用於與EVA/SBS相容的體系。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                相較於低分子量的酮添加劑而言，添加性能更優越，可避免塑料在螺杆中打滑，提高脫模性能，降低摩擦係數及提高其他性能。
-                            </p>
-                        </div>
-                    ),
-                    apps: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
-                                EVA發泡材、PVC料、TPU電線電纜料、SBS/SEBS複合材料。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)', marginBottom:'16px'}}>
-                                <strong>加入方式：</strong>直接加入與膠料共同混煉，適合EVA造粒、EVA發泡，TPU、TPR、TPE、PVC等塑料材料，直接與原材料一同攪拌均勻後進入擠出機擠出、模壓、注塑成型。
-                            </p>
-                        </div>
-                    ),
-                    storage: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'15px', color:'var(--fg)', marginBottom:'16px'}}>
-                                <strong>建議用量：</strong>于EVA或類熱塑型膠粒中，添加0.1-2.0wt%產品可提高樹脂的加工性能與流動性，包括模具填充良好、擠出力榘降低、內部潤滑性和脫模性變好，出料速度變快，制品較少翹曲等。如添加2~10%則表面性能會改善，包括潤滑性能及滑動性能變好，摩擦係數降低，抗磨損性增加等。
-                            </p>
-                            <p style={{fontSize:'15px', color:'var(--muted)'}}>
-                                <strong>認證：</strong>本產品已通過SGS/ EN 71-3項目檢測合格。
-                            </p>
-                        </div>
-                    ),
+                    characteristics: '本品適用於EVA發泡材、PVC、TPU線材、鞋材等磨耗測試，DIN耐磨耗性能可達80以內，優異之耐磨止滑加工性能。',
+                    overview: [
+                        '產品為有機耐磨酮在EVA/SBS的分散體，用於與EVA/SBS相容的體系。',
+                        '相較於低分子量的酮添加劑而言，添加性能更優越，可避免塑料在螺杆中打滑，提高脫模性能，降低摩擦係數及提高其他性能。'
+                    ],
+                    apps: [
+                        'EVA發泡材、PVC料、TPU電線電纜料、SBS/SEBS複合材料。',
+                        '加入方式：直接加入與膠料共同混煉，適合EVA造粒、EVA發泡，TPU、TPR、TPE、PVC等塑料材料，直接與原材料一同攪拌均勻後進入擠出機擠出、模壓、注塑成型。'
+                    ],
+                    storage: [
+                        '建議用量：于EVA或類熱塑型膠粒中，添加0.1-2.0wt%產品可提高樹脂的加工性能與流動性。如添加2~10%則表面性能會改善，包括潤滑性能及滑動性能變好，摩擦係數降低，抗磨損性增加等。',
+                        '認證：本產品已通過SGS/ EN 71-3項目檢測合格。'
+                    ],
                     hasDiagram: false,
-                    specsTable: (
-                        <div className="fade-in">
-                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
-                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀 (目測)</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>有效含量 (%)</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用範圍</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="mono" style={{fontSize:'13px'}}>
-                                        {[
-                                            { model: 'ES-8156', appearance: '淡白色顆粒', resin: 'EVA', content: '45', scope: 'EVA/TPU/PVC/PA' },
-                                            { model: 'ES-2155', appearance: '淡白色顆粒', resin: 'PE', content: '50', scope: 'PE/PP/PC/PA/ABS' },
-                                            { model: 'TR-6350', appearance: '淡白色顆粒', resin: 'SBS', content: '50', scope: 'TPR/TPE' },
-                                            { model: 'VS-525', appearance: '淡白色顆粒', resin: 'EVA', content: '40', scope: 'TPU/PVC' }
-                                        ].map((item, idx) => (
-                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
-                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.appearance}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.resin}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.content}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.scope}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
-                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
-                            </div>
-                        </div>
-                    )
+                    tableType: 'anti_scratch',
+                    rows: [
+                        { model: 'ES-8156', appearance: '淡白色顆粒', resin: 'EVA', content: '45', scope: 'EVA/TPU/PVC/PA' },
+                        { model: 'ES-2155', appearance: '淡白色顆粒', resin: 'PE', content: '50', scope: 'PE/PP/PC/PA/ABS' },
+                        { model: 'TR-6350', appearance: '淡白色顆粒', resin: 'SBS', content: '50', scope: 'TPR/TPE' },
+                        { model: 'VS-525', appearance: '淡白色顆粒', resin: 'EVA', content: '40', scope: 'TPU/PVC' }
+                    ]
                 },
                 'chemical-foaming': {
                     title: '化學發泡劑',
-                    enTitle: 'CHEMICAL FOAMING AGENTS',
+                    enTitle: 'CHEMICAL FOAMING AGENT',
                     characteristics: '減少流痕和縮痕，提升表面光滑度，縮短成型時間、減輕重量和減省材料，用於製造輕量化和多孔的塑料製品。',
-                    overview: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
-                                化學發泡劑是為了在合成樹脂或橡膠等高分子材料中混料後，通過熱分解來產生氣體，為了製造海綿（Sponge）產品而添加的化工產品。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)', marginBottom:'16px'}}>
-                                <strong>有機化學發泡劑 (Organic Chemical Blowing Agent)：</strong>指一類在特定溫度下分解並產生氣體的有機化合物，常用於塑料、橡膠等材料的發泡，以製造輕質、有彈性的製品。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                <strong>無機化學發泡劑 (Inorganic Chemical Blowing Agent)：</strong>系通過化學分解反應產生氣體的一類發泡材料，主要包含碳酸氫鈉、碳酸銨、亞硝酸銨等化合物，屬於化學發泡劑的細分類別。這類發泡劑通過在特定溫度下分解釋放二氧化碳等氣體，廣泛應用於橡膠製品、食品加工等領域。
-                            </p>
-                        </div>
-                    ),
-                    apps: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'12px'}}>
-                                • 利用EVA樹脂制成的泡沫塑料，鞋材、防噪音材料、玩具、其他EVA海綿等。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'12px'}}>
-                                • 利用PE樹脂制成的泡沫塑料，用於汽車門板、管道保溫材料、墊子等產品。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'12px'}}>
-                                • 利用PVC樹脂制成的泡沫塑料，有絕緣管、人造皮革、發泡壁紙、地板裝飾材等。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                另亦可依客需求開發配制新品定制。
-                            </p>
-                        </div>
-                    ),
-                    storage: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
-                                <strong>儲藏/搬運：</strong>內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。
-                            </p>
-                        </div>
-                    ),
+                    overview: [
+                        '化學發泡劑是為了在合成樹脂或橡膠等高分子材料中混料後，通過熱分解來產生氣體，為了製造海綿（Sponge）產品而添加的化工產品。',
+                        '有機化學發泡劑 (Organic Chemical Blowing Agent)：指一類在特定溫度下分解並產生氣體的有機化合物，常用於塑料、橡膠等材料的發泡。',
+                        '無機化學發泡劑 (Inorganic Chemical Blowing Agent)：系通過化學分解反應產生氣體的一類發泡材料，主要包含碳酸氫鈉、碳酸銨、亞硝酸銨等化合物。'
+                    ],
+                    apps: [
+                        '利用EVA樹脂制成的泡沫塑料，鞋材、防噪音材料、玩具、其他EVA海綿等。',
+                        '利用PE樹脂制成的泡沫塑料，用於汽車門板、管道保溫材料、墊子等產品。',
+                        '利用PVC樹脂制成的泡沫塑料，有絕緣管、人造皮革、發泡壁紙、地板裝飾材等。',
+                        '另亦可依客需求開發配制新品定制。'
+                    ],
+                    storage: [
+                        '儲藏/搬運：內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。'
+                    ],
                     hasDiagram: false,
-                    specsTable: (
-                        <div className="fade-in">
-                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
-                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>理論發氣量 (ml/g)</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>發泡劑主體</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="mono" style={{fontSize:'13px'}}>
-                                        {[
-                                            { model: 'AC-3000', gas: '210-220', main: '偶氮二甲酰胺', scope: 'EVA、PVC、PP、PE、SEBS、SBS' },
-                                            { model: 'AC-Z', gas: '195-205', main: '偶氮二甲酰胺', scope: 'EVA、PVC、PP、PE、SEBS、SBS' },
-                                            { model: 'GAT-8', gas: '135-155', main: '偶氮二甲酰胺', scope: 'SBS' },
-                                            { model: 'GAT-2000', gas: '100-110', main: '碳酸氫鈉', scope: 'PP、PE、PS、SBS' },
-                                            { model: 'G-04', gas: '90-100', main: '碳酸氫鈉', scope: 'SBS（微細發泡孔表相）' },
-                                            { model: 'TH', gas: '105-115', main: '碳酸氫鈉', scope: 'PVC、PE、SBS（粗發泡孔表相）' }
-                                        ].map((item, idx) => (
-                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
-                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.gas}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.main}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.scope}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
-                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
-                            </div>
-                        </div>
-                    )
+                    tableType: 'chemical_foaming',
+                    rows: [
+                        { model: 'AC-3000', gas: '210-220', main: '偶氮二甲醯胺', scope: 'EVA、PVC、PP、PE、SEBS、SBS' },
+                        { model: 'AC-Z', gas: '195-205', main: '偶氮二甲醯胺', scope: 'EVA、PVC、PP、PE、SEBS、SBS' },
+                        { model: 'GAT-8', gas: '135-155', main: '偶氮二甲醯胺', scope: 'SBS' },
+                        { model: 'GAT-2000', gas: '100-110', main: '碳酸氫鈉', scope: 'PP、PE、PS、SBS' },
+                        { model: 'G-04', gas: '90-100', main: '碳酸氫鈉', scope: 'SBS（微細發泡孔表相）' },
+                        { model: 'TH', gas: '105-115', main: '碳酸氫鈉', scope: 'PVC、PE、SBS（粗發泡孔表相）' }
+                    ]
                 },
                 'foaming-masterbatch': {
                     title: '發泡助劑母粒',
                     enTitle: 'FOAMING AGENT MASTERBATCH',
-                    characteristics: '發泡助劑母粒，也稱為發泡母粒，是一種將發泡劑與載體樹脂混合制成的濃縮顆粒，用於製造輕量化和多孔的塑料製品。母粒中的核心成分，它在受熱或特定條件下會分解產生氣體，例如氮氣、二氧化碳等。',
-                    overview: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
-                                產品方便地添加到塑料樹脂中，在加工過程中產生氣體，形成細小的氣泡，從而降低產品密度，改善材料的隔熱、隔音和浮力等性能。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                與最終產品相同的塑料樹脂，確保母粒與主料的良好兼容性，使發泡均勻分散。有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑性彈性體中，達成注塑成型中輕質，尺寸安定性及減少翹曲、避免凹陷等需求，以均勻發泡的獨特性能並提高產品良率。
-                            </p>
-                        </div>
-                    ),
-                    apps: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
-                                發泡劑母粒在建築領域中廣泛用於製作保溫材料。由於其具有輕質、吸聲、隔熱等特點，母粒還被用於包裝材料的應用。具有良好的抗衝擊性和緩衝性能，被廣泛應用於產品包裝中，起到保護商品不受損的作用。發泡母粒還被用於交通工具、電子器件的製造以及醫療器械等多個領域。
-                            </p>
-                        </div>
-                    ),
-                    storage: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
-                                <strong>儲藏/搬運：</strong>內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。
-                            </p>
-                        </div>
-                    ),
+                    characteristics: '發泡助劑母粒，是一種將發泡劑與載體樹脂混合製成的濃縮顆粒，用於製造輕量化和多孔的塑料製品。',
+                    overview: [
+                        '產品方便地添加到塑料樹脂中，在加工過程中產生氣體，形成細小的氣泡，從而降低產品密度，改善材料的隔熱、隔音和浮力等性能。',
+                        '與最終產品相同的塑料樹脂，確保母粒與主料的良好兼容性，使發泡均勻分散。有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑性彈性體中。'
+                    ],
+                    apps: [
+                        '發泡劑母粒在建築領域中廣泛用於製作保溫材料。由於其具有輕質、吸聲、隔熱等特點，母粒還被用於包裝材料的應用。',
+                        '具有良好的抗衝擊性和緩衝性能，被廣泛應用於產品包裝中，起到保護商品不受損的作用。發泡母粒還被用於交通工具、電子器件的製造以及醫療器械等多個領域。'
+                    ],
+                    storage: [
+                        '儲藏/搬運：內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。'
+                    ],
                     hasDiagram: false,
-                    specsTable: (
-                        <div className="fade-in">
-                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
-                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>發泡劑主體</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="mono" style={{fontSize:'13px'}}>
-                                        {[
-                                            { model: 'DU-50', resin: 'EVA', main: '碳酸氫鈉', scope: '通用於PE與PP、ABS、PPO，在加工時可均勻分散在主體塑料樹脂顆粒，使制品各部份維持穩定性發泡氣孔，降低最終產品密度，抑制收縮翹曲現象。' },
-                                            { model: '5315-P', resin: 'PE複合材料', main: '偶氮二甲酰胺', scope: '通用於PE與PVC，在加工時可均勻分散在主體塑料樹脂顆粒，使制品各部份維持穩定性發泡氣孔，降低最終產品密度，抑制凹陷現象。' }
-                                        ].map((item, idx) => (
-                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
-                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.resin}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.main}</td>
-                                                <td style={{padding:'14px 18px', fontSize:'12px', lineHeight:1.4}}>{item.scope}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
-                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
-                            </div>
-                        </div>
-                    )
+                    tableType: 'foaming_masterbatch',
+                    rows: [
+                        { model: 'DU-50', resin: 'PE複合材料', main: '碳酸氫鈉', scope: '通用於PE與PP、ABS、PPO，在加工時可均勻分散在主體塑料樹脂顆粒，使制品各部份維持穩定性發泡氣孔，降低最終產品密度，抑制收縮翹曲現象。' },
+                        { model: '5315-P', resin: 'EVA', main: '偶氮二甲醯胺', scope: '通用於PE與PVC，在加工時可均勻分散在主體塑料樹脂顆粒，使制品各部份維持穩定性發泡氣孔，降低最終產品密度，抑制凹陷現象。' }
+                    ]
                 },
                 'color-masterbatch': {
                     title: '顏料母粒-色母粒',
                     enTitle: 'COLOR MASTERBATCH',
-                    characteristics: '色母粒使顏料在製品中具有更好的分散性，有利於保持顏料的化學穩定性.保證製品顏色的穩定，保護操作人員的健康，適配自動化無塵車間生產工藝條件、保持環境的潔淨。',
-                    overview: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'20px'}}>
-                                它由顏料或染料、載體和添加劑三種基本要素所組成，是把超常量的顏料或染料均勻地載附於樹脂之中而得到的聚集體。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                可客制化配色，按載體樹脂、用途、環保要求定制確保母粒與主料的良好兼容性。有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑/熱固性彈性體中以均勻性能並提高產品良率。
-                            </p>
-                        </div>
-                    ),
-                    apps: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)', marginBottom:'16px'}}>
-                                色母粒著色和製品加工一次完成，避免造粒著色對塑料的加熱過程，對保護塑料製品的品質提升良率。
-                            </p>
-                            <p style={{fontSize:'16px', color:'var(--muted)'}}>
-                                可針對載體樹脂，工藝用途，加工溫度條件等領域進行特殊配製與配色。塑料行業中，色母粒市場需求集中在工程塑料製品（家電、汽車）、建築塑料製品（管材、型材）、農用薄膜製品、塑料包裝製品等方面。家電、汽車、建築塑料製品應用。
-                            </p>
-                        </div>
-                    ),
-                    storage: (
-                        <div className="fade-in" style={{lineHeight:1.8}}>
-                            <p style={{fontSize:'16px', color:'var(--fg)'}}>
-                                <strong>儲藏/搬運：</strong>內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。
-                            </p>
-                        </div>
-                    ),
+                    characteristics: '色母粒使顏料在製品中具有更好的分散性，有利於保持顏料的化學穩定性，保證製品顏色的穩定與環境潔淨。',
+                    overview: [
+                        '它由顏料或染料、載體和添加劑三種基本要素所組成，是把超常量的顏料或染料均勻地載附於樹脂之中而得到的聚集體。',
+                        '可客制化配色，按載體樹脂、用途、環保要求定制確保母粒與主料的良好兼容性。有效益於塑料粒子上的分散效果，廣泛適用於各種熱塑/熱固性彈性體中以均勻性能並提高產品良率。'
+                    ],
+                    apps: [
+                        '色母粒著色和製品加工一次完成，避免造粒著色對塑料的加熱過程，對保護塑料製品的品質提升良率。',
+                        '可針對載體樹脂，工藝用途，加工溫度條件等領域進行特殊配製與配色。塑料行業中，色母粒市場需求集中在工程塑料製品（家電、汽車）、建築塑料製品（管材、型材）、農用薄膜製品、塑料包裝製品等方面。'
+                    ],
+                    storage: [
+                        '儲藏/搬運：內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存,為安全起見，存放低於室溫40℃處。小心輕放，防止異物穿刺破包。'
+                    ],
                     hasDiagram: false,
-                    specsTable: (
-                        <div className="fade-in">
-                            <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
-                            <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>顏色</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>顏料應用</th>
-                                            <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="mono" style={{fontSize:'13px'}}>
-                                        {[
-                                            { model: '5075B', resin: 'TPU', color: '黑', pigment: '碳黑', scope: 'TPU注塑/擠出/流涎應用' },
-                                            { model: 'X-25', resin: 'PE', color: '黑', pigment: '碳黑', scope: 'PE電線/電纜 一般吹膜/注塑/擠出應用' },
-                                            { model: 'CW-18', resin: 'PE', color: '白', pigment: '鈦白粉', scope: '一般級白色母 常規注塑/擠出應用' },
-                                            { model: 'CW-133', resin: 'PE', color: '白', pigment: '鈦白粉', scope: '高濃度白色母 高級注塑/吹膜應用' },
-                                            { model: '熒光色母', resin: 'EVA/PE/TPU', color: '熒光多色', pigment: '熒光顏料/鈦白粉', scope: 'EVA/PE/TPU 發泡級/常規注塑/超臨界發泡' },
-                                            { model: '彩色色母', resin: 'EVA/PE/TPU', color: '可定制多色', pigment: '有機顏料/無機顏料', scope: 'EVA/PE/TPU 發泡級/常規注塑/超臨界發泡' }
-                                        ].map((item, idx) => (
-                                            <tr key={idx} style={{background: idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)'}}>
-                                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{item.model}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.resin}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.color}</td>
-                                                <td style={{padding:'14px 18px'}}>{item.pigment}</td>
-                                                <td style={{padding:'14px 18px', fontSize:'12px'}}>{item.scope}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
-                                （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
-                            </div>
-                        </div>
-                    )
+                    tableType: 'color_masterbatch',
+                    rows: [
+                        { model: '5075B', resin: 'TPU', color: '黑', pigment: '碳黑', scope: 'TPU注塑/擠出/流涎應用' },
+                        { model: 'X-25', resin: 'PE', color: '黑', pigment: '碳黑', scope: 'PE電線/電纜 一般吹膜/注塑/擠出應用' },
+                        { model: 'CW-18', resin: 'PE', color: '白', pigment: '鈦白粉', scope: '一般級白色母 常規注塑/擠出應用' },
+                        { model: 'CW-133', resin: 'PE', color: '白', pigment: '鈦白粉', scope: '高濃度白色母 高級注塑/吹膜應用' },
+                        { model: '熒光色母', resin: 'EVA/PE/TPU', color: '熒光多色', pigment: '熒光顏料/鈦白粉', scope: 'EVA/PE/TPU 發泡級/常規注塑/超臨界發泡' },
+                        { model: '彩色色母', resin: 'EVA/PE/TPU', color: '可定制多色', pigment: '有機顏料/無機顏料', scope: 'EVA/PE/TPU 發泡級/常規注塑/超臨界發泡' }
+                    ]
+                },
+                'brightener': {
+                    title: '螢光增白劑',
+                    enTitle: 'FLUORESCENT WHITENING AGENTS',
+                    characteristics: '增白劑，是無色到淺色有機化合物。吸收紫外光轉化為紫至藍色螢光，產生更明亮外觀，獲得更亮色彩或遮蓋泛黃。',
+                    overview: [
+                        '產品為有機增白劑，可吸收電磁波譜中紫外線和可見光譜中紫色（波長340-370奈米）的光，重新發射可見光譜中藍色（波長420-470奈米）的光。這是一種螢光現象。',
+                        '增白劑由於能發射更多的藍光，使原本呈現黃色或橘色的物體消弱呈色上的黃相，廣泛應用於塑料、噴漆、油墨方案和纖維中。'
+                    ],
+                    apps: [
+                        '適用於 PVC、PS、PP、PE、ABS、EVA 等多種高分子材料。',
+                        '廣泛應用於塑膠加工、纖維著色、油墨及塗料配方，獲得極佳白度與光澤度。'
+                    ],
+                    storage: [
+                        '注意事項：在聚乙烯 (PE) 中，增白劑 127 的耐候性有限。建議用量通常在 0.05-0.5% 之間，具體用量取決於應用和所需的白度。如果使用金紅石型二氧化鈦，可能需要增加光學增白劑 127 的用量。',
+                        '螢光增白劑 OB 和 OB-1 的具體應用選擇，需要根據不同的產品 and 生產工藝進行測試，以確定最佳的增白效果。',
+                        '儲藏與搬運：內襯塑料袋、外覆紙塑複合箱包裝，避光防水保存。增白劑的儲放需要注意陰涼乾燥、通風良好、避免高溫和陽光直射，以及使用密閉的耐腐蝕性容器。同時，應採取必要的安全措施，避免接觸和誤食，並定期檢查儲存狀況。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'brightener',
+                    rows: [
+                        { model: '127', name: '4,4\'-雙(2-二甲氧基苯乙烯基)聯苯', enName: '4,4\'-bis(2-methoxystyryl)biphenyl', scope: 'PVC/PS/PP' },
+                        { model: 'OB-1', name: '二苯乙烯基雙苯並噁唑', enName: '2,2\'-(1,2-Ethenediyldi-4,1-phenylene)bisbenzoxazole', scope: 'PVC/PS/PP/PE/ABS/EVA' },
+                        { model: 'OB', name: '2,5-雙(5-叔丁基-1,3-苯並噁唑-2-基)噻吩', enName: '2,5-BIS(5-TERT-BUTYL-BENZOXAZOL-2-YL)THIOPHENE', scope: 'PVC/PS/PP/PE/ABS' }
+                    ]
+                },
+                'antioxidant': {
+                    title: '抗氧化劑',
+                    enTitle: 'ANTIOXIDANTS',
+                    characteristics: '主要用於防止聚合物材料和油脂、塗料在光照和熱作用下氧化降解。有效抑制或延緩氧化反應，延長產品使用壽命。',
+                    overview: [
+                        '抗氧化劑通過捕獲塑料降解過程中產生的自由基而長期持續性發揮抗氧作用。有良好的防止光和熱引起的變色作用，同時還具有一定的光穩定作用。',
+                        '提高產品的加工穩定性和耐用性。可與其它抗氧化劑協同使用。'
+                    ],
+                    apps: [
+                        '適用於 PVC、PS、PE、PP、ABS、PU、SBS 等多種材料的防老化保護。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：內襯塑料袋、外覆紙塑複合箱包裝，避光防水保存。抗氧化劑的儲放需要注意陰涼乾燥、通風良好、避免高溫和陽光直射，以及使用密閉的耐腐蝕性容器。同時，應採取必要的安全措施，避免接觸和誤食，並定期檢查儲存狀況。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'antioxidant',
+                    rows: [
+                        { model: '1076', name: 'β-(3,5-二叔丁基-4-羥基苯基)丙酸正十八碳醇酯', enName: 'Octadecyl-3-(3\',5\'-di-t-butyl-4\'-hydroxyphenyl) propionate', scope: 'PVC/PS/PE/PP/ABS/PU', note: '抗氧化劑 1076 適用於多種材料，特別是聚合物，能有效防止材料因氧化而降解，延長產品的使用壽命。一般用量為 0.1%-1%。' },
+                        { model: '1010', name: 'β-(3,5-二叔丁基-4-羥基苯基)丙酸]季戊四醇酯', enName: 'Pentaerythritol tetrakis(3-(3,5-di-tert-butyl-4-hydroxyphenyl)propionate)', scope: 'PVC/PS/PE/PP/ABS/SBS', note: '抗氧化劑 1010 的化學結構使其具有良好的抗氧化性能和熱穩定性，在多種材料中得到廣泛應用。在製品中的用量為 0.05% 到 1%。' },
+                        { model: '168', name: '三[2.4-二叔丁基苯基]亞磷酸酯', enName: 'Tris(2,4-ditert-butylphenyl)phosphite', scope: 'PE/PC/PP/ABS', note: '抗氧化劑 168 屬於亞磷酸酯類抗氧化劑，需與酚類主抗氧劑（如 1010、1076）協同使用以提升綜合性能。在聚丙烯加工中添加 0.1% 抗氧化劑 168 與 0.05% 抗氧化劑 1010 的復配體系，可使材料熱氧老化壽命延長至單一體系的 2.3 倍。' }
+                    ]
+                },
+                'uv-absorber': {
+                    title: '紫外線吸收劑',
+                    enTitle: 'ULTRAVIOLET ABSORBENTS',
+                    characteristics: '可在 290-400 nm 範圍內吸收主要不可見的紫外線光。熱穩定性佳，揮發性低、化學穩定性好，不與製品中材料組份發生不利反應。',
+                    overview: [
+                        '紫外線吸收劑是一種光穩定劑，能吸收陽光及螢光光源中的紫外線部分，而本身又不發生變化。',
+                        '塑料和其它高分子材料在日光和螢光下，因紫外線的作用，產生自動氧化反應，導致聚合物的降解而劣化，使外觀及機械性能變作。加入紫外線吸收劑後可選擇性地吸收這種高能量的紫外線，使之變成無害的能量而釋放或消耗。'
+                    ],
+                    apps: [
+                        '廣泛應用於 PVC、PE、PP、SBS、PS、PU、ABS、Acrylic 等材料之光穩定防護。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：內襯塑料袋、外覆紙塑複合箱/紙桶包裝，避光防水保存。紫外線吸收劑的儲放需要注意陰涼乾燥、通風良好、避免高溫 and 陽光直射，以及使用密閉的耐腐蝕性容器。同時，應採取必要的安全措施，避免接觸和誤食，並定期檢查儲存狀況。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'uv',
+                    rows: [
+                        { model: 'UV-201', name: '2-羥基-4-正辛氧基二苯甲酮', enName: '2-Hydroxy-4-(octyloxy)benzophenone', scope: 'PVC/PE/PP/SBS', note: '本品為能夠強烈地吸收波長為 270-330nm 的紫外線，可用於各種塑料，兼容性好，揮發性小。一般用量為 0.1%-1%。' },
+                        { model: 'UV-P', name: '2-(2\'-羥基-5\'-甲基苯基)苯並三唑', enName: '2-(2\'-Hydroxy-5\'-methyl-phenyl)benzotriazole', scope: 'PVC/PS/PU/ABS/Acrylic', note: '能溶於汽油、苯、丙酮等多種有機溶劑。能吸收 270～380nm 波長的紫外線。熔點 130～131℃。在透明製品中的穩定性較在著色製品是更好。在製品中的用量為 0.1%-0.5%。' },
+                        { model: 'UV-770', name: '雙(2,2,6,6-四甲基-4-哌啶基)癸二酸酯', enName: 'Bis(2,2,6,6-tetramethyl-4-piperidyl)sebacate', scope: 'PE/PS/PP/ABS/SBS', note: '受阻胺類光穩定劑，光穩定效果優於一般紫外線吸收劑，與抗氧劑並用能提高耐熱性，進一步提高耐老化性能，與聚合物有較好的相容性，熱穩定性優，可用於高溫加工與其它紫外線吸收劑並用具有協同效應。作為光穩定劑，建議加量 0.1-0.5%。' }
+                    ]
+                },
+                'antistatic-eva': {
+                    title: 'EVA抗靜電助劑-粉末',
+                    enTitle: 'EVA ANTISTATIC ADDITIVE POWDER',
+                    characteristics: 'EVP-715 為專用型醋酸乙烯抗靜電助劑。表面電阻率穩定，抗靜電分子賦予材料一定潤滑性，降低摩擦係數，抑制靜電產生。',
+                    overview: [
+                        '產品為高分子永久型抗靜電助劑，屬親水性聚合物。當其和高分子基體共混後，一方面由於其分子鏈的運動能力較強，分子間便於質子移動，通過離子導電來傳導和釋放產生的靜電荷；抗靜電能力是通過其特殊的分散形態體現的。構成導電性表層。',
+                        '不與製品中材料組成上發生不利反應。製品置放不吐霜。其建議添加量為：15.0-25.0。'
+                    ],
+                    apps: [
+                        'EVA 薄膜、擠出板材、鞋材、注塑發泡製品等。'
+                    ],
+                    storage: [
+                        '注意事項：置於陰涼避光且通風良好處、必須存放於乾燥，避光密閉容器中，常規有效期為 12 個月，開封後請在 3 個月內使用完畢。',
+                        '※詳細安全資料請參見物質安全資料表 (MSDS)'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'simple_param',
+                    rows: [
+                        { param: '外觀 (目測)', val: '白色粉末' },
+                        { param: '密度', val: '1.20-1.25g/cm³' },
+                        { param: '電阻率 Ω·m', val: '10^7' },
+                        { param: '包裝', val: '25KG/紙塑複合袋' }
+                    ]
+                },
+                'fluorescent-pigment-p18': {
+                    title: '螢光顏料',
+                    enTitle: 'FLUORESCENT PIGMENTS',
+                    characteristics: '在受到紫外線或其他特定波長光照射時，吸收光能發出更長波長的可見光，呈現出鮮豔的「螢光」效果。',
+                    overview: [
+                        '具高亮度與高反射率，螢光顏料比普通顏料更亮，反射光線更強，色彩更鮮豔。',
+                        '由超細均勻和不透明的熱固性氨基樹脂微球顆粒組成。濃度高，著色力強，易分散，抗粘輥和耐溶劑。它們適用於塑料，增塑溶膠和油墨。塗料和其他著色區域。適用於 PP，PE，EVA，硬質 PVC 等。'
+                    ],
+                    apps: [
+                        '適用於塑料、增塑溶膠、油墨、塗料及其他著色領域，如 PP、PE、EVA、硬質 PVC 等。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：內襯塑料袋、外覆紙箱包裝，避光防水保存，防潮防高溫。應採取必要的安全措施，避免接觸和誤食，並定期檢查儲存狀況。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'fluorescent_list',
+                    rows: [
+                        { model: '5120', name: '檸檬黃 (LEMON YELLOW)' },
+                        { model: '5121', name: '綠色 (GREEN)' },
+                        { model: '5122', name: '橙黃 (ORANGE YELLOW)' },
+                        { model: '5123', name: '橙色 (ORANGE)' },
+                        { model: '5124', name: '橙紅 (ORANGE RED)' },
+                        { model: '5125', name: '粉紅 (PINK)' },
+                        { model: '5126', name: '大紅 (RED)' },
+                        { model: '5127', name: '玫紅 (ROSE)' },
+                        { model: '5128', name: '紫紅 (MAGENTA)' },
+                        { model: '5129', name: '藍色 (BLUE)' },
+                        { model: '5140', name: '紫色 (VIOLET)' }
+                    ]
+                },
+                'yellowing-resistance': {
+                    title: 'TPU耐黃變助劑母粒',
+                    enTitle: 'TPU YELLOWING RESISTANCE MASTERBATCH',
+                    characteristics: '專用型聚氨酯耐黃變母粒，兼具抗熱氧化與光穩定劑作用，能有效與樹脂融合且均勻分散，有效延長製品因紫外光照而老化的現象。',
+                    overview: [
+                        '產品為選擇熔融指數較穩定適中的 TPU 材料為載體，低溫合成製造，粘度適當。',
+                        '其顆粒狀本體混溶性佳，可均勻分散於材料上。不與製品中材料組成上發生不利反應。製品置放不吐霜。其建議添加量為：1.2-2.0%。作用效能對於光穩定性、抗氧化及紫外線吸收表現上，均有優異的效能。'
+                    ],
+                    apps: [
+                        'TPU 薄膜、異型材、鞋材、押出製品等。'
+                    ],
+                    storage: [
+                        '注意事項：置於陰涼避光且通風良好處、必須存放於乾燥，避光密閉容器中，常規有效期為 6 個月。',
+                        '※詳細安全資料請參見物質安全資料表 (MSDS)'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'simple_param',
+                    rows: [
+                        { param: '外觀 (目測)', val: '淡黃色顆粒' },
+                        { param: '密度', val: '0.95-1.08g/cm³' },
+                        { param: '熔點', val: '135-140℃' },
+                        { param: '包裝', val: '25KG/紙塑複合袋' }
+                    ]
+                },
+                'antistatic-tpu': {
+                    title: 'TPU抗靜電助劑母粒 (ESU-320)',
+                    enTitle: 'TPU ANTISTATIC ADDITIVE MASTERBATCH',
+                    characteristics: 'ESU-320 為專用型熱塑聚氨酯彈性體母粒，屬長效性內加型抗靜電添加劑。兼具製品物性功能，無析出及製品吐霜發白情況。',
+                    overview: [
+                        '以 TPU(n) 型嵌段線性聚合接枝製造生產，可供透明製品應用，外拌添加無需預烘本產品。',
+                        '產品選擇熔融指數較穩定適中的 TPU 材料為載體（約 Shore A 70），其顆粒狀本體混溶性佳，可均勻分散於材料上。不與製品中材料組成上發生不利反應。其建議添加量為：5.0-10.0%。其電阻率作用可達 ≦10^9 歐姆/公分，適用於要求優異防靜電性能產品。'
+                    ],
+                    apps: [
+                        'TPU 薄膜、異型材、鞋材、膠輪、押出板材/片材/管材製品等。'
+                    ],
+                    storage: [
+                        '注意事項：置於陰涼避光、乾燥、未開封下保存，常規有效期為一年；若開封後請在三個月內使用完畢，避免光照。應置放於溫度低於 40℃ 的環境。',
+                        '※詳細安全資料請參見物質安全資料表 (MSDS)'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'tpu_static_param',
+                    rows: [
+                        { param: '外觀', method: '目測', unit: '-', val: '淡黃色半透明顆粒' },
+                        { param: '熔指', method: 'GB/T 3682', unit: '190℃/2.16kg/min', val: '7.2' },
+                        { param: '密度', method: 'GB/T4472-2011', unit: 'g/cm³', val: '1.1-1.2' },
+                        { param: '電阻', method: 'GB/T 1410 Ω/cm', unit: '-', val: '≦10^9' }
+                    ]
+                },
+                'laser-marking': {
+                    title: '鐳雕助劑',
+                    enTitle: 'LASER MARKING POWDER',
+                    characteristics: '塑料工藝中可進行直接混拌注塑或造粒再行加工。過程中不改變材料加工工藝參數，利用激光機雷雕打標即可。',
+                    overview: [
+                        '適用於 355nm（紫外線激光）、532nm（綠光激光）和 1064nm（光纖激光）。',
+                        '應用鐳雕機設備建議採塑料用紫外鐳雕機（藍色光源）及光纖鐳雕機（紅色光源）。粉末無須與塑料顆粒烘料處理，建議可先將原料烘乾後，再行加入鐳雕助劑，進行充分分散。'
+                    ],
+                    apps: [
+                        'PVC、PS、PE、PP、ABS、PA6、PA66、PC、PC/ABS、PBT、POM、SEBS、SBS、TPU 等。'
+                    ],
+                    storage: [
+                        '注意事項：另添加阻燃助劑的塑料製件，可能會明顯降低鐳雕效果。若需實現阻燃效果，建議增加鐳雕助劑的使用量。',
+                        '如鐳雕效果未能達到預期，建議調整激光設備參數。波長與能量相對反比，調整功率與速度，可相對改善表面效果。',
+                        '儲放需要注意陰涼乾燥、通風良好、避免高溫和陽光直射。同時，應採取必要的安全措施。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'laser_table',
+                    rows: [
+                        { model: '淡灰色粉末', effect: '白雕黑', amt: '2‰-5‰', scope: 'PVC, PS, PE, PP, ABS, PA6, PA66, PC, PC/ABS, PBT, POM, SEBS, SBS, TPU' },
+                        { model: '黑色粉末', effect: '黑雕白', amt: '2‰-5‰', scope: 'PVC, PS, PE, PP, ABS, PA6, PA66, PC, PC/ABS, PBT, POM, SEBS, SBS, TPU' },
+                        { model: '黑色粉末', effect: '黑雕金', amt: '2‰-5‰', scope: 'PVC, PS, PE, PP, ABS, PA6, PA66, PC, PC/ABS, PBT, POM, SEBS, SBS, TPU' },
+                        { model: '青灰色粉末', effect: '白雕黑 (透明級)', amt: '2‰-5‰', scope: 'PC/PMMA透明料' }
+                    ]
+                },
+                'pigment-red': {
+                    title: '紅色顏料',
+                    enTitle: 'RED PIGMENTS',
+                    characteristics: '提供優異之耐遷移性、耐光性及耐熱性能，廣泛適用於各類塑膠著色及高溫加工條件。',
+                    overview: [
+                        '主要由各類有機紅色顏料組成，包含 Pigment Red 53:1, 48:1, 48:3, 254, 48:2, 57:1, 176, 185 等型號。',
+                        '產品經由精細加工，色澤鮮明，分散性優良，能有效提升最終製品之著色良率與耐候性。',
+                        'Full Shade: PVC/Pigment=100/0.2 | Tint Shade: PVC/Pigment/TiO2=100/0.2/1',
+                        '●：推薦使用  X：不推薦使用  ○：選擇性使用'
+                    ],
+                    apps: [
+                        '廣泛適用於 PP、PE、PVC、TPU、PS、ABS 等高分子材料及注塑/擠出成型加工。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：內襯塑料袋、外覆紙塑複合袋或紙箱包裝，避光防水防潮保存。小心輕放，防止包裝破損。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'pigment_table',
+                    rows: [
+                        { model: '2501', ci: 'Pigment Red 53:1', cas: '5160-02-1', migration: '4', light: '4', heat: '220', acid: '4~5', alkali: '4', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2548', ci: 'Pigment Red 48:1', cas: '7585-41-3', migration: '4', light: '4~5', heat: '200', acid: '4~5', alkali: '4', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2503', ci: 'Pigment Red 48:3', cas: '15782-05-5', migration: '4~5', light: '5', heat: '210', acid: '5', alkali: '5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2508', ci: 'Pigment Red 254', cas: '84632-65-5', migration: '5', light: '7~8', heat: '280', acid: '5', alkali: '5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2502', ci: 'Pigment Red 48:2', cas: '7023-61-2', migration: '4~5', light: '6', heat: '210', acid: '4~5', alkali: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2504', ci: 'Pigment Red 57:1', cas: '5281-04-9', migration: '4~5', light: '6', heat: '210', acid: '4~5', alkali: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2510', ci: 'Pigment Red 176', cas: '12225-06-8', migration: '5', light: '7~8', heat: '260', acid: '4~5', alkali: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2511', ci: 'Pigment Red 185', cas: '51920-12-8', migration: '5', light: '7~8', heat: '250', acid: '4~5', alkali: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' }
+                    ]
+                },
+                'pigment-phthalocyanine': {
+                    title: '酞菁顏料/紫色顏料',
+                    enTitle: 'PHTHALOCYANINE & VIOLET PIGMENTS',
+                    characteristics: '高效能酞菁藍、酞菁綠及紫色顏料，耐光度達 7-8 級，耐溫高達 280-300℃，為高品質製品著色首選。',
+                    overview: [
+                        '提供 C.I. Pigment Blue 15, Blue 15:3, Green 7, Violet 23 等型號。',
+                        '具有極其優異的耐熱性、耐候性與耐酸鹼性能，無鹵素環保認證，色彩飽和度極高。',
+                        'Full Shade: PVC/Pigment=100/0.2 | Tint Shade: PVC/Pigment/TiO2=100/0.2/1',
+                        '●：推薦使用  X：不推薦使用  ○：選擇性使用'
+                    ],
+                    apps: [
+                        '適用於 PP、PE、PVC、TPU、PS、ABS 等多類塑膠工程，以及高級電線電纜料、汽車內飾件著色。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：內襯塑料袋、外覆紙塑複合袋包裝，避光防水保存，避免高溫直曬。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'pigment_table',
+                    rows: [
+                        { model: '6702', ci: 'Pigment Blue 15', cas: '147-14-8', migration: '5', light: '7~8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '6706', ci: 'Pigment Blue 15:3', cas: '147-14-8', migration: '4', light: '7~8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '6708', ci: 'Pigment Blue 15:3', cas: '147-14-8', migration: '5', light: '7~8', heat: '300', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5501', ci: 'Pigment Green 7', cas: '1328-53-6', migration: '5', light: '7~8', heat: '260', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5502', ci: 'Pigment Green 7', cas: '1328-53-6', migration: '5', light: '7~8', heat: '240', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '7508', ci: 'Pigment Violet 23', cas: '6358-30-1', migration: '3', light: '6~7', heat: '260', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' }
+                    ]
+                },
+                'fluorescent-pigment-p24': {
+                    title: '螢光顏料 (高牢度)',
+                    enTitle: 'HIGH-FASTNESS FLUORESCENT PIGMENTS',
+                    characteristics: '超亮螢光顏料，專為塑料與油墨著色調配，展現鮮明發光效果，兼顧耐溫與高反射率性能。',
+                    overview: [
+                        '提供型號 5120 至 5129 等多款高彩度著色方案。',
+                        '相較於傳統有機顏料，螢光顏料色系明亮鮮豔，具有良好的分散性與混熔性。',
+                        'Full Shade: PVC/Pigment=100/0.2 | Tint Shade: PVC/Pigment/TiO2=100/0.2/1',
+                        '●：推薦使用  X：不推薦使用  ○：選擇性使用'
+                    ],
+                    apps: [
+                        '適用於 PP、PE、PVC、TPU、PS、ABS 等高分子材料，廣泛應用於文具玩具、安全警告標示及多色印刷領域。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：內襯塑料袋、外覆紙塑袋或紙盒包裝，注意陰涼避光、防潮存放。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'pigment_table',
+                    rows: [
+                        { model: '5120', ci: 'Fluorescent Yellow', cas: '-', migration: '4~5', light: '4', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5121', ci: 'Fluorescent Green', cas: '-', migration: '4~5', light: '4', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5123', ci: 'Fluorescent Orange', cas: '-', migration: '4~5', light: '4', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5125', ci: 'Fluorescent Pink', cas: '-', migration: '4~5', light: '4', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5126', ci: 'Fluorescent Red', cas: '-', migration: '4~5', light: '4', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5127', ci: 'Fluorescent Rose', cas: '-', migration: '4~5', light: '4', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5140', ci: 'Fluorescent Violet', cas: '-', migration: '4~5', light: '4', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '5129', ci: 'Fluorescent Blue', cas: '-', migration: '4~5', light: '4', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' }
+                    ]
+                },
+                'pigment-iron-oxide': {
+                    title: '氧化鐵顏料',
+                    enTitle: 'IRON OXIDE PIGMENTS',
+                    characteristics: '經典氧化鐵紅、鐵黃、鐵黑顏料，極佳耐遷移性與高化學穩定性，性價比極高之無機著色產品。',
+                    overview: [
+                        '提供 Pigment Red 101, Pigment Yellow 42, Pigment Black 11 等經典氧化鐵著色型號。',
+                        '具有非常優異的遮蓋力、著色力與極佳耐光耐候性，化學穩定性高，無鹵素環保安全。',
+                        'Full Shade: PVC/Pigment=100/0.2 | Tint Shade: PVC/Pigment/TiO2=100/0.2/1',
+                        '●：推薦使用  X：不推薦使用  ○：選擇性使用'
+                    ],
+                    apps: [
+                        '廣泛應用於建材防護、塑膠抽粒改性、EVA 發泡、橡膠製品及高溫塗料著色。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：防潮避光，置於乾燥陰涼處保存。搬運時輕拿輕放防止破損。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'pigment_table',
+                    rows: [
+                        { model: '8110', ci: 'Pigment Red 101', cas: '1309-37-1', migration: '5', light: '6~7', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '8120', ci: 'Pigment Red 101', cas: '1309-37-1', migration: '5', light: '6~7', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '8130', ci: 'Pigment Red 101', cas: '1309-37-1', migration: '5', light: '6~7', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '8150', ci: 'Pigment Red 101', cas: '1309-37-1', migration: '5', light: '6~7', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '8180', ci: 'Pigment Red 101', cas: '1309-37-1', migration: '5', light: '6~7', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '8190', ci: 'Pigment Red 101', cas: '1309-37-1', migration: '5', light: '6~7', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4500', ci: 'Pigment Yellow 42', cas: '51274-00-1', migration: '5', light: '6~7', heat: '200', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: 'F602', ci: 'Pigment Black 11', cas: '1317-61-9', migration: '5', light: '6~7', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' }
+                    ]
+                },
+                'pigment-ultramarine': {
+                    title: '群青/鈦白粉/炭黑',
+                    enTitle: 'ULTRAMARINE & TITANIUM & CARBON BLACK',
+                    characteristics: '經典白、黑、群青藍無機顏料，擁有優異之耐光、高耐溫與極佳耐遷移性，適用極為苛刻之加工環境。',
+                    overview: [
+                        '提供經典的 Pigment Blue 29 (群青藍)、Pigment Violet 15 (群青紫)、Pigment White 6 (鈦白粉-金紅石/銳鈦型)、Pigment Black 7 (高效炭黑) 等型號。',
+                        '耐溫範圍由 300℃ 到高達 500℃ (如鈦白粉)，具有極高化學安定性與耐酸鹼度。',
+                        'Full Shade: PVC/Pigment=100/0.2 | Tint Shade: PVC/Pigment/TiO2=100/0.2/1',
+                        '●：推薦使用  X：不推薦使用  ○：選擇性使用'
+                    ],
+                    apps: [
+                        '電線電纜、工程塑料、高端包裝薄膜、汽車塑料零部件以及精密注塑擠出。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：注意防潮密封保存，放置於乾燥通風之庫房，防止破損與化學物交叉污染。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'pigment_table',
+                    rows: [
+                        { model: '6804', ci: 'Pigment Blue 29', cas: '57455-37-5', migration: '5', light: '7~8', heat: '300', acid: '1', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '6806', ci: 'Pigment Blue 29', cas: '57455-37-5', migration: '5', light: '7~8', heat: '300', acid: '2~3', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '6807', ci: 'Pigment Violet 15', cas: '12769-96-9', migration: '5', light: '7~8', heat: '300', acid: '1', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: 'R424', ci: 'Pigment White 6', cas: '13463-67-7', migration: '5', light: '8', heat: '500', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '989', ci: 'Pigment Black 7', cas: '1333-86-4', migration: '5', light: '8', heat: '300', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' }
+                    ]
+                },
+                'pigment-high-temp': {
+                    title: '耐高溫無機顏料',
+                    enTitle: 'HIGH TEMPERATURE INORGANIC PIGMENTS',
+                    characteristics: '頂級複合無機金屬氧化物顏料 (CICP)，耐溫高達 750-1200℃，極佳耐化學性與超常戶外耐候防護性能。',
+                    overview: [
+                        '提供 Pigment Yellow 53, Brown 24, Brown 33, Black 28, Blue 28, Violet 16, Green 50 等最頂級之環保耐溫無機色彩方案。',
+                        '專為超高加工溫度 (如氟塑料、工程聚酯) 或極端戶外環境 (汽車高溫烤漆、工業塗料) 開發。',
+                        'Full Shade: PVC/Pigment=100/0.2 | Tint Shade: PVC/Pigment/TiO2=100/0.2/1',
+                        '●：推薦使用  X：不推薦使用  ○：選擇性使用'
+                    ],
+                    apps: [
+                        '氟碳噴塗、工程塑料 (PA/PC/PBT)、戶外防腐鋼捲塗料、矽橡膠高溫加工、超高性能發泡材料著色。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：存放於乾燥庫房，防止潮濕，按一般化學品運輸，安全性極高。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'pigment_table',
+                    rows: [
+                        { model: '195', ci: 'Pigment Yellow 53', cas: '8007-18-9', migration: '5', light: '8', heat: '1000', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '10P225', ci: 'Pigment Brown 24', cas: '68186-90-3', migration: '5', light: '8', heat: '1000', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '157A', ci: 'Pigment Brown 33', cas: '68186-88-9', migration: '5', light: '8', heat: '1000', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: 'BK-1', ci: 'Pigment Black 28', cas: '68186-91-4', migration: '5', light: '8', heat: '750', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '385A', ci: 'Pigment Blue 28', cas: '1345-16-0', migration: '5', light: '8', heat: '1200', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '11T', ci: 'Pigment Violet 16', cas: '10101-66-3', migration: '5', light: '8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '223A', ci: 'Pigment Green 50', cas: '68186-85-6', migration: '5', light: '8', heat: '1000', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' }
+                    ]
+                },
+                'pigment-orange-red': {
+                    title: '紅色顏料/橙色顏料',
+                    enTitle: 'RED & ORANGE PIGMENTS (ENGINEERING)',
+                    characteristics: '中高端工程著色紅色與橙色顏料，卓越抗遷移與耐候性能，無鹵素環保認證，適用大宗工業加工。',
+                    overview: [
+                        '提供 Pigment Red 272, Red 166, Red 149, Orange 64, Red 122, Red 208, Violet 19 等熱門著色劑型號。',
+                        '優異的發色強度、優良的光學穩定性及耐化學溶劑性能。',
+                        'Full Shade: PVC/Pigment=100/0.2 | Tint Shade: PVC/Pigment/TiO2=100/0.2/1',
+                        '●：推薦使用  X：不推薦使用  ○：選擇性使用'
+                    ],
+                    apps: [
+                        '適用於 PP、PE、PVC、TPU、PS、ABS 以及汽車儀表板、高品質玩具、家電外殼之配色。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：注意密封保存，存放在避光、防潮且通風良好的室內倉庫中。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'pigment_table',
+                    rows: [
+                        { model: '2572', ci: 'Pigment Red 272', cas: '350249-32-0', migration: '5', light: '7~8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2566', ci: 'Pigment Red 166', cas: '3905-19-9', migration: '4', light: '7~8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2549', ci: 'Pigment Red 149', cas: '4948-15-6', migration: '5', light: '7~8', heat: '300', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4584', ci: 'Pigment Orange 64', cas: '72102-84-2', migration: '5', light: '7~8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2507', ci: 'Pigment Red 122', cas: '16043-40-6', migration: '5', light: '7~8', heat: '260', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2512', ci: 'Pigment Red 208', cas: '31778-10-6', migration: '5', light: '7~8', heat: '240', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '2505', ci: 'Pigment Violet 19', cas: '1047-16-1', migration: '5', light: '7~8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' }
+                    ]
+                },
+                'pigment-yellow': {
+                    title: '黃色顏料',
+                    enTitle: 'YELLOW PIGMENTS',
+                    characteristics: '中高端工程著色黃色顏料，發色強度優異，分散性好，極佳熱穩定性與光穩定保護。',
+                    overview: [
+                        '提供 Pigment Yellow 81, Yellow 151, Yellow 180, Yellow 62, Yellow 191, Yellow 83, Yellow 139, Yellow 181 等全系列黃色著色劑型號。',
+                        '具有寬廣的耐溫範圍 (最高可達 300℃)，發色鮮明飽滿，無鹵素環保認證。',
+                        'Full Shade: PVC/Pigment=100/0.2 | Tint Shade: PVC/Pigment/TiO2=100/0.2/1',
+                        '●：推薦使用  X：不推薦使用  ○：選擇性使用'
+                    ],
+                    apps: [
+                        '廣泛應用於塑料著色、吹膜拉絲、射出模壓、工程塑料抽粒、EVA 發泡配色等大宗生產。'
+                    ],
+                    storage: [
+                        '儲藏與搬運：注意避光防潮密封儲存，防護包裝防止破損洩漏。'
+                    ],
+                    hasDiagram: false,
+                    tableType: 'pigment_table',
+                    rows: [
+                        { model: '4562', ci: 'Pigment Yellow 81', cas: '22094-93-5', migration: '4~5', light: '7~8', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4551', ci: 'Pigment Yellow 151', cas: '31837-42-0', migration: '5', light: '7~8', heat: '260', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4568', ci: 'Pigment Yellow 180', cas: '77804-81-0', migration: '5', light: '7~8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4662', ci: 'Pigment Yellow 62', cas: '12286-66-7', migration: '4~5', light: '7~8', heat: '240', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4563', ci: 'Pigment Yellow 191', cas: '129423-54-7', migration: '4~5', light: '7~8', heat: '280', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4566', ci: 'Pigment Yellow 83', cas: '5567-15-7', migration: '4~5', light: '7~8', heat: '220', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4539', ci: 'Pigment Yellow 139', cas: '36888-99-0', migration: '5', light: '7~8', heat: '240', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' },
+                        { model: '4581', ci: 'Pigment Yellow 181', cas: '74441-05-7', migration: '5', light: '7~8', heat: '300', acid: '4~5', halogen: '●', pp: '●', pe: '●', pvc: '●', tpu: '●', ps: '●', abs: '●' }
+                    ]
                 }
             };
+
+        const SpecsTableRenderer = ({ tableType, rows }) => {
+            if (!rows || rows.length === 0) return <div>暫無數據</div>;
+
+            const renderHeader = () => {
+                switch(tableType) {
+                    case 'microspheres':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀 (目測)</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>未膨脹前粒徑 (µm)</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹起始溫度</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>膨脹峰值溫度</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>包裝</th>
+                            </tr>
+                        );
+                    case 'expansion_masterbatch':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
+                            </tr>
+                        );
+                    case 'anti_scratch':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀 (目測)</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>有效含量 (%)</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用範圍</th>
+                            </tr>
+                        );
+                    case 'chemical_foaming':
+                    case 'foaming_masterbatch':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>{tableType === 'chemical_foaming' ? '理論發氣量 (ml/g)' : '載體樹脂'}</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>發泡劑主體</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
+                            </tr>
+                        );
+                    case 'color_masterbatch':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>載體樹脂</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>顏色</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>顏料應用</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
+                            </tr>
+                        );
+                    case 'brightener':
+                    case 'antioxidant':
+                    case 'uv':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>化學名</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>英文化學名</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用領域</th>
+                            </tr>
+                        );
+                    case 'simple_param':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>參數指標</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>數值規格</th>
+                            </tr>
+                        );
+                    case 'tpu_static_param':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>性能參數</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>測試方法</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>單位</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>數值規格</th>
+                            </tr>
+                        );
+                    case 'fluorescent_list':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>規格型號</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>品名顏色</th>
+                            </tr>
+                        );
+                    case 'laser_table':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>外觀規格</th>
+                                <th style={{background:'var(--bg)'', padding:'14px 18px', fontWeight:600}}>打標效果</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>建議用量</th>
+                                <th style={{background:'var(--bg)', padding:'14px 18px', fontWeight:600}}>適用材料</th>
+                            </tr>
+                        );
+                    case 'pigment_table':
+                        return (
+                            <tr>
+                                <th style={{background:'var(--bg)', padding:'10px 8px', fontSize:'11px', fontWeight:600}}>型號</th>
+                                <th style={{background:'var(--bg)', padding:'10px 8px', fontSize:'11px', fontWeight:600}}>顏料索引</th>
+                                <th style={{background:'var(--bg)', padding:'10px 8px', fontSize:'11px', fontWeight:600}}>CAS 號</th>
+                                <th style={{background:'var(--bg)', padding:'10px 8px', fontSize:'11px', fontWeight:600}}>遷移</th>
+                                <th style={{background:'var(--bg)', padding:'10px 8px', fontSize:'11px', fontWeight:600}}>耐光</th>
+                                <th style={{background:'var(--bg)', padding:'10px 8px', fontSize:'11px', fontWeight:600}}>耐熱</th>
+                                <th style={{background:'var(--bg)', padding:'10px 8px', fontSize:'11px', fontWeight:600}}>耐酸</th>
+                                <th style={{background:'var(--bg)', padding:'10px 8px', fontSize:'11px', fontWeight:600}}>無鹵</th>
+                                <th style={{background:'var(--bg)', padding:'10px 6px', fontSize:'11px', fontWeight:600}}>PP</th>
+                                <th style={{background:'var(--bg)', padding:'10px 6px', fontSize:'11px', fontWeight:600}}>PE</th>
+                                <th style={{background:'var(--bg)', padding:'10px 6px', fontSize:'11px', fontWeight:600}}>PVC</th>
+                                <th style={{background:'var(--bg)', padding:'10px 6px', fontSize:'11px', fontWeight:600}}>TPU</th>
+                                <th style={{background:'var(--bg)', padding:'10px 6px', fontSize:'11px', fontWeight:600}}>PS</th>
+                                <th style={{background:'var(--bg)', padding:'10px 6px', fontSize:'11px', fontWeight:600}}>ABS</th>
+                            </tr>
+                        );
+                    default:
+                        return null;
+                }
+            };
+
+            const renderRow = (row, idx) => {
+                const bg = idx % 2 === 0 ? 'var(--surface)' : 'var(--bg)';
+                switch(tableType) {
+                    case 'microspheres':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'14px 18px'}}>{row.appearance}</td>
+                                <td style={{padding:'14px 18px'}}>{row.size}</td>
+                                <td style={{padding:'14px 18px'}}>{row.startTemp}</td>
+                                <td style={{padding:'14px 18px'}}>{row.peakTemp}</td>
+                                <td style={{padding:'14px 18px', whiteSpace:'pre-line'}}>{row.pack}</td>
+                            </tr>
+                        );
+                    case 'expansion_masterbatch':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'14px 18px'}}>{row.resin}</td>
+                                <td style={{padding:'14px 18px'}}>{row.app}</td>
+                            </tr>
+                        );
+                    case 'anti_scratch':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'14px 18px'}}>{row.appearance}</td>
+                                <td style={{padding:'14px 18px'}}>{row.resin}</td>
+                                <td style={{padding:'14px 18px'}}>{row.content}</td>
+                                <td style={{padding:'14px 18px'}}>{row.scope}</td>
+                            </tr>
+                        );
+                    case 'chemical_foaming':
+                    case 'foaming_masterbatch':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'14px 18px'}}>{tableType === 'chemical_foaming' ? row.gas : row.resin}</td>
+                                <td style={{padding:'14px 18px'}}>{row.main}</td>
+                                <td style={{padding:'14px 18px', fontSize:'12px', lineHeight:1.4}}>{row.scope}</td>
+                            </tr>
+                        );
+                    case 'color_masterbatch':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'14px 18px'}}>{row.resin}</td>
+                                <td style={{padding:'14px 18px'}}>{row.color}</td>
+                                <td style={{padding:'14px 18px'}}>{row.pigment}</td>
+                                <td style={{padding:'14px 18px', fontSize:'12px'}}>{row.scope}</td>
+                            </tr>
+                        );
+                    case 'brightener':
+                    case 'antioxidant':
+                    case 'uv':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'14px 18px', fontWeight:600}}>{row.name}</td>
+                                <td style={{padding:'14px 18px', fontSize:'12px'}}>{row.enName}</td>
+                                <td style={{padding:'14px 18px'}}>{row.scope}</td>
+                            </tr>
+                        );
+                    case 'simple_param':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600}}>{row.param}</td>
+                                <td style={{padding:'14px 18px', color:'var(--accent)', fontWeight:600}}>{row.val}</td>
+                            </tr>
+                        );
+                    case 'tpu_static_param':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600}}>{row.param}</td>
+                                <td style={{padding:'14px 18px'}}>{row.method}</td>
+                                <td style={{padding:'14px 18px'}}>{row.unit}</td>
+                                <td style={{padding:'14px 18px', color:'var(--accent)', fontWeight:600}}>{row.val}</td>
+                            </tr>
+                        );
+                    case 'fluorescent_list':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'14px 18px', fontWeight:600}}>{row.name}</td>
+                            </tr>
+                        );
+                    case 'laser_table':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'14px 18px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'14px 18px', fontWeight:600}}>{row.effect}</td>
+                                <td style={{padding:'14px 18px'}}>{row.amt}</td>
+                                <td style={{padding:'14px 18px', fontSize:'12px'}}>{row.scope}</td>
+                            </tr>
+                        );
+                    case 'pigment_table':
+                        return (
+                            <tr key={idx} style={{background: bg}}>
+                                <td style={{padding:'10px 8px', fontSize:'12px', fontWeight:600, color:'var(--accent)'}}>{row.model}</td>
+                                <td style={{padding:'10px 8px', fontSize:'11px'}}>{row.ci}</td>
+                                <td style={{padding:'10px 8px', fontSize:'11px'}}>{row.cas}</td>
+                                <td style={{padding:'10px 8px', fontSize:'12px'}}>{row.migration}</td>
+                                <td style={{padding:'10px 8px', fontSize:'12px'}}>{row.light}</td>
+                                <td style={{padding:'10px 8px', fontSize:'12px'}}>{row.heat}</td>
+                                <td style={{padding:'10px 8px', fontSize:'12px'}}>{row.acid}</td>
+                                <td style={{padding:'10px 8px', fontSize:'12px', color: 'var(--accent)'}}>{row.halogen}</td>
+                                <td style={{padding:'10px 6px', fontSize:'12px'}}>{row.pp}</td>
+                                <td style={{padding:'10px 6px', fontSize:'12px'}}>{row.pe}</td>
+                                <td style={{padding:'10px 6px', fontSize:'12px'}}>{row.pvc}</td>
+                                <td style={{padding:'10px 6px', fontSize:'12px'}}>{row.tpu}</td>
+                                <td style={{padding:'10px 6px', fontSize:'12px'}}>{row.ps}</td>
+                                <td style={{padding:'10px 6px', fontSize:'12px'}}>{row.abs}</td>
+                            </tr>
+                        );
+                    default:
+                        return null;
+                }
+            };
+
+            return (
+                <div className="fade-in">
+                    <h4 style={{fontSize:'18px', color:'var(--fg)', marginBottom:'20px', borderLeft:'4px solid var(--accent)', paddingLeft:'12px'}}>物理技術參數規格表</h4>
+                    <div className="table-container" style={{borderRadius:'var(--radius-md)', overflow:'hidden', border:'1px solid var(--border)'}}>
+                        <table>
+                            <thead>
+                                {renderHeader()}
+                            </thead>
+                            <tbody className="mono" style={{fontSize:'13px'}}>
+                                {rows.map((row, idx) => renderRow(row, idx))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {tableType.includes('pigment') && (
+                        <div style={{marginTop:'16px', fontSize:'11px', color:'var(--muted)', display:'flex', gap:'20px', justifyContent:'center'}}>
+                            <span>●：推薦使用</span>
+                            <span>○：選擇性使用</span>
+                            <span>X：不推薦使用</span>
+                        </div>
+                    )}
+                    <div style={{marginTop:'24px', fontSize:'12px', color:'var(--muted)', textAlign:'center', lineHeight:1.5}}>
+                        （注：本數據表所列數值，僅敘述本產品典型的性質，不代表本公司技術標準，僅供參考）
+                    </div>
+                </div>
+            );
+        };
+
+        const ProductDetailPage = ({ onNavigate, productId }) => {
+            const currentId = productId || 'microspheres';
+            const [activeTab, setActiveTab] = useState('overview');
+            const rDetail = useReveal();
+
+            useEffect(() => {
+                setActiveTab('overview');
+            }, [currentId]);
 
             const product = productDb[currentId] || productDb['microspheres'];
 
@@ -977,8 +1414,6 @@
                                                     <path d="M 0 2 L 10 5 L 0 8 z" fill="var(--accent)" />
                                                 </marker>
                                             </defs>
-                                            
-                                            {/* Grid background */}
                                             <g stroke="var(--border)" strokeWidth="0.5" opacity="0.3">
                                                 <line x1="0" y1="30" x2="300" y2="30" />
                                                 <line x1="0" y1="60" x2="300" y2="60" />
@@ -986,49 +1421,23 @@
                                                 <line x1="0" y1="120" x2="300" y2="120" />
                                                 <line x1="0" y1="150" x2="300" y2="150" />
                                                 <line x1="0" y1="180" x2="300" y2="180" />
-                                                
                                                 <line x1="50" y1="0" x2="50" y2="200" />
                                                 <line x1="100" y1="0" x2="100" y2="200" />
                                                 <line x1="150" y1="0" x2="150" y2="200" />
                                                 <line x1="200" y1="0" x2="200" y2="200" />
                                                 <line x1="250" y1="0" x2="250" y2="200" />
                                             </g>
-
-                                            {/* Diagram Title */}
-                                            <text x="150" y="24" textAnchor="middle" fill="var(--fg)" fontWeight="700" fontSize="13px" letterSpacing="0.05em">膨脹模式圖解 (Expansion Model)</text>
-
-                                            {/* Before Expansion */}
-                                            <g transform="translate(60, 110)">
-                                                <circle cx="0" cy="0" r="30" fill="url(#diagram-glow)" stroke="var(--accent)" strokeWidth="1.5" />
-                                                <circle cx="0" cy="0" r="18" fill="var(--accent-soft)" stroke="var(--accent)" strokeWidth="1" strokeDasharray="3 3" />
-                                                <text x="0" y="4" textAnchor="middle" fill="var(--fg)" fontSize="10px" fontWeight="600">發泡劑</text>
-                                                <text x="0" y="-38" textAnchor="middle" fill="var(--muted)" fontSize="10px" fontWeight="500">外殼樹脂</text>
-                                                <line x1="0" y1="-32" x2="0" y2="-22" stroke="var(--muted)" strokeWidth="0.8" markerStart="url(#arrow)" />
-                                                
-                                                <text x="0" y="48" textAnchor="middle" fill="var(--fg)" fontSize="11px" fontWeight="700">膨脹前</text>
-                                                <text x="0" y="62" textAnchor="middle" fill="var(--muted)" fontSize="9px" className="mono">10~50µm</text>
-                                            </g>
-
-                                            {/* Heating Arrow */}
-                                            <g transform="translate(125, 110)">
-                                                <line x1="0" y1="0" x2="40" y2="0" stroke="var(--accent)" strokeWidth="2.5" markerEnd="url(#arrow)" />
-                                                <text x="20" y="-12" textAnchor="middle" fill="var(--accent)" fontSize="11px" fontWeight="700">加熱</text>
-                                            </g>
-
-                                            {/* After Expansion */}
-                                            <g transform="translate(230, 110)">
-                                                <circle cx="0" cy="0" r="50" fill="url(#diagram-glow)" stroke="var(--accent)" strokeWidth="2.5" />
-                                                
-                                                {/* Scattered gas markers */}
-                                                <circle cx="0" cy="-25" r="1.5" fill="var(--accent)" />
-                                                <circle cx="20" cy="-15" r="1.5" fill="var(--accent)" />
-                                                <circle cx="-20" cy="10" r="1.5" fill="var(--accent)" />
-                                                <circle cx="15" cy="20" r="1.5" fill="var(--accent)" />
-                                                <circle cx="-10" cy="-10" r="1.5" fill="var(--accent)" />
-                                                
-                                                <text x="0" y="66" textAnchor="middle" fill="var(--fg)" fontSize="11px" fontWeight="700">膨脹後</text>
-                                                <text x="0" y="80" textAnchor="middle" fill="var(--muted)" fontSize="9px" className="mono">30~200µm</text>
-                                            </g>
+                                            <rect width="300" height="200" fill="url(#diagram-glow)" />
+                                            <circle cx="70" cy="100" r="14" fill="none" stroke="var(--accent)" strokeWidth="1.5" />
+                                            <circle cx="70" cy="100" r="2" fill="var(--accent)" />
+                                            <circle cx="210" cy="100" r="32" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeDasharray="3 3" />
+                                            <circle cx="210" cy="100" r="12" fill="none" stroke="var(--accent)" strokeWidth="1" />
+                                            <circle cx="210" cy="100" r="2" fill="var(--accent)" />
+                                            <line x1="100" y1="100" x2="155" y2="100" stroke="var(--accent)" strokeWidth="1.5" markerEnd="url(#arrow)" />
+                                            <text x="70" y="130" textAnchor="middle" fill="var(--fg)" fontSize="11px" fontWeight="600">受熱前微膠囊</text>
+                                            <text x="70" y="145" textAnchor="middle" fill="var(--muted)" fontSize="9px" className="mono">10~30µm</text>
+                                            <text x="210" y="150" textAnchor="middle" fill="var(--fg)" fontSize="11px" fontWeight="600">受熱膨脹後</text>
+                                            <text x="210" y="165" textAnchor="middle" fill="var(--muted)" fontSize="9px" className="mono">30~200µm</text>
                                         </svg>
                                     </div>
                                 ) : (
@@ -1042,19 +1451,15 @@
                                             </defs>
                                             <rect width="200" height="200" fill="none"/>
                                             <circle cx="100" cy="100" r="90" fill="url(#detail-glow-dyn)" />
-                                            
-                                            {/* Beautiful Polymer Molecular Lattice SVG structure */}
                                             <path d="M 100 30 L 152 60 L 152 120 L 100 150 L 48 120 L 48 60 Z" fill="none" stroke="var(--accent)" strokeWidth="2.5" strokeOpacity="0.5" />
                                             <path d="M 100 45 L 139 67.5 L 139 112.5 L 100 135 L 61 112.5 L 61 67.5 Z" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.25" strokeDasharray="3 3" />
                                             <path d="M 100 30 L 100 10 M 152 60 L 169 50 M 152 120 L 169 130 M 100 150 L 100 170 M 48 120 L 31 130 M 48 60 L 31 50" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.4" />
-                                            
                                             <circle cx="100" cy="30" r="4.5" fill="var(--accent)" />
                                             <circle cx="152" cy="60" r="4.5" fill="var(--accent)" />
                                             <circle cx="152" cy="120" r="4.5" fill="var(--accent)" />
                                             <circle cx="100" cy="150" r="4.5" fill="var(--accent)" />
                                             <circle cx="48" cy="120" r="4.5" fill="var(--accent)" />
                                             <circle cx="48" cy="60" r="4.5" fill="var(--accent)" />
-                                            
                                             <circle cx="100" cy="100" r="22" fill="none" stroke="var(--accent)" strokeWidth="2" strokeOpacity="0.4" />
                                             <circle cx="100" cy="100" r="14" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.5" strokeDasharray="2 2" />
                                         </svg>
@@ -1099,11 +1504,31 @@
                                     ))}
                                 </div>
 
-                                <div style={{flex: 1, display:'flex', flexDirection:'column', justifyContent:'flex-start'}}>
-                                    {activeTab === 'overview' && product.overview}
-                                    {activeTab === 'apps' && product.apps}
-                                    {activeTab === 'storage' && product.storage}
-                                    {activeTab === 'specs' && product.specsTable}
+                                <div style={{flex: 1, display:'flex', flexDirection:'column', justifyContent:'flex-start', lineHeight:1.8}}>
+                                    {activeTab === 'overview' && (
+                                        <div className="fade-in">
+                                            {product.overview.map((p, i) => (
+                                                <p key={i} style={{fontSize:'16px', color: i === 0 ? 'var(--fg)' : 'var(--muted)', marginBottom:'16px'}}>{p}</p>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {activeTab === 'apps' && (
+                                        <div className="fade-in">
+                                            {product.apps.map((p, i) => (
+                                                <p key={i} style={{fontSize:'16px', color:'var(--fg)', marginBottom:'12px'}}>{p}</p>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {activeTab === 'storage' && (
+                                        <div className="fade-in">
+                                            {product.storage.map((p, i) => (
+                                                <p key={i} style={{fontSize:'16px', color:'var(--fg)', marginBottom:'12px'}}>{p}</p>
+                                            ))}
+                                        </div>
+                                    )}
+                                    {activeTab === 'specs' && (
+                                        <SpecsTableRenderer tableType={product.tableType} rows={product.rows} />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -1117,7 +1542,6 @@
                 </div>
             );
         };
-
 
         const SupportPage = () => {
             const [activeTab, setActiveTab] = useState('foaming');
