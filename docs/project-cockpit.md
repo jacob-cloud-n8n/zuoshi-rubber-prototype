@@ -71,6 +71,11 @@
   - Converted public site copy to Traditional Chinese after the client requested full-site Traditional Chinese.
   - Preserved technical rows, model codes, CAS numbers, English labels, and numeric values.
   - Corrected address wording after conversion so `歡雅里` remains an administrative place name.
+- PDF page 7 certification alignment:
+  - Added the missing ROHS report image from PDF page 7.
+  - Replaced the generated crops with the original report screenshots from `/Users/jacob/Documents/各專案/琢石網站/`.
+  - Corrected certification/report cards to match PDF page 7: REACH, 海/陸/空運輸鑑定, 鄰苯 Phthalates, ROHS, 納稅信用 A 級, and 常年法律顧問.
+  - Removed the incorrect split between separate 海洋/航空 transport report cards because the PDF shows one combined 海/陸/空運輸鑑定報告.
 - Local validation:
   - `python3 -m http.server 4173` served the prototype successfully.
   - `curl -I http://127.0.0.1:4173/` returned HTTP 200.
