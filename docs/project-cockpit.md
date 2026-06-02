@@ -62,6 +62,17 @@
 
 ### 2026-06-02
 
+- Applied the latest client PDF revision request:
+  - Updated the homepage banner to use the PDF page 3 Corporate Vision / 企业愿景 copy.
+  - Re-aligned product prose fields against the final PDF text while leaving technical table rows untouched.
+  - Removed duplicate `● / X / ○` usage legend text from pigment product overview content; the legend remains in the technical data table area.
+  - Hid empty product detail tabs so pigment pages do not show PDF-absent application/storage copy.
+- Local validation:
+  - `python3 -m http.server 4173` served the prototype successfully.
+  - `curl -I http://127.0.0.1:4173/` returned HTTP 200.
+  - Source checks confirmed homepage vision copy, dynamic product tabs, and retained technical-data legend.
+- opencode note: version `1.15.12` is installed, but actual `opencode run` currently fails locally with `Failed to run the query 'PRAGMA wal_checkpoint(PASSIVE)'`; no files were edited by opencode.
+
 - Resumed from Antig handoff and confirmed the latest local and remote commit is `cd1cedd`.
 - Latest public preview remains `https://jacob-cloud-n8n.github.io/zuoshi-rubber-prototype/`.
 - Verified Antig handoff items before continuing:
