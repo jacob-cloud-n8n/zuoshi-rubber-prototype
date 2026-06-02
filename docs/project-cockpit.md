@@ -63,10 +63,14 @@
 ### 2026-06-02
 
 - Applied the latest client PDF revision request:
-  - Updated the homepage banner to use the PDF page 3 Corporate Vision / 企业愿景 copy.
+  - Updated the homepage banner to use the PDF page 3 Corporate Vision / 企業願景 copy.
   - Re-aligned product prose fields against the final PDF text while leaving technical table rows untouched.
   - Removed duplicate `● / X / ○` usage legend text from pigment product overview content; the legend remains in the technical data table area.
   - Hid empty product detail tabs so pigment pages do not show PDF-absent application/storage copy.
+- Follow-up language consistency pass:
+  - Converted public site copy to Traditional Chinese after the client requested full-site Traditional Chinese.
+  - Preserved technical rows, model codes, CAS numbers, English labels, and numeric values.
+  - Corrected address wording after conversion so `歡雅里` remains an administrative place name.
 - Local validation:
   - `python3 -m http.server 4173` served the prototype successfully.
   - `curl -I http://127.0.0.1:4173/` returned HTTP 200.
