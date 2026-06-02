@@ -62,6 +62,12 @@
 
 ### 2026-06-02
 
+- Product catalog list-view revision:
+  - Reworked the product catalog from a 22-card grid into a list-style searchable index based on client feedback and competitor reference.
+  - Added product grouping: 發泡與膨脹助劑, 功能性助劑, 顏料與色母, and 特殊加工助劑.
+  - Added keyword search across Chinese names, English names, model hints, materials, and product descriptors.
+  - Preserved the existing product detail pages and linked each list item to the full detail view.
+
 - Applied the latest client PDF revision request:
   - Updated the homepage banner to use the PDF page 3 Corporate Vision / 企業願景 copy.
   - Re-aligned product prose fields against the final PDF text while leaving technical table rows untouched.

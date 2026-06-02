@@ -124,14 +124,41 @@
         th { background: var(--bg); text-align: left; padding: 16px 24px; font-size: 14px; color: var(--muted); border-bottom: 1px solid var(--border); }
         td { padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 14px; }
 
+        .product-browser { display: grid; grid-template-columns: minmax(280px, 360px) 1fr; gap: 32px; align-items: start; }
+        .product-index-panel, .product-preview-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); }
+        .product-index-panel { padding: 24px; position: sticky; top: calc(var(--header-shrunk) + 24px); max-height: calc(100vh - 120px); overflow: auto; }
+        .product-search { width: 100%; height: 46px; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0 14px; font-size: 14px; background: var(--bg); color: var(--fg); outline: none; }
+        .product-search:focus { border-color: var(--accent); background: var(--surface); }
+        .product-group-title { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; margin: 28px 0 10px; text-transform: uppercase; }
+        .product-list-button { width: 100%; text-align: left; border: 0; border-radius: var(--radius-sm); padding: 13px 12px; background: transparent; color: var(--fg); cursor: pointer; transition: 0.25s; display: grid; gap: 3px; }
+        .product-list-button:hover { background: var(--bg); }
+        .product-list-button.active { background: var(--accent-soft); box-shadow: inset 4px 0 0 var(--accent); }
+        .product-list-name { font-size: 15px; font-weight: 700; line-height: 1.35; }
+        .product-list-en { font-size: 10px; color: var(--muted); line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .product-preview-panel { min-height: 620px; padding: 44px; display: grid; grid-template-columns: 1fr; gap: 32px; }
+        .product-preview-kicker { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .product-preview-title { font-size: 42px; line-height: 1.18; margin: 12px 0 10px; }
+        .product-preview-en { font-size: 13px; color: var(--accent); font-weight: 700; letter-spacing: 0.08em; }
+        .product-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .product-summary-item { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 18px; background: var(--bg); min-height: 120px; }
+        .product-summary-label { font-size: 12px; color: var(--muted); font-weight: 700; margin-bottom: 8px; }
+        .product-summary-value { font-size: 14px; color: var(--fg); line-height: 1.65; }
+        .product-empty { padding: 32px 0; color: var(--muted); font-size: 15px; }
+
         @media (max-width: 1024px) {
             .phi-row, .phi-row.flipped { grid-template-columns: 1fr; }
             .phi-img-side { height: 300px; }
+            .product-browser { grid-template-columns: 1fr; }
+            .product-index-panel { position: static; max-height: none; }
+            .product-preview-panel { min-height: auto; }
+            .product-summary-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .container { padding: 0 30px; }
             .footer-grid { grid-template-columns: 1fr; gap: 60px; }
+            .product-preview-panel { padding: 28px; }
+            .product-preview-title { font-size: 30px; }
         }
     </style>
 </head>
@@ -443,87 +470,138 @@
         };
 
                 const ProductsPage = ({ onNavigate }) => {
-                        const categories = [
-                { title: '熱膨脹微膠囊 EXPANDABLE MICROSPHERES', desc: '發泡過程均勻平緩、粒徑分佈均一（粒徑分佈窄，粒度成型完整）。', id: 'microspheres' },
-                { title: '樹脂載體膨脹母粒 EXPANSION MASTERBATCH', desc: '樹脂載體膨脹母粒，為複合型膨脹發泡母粒。', id: 'expansion-masterbatch' },
-                { title: '耐磨助劑/矽酮母粒/耐刮擦助劑 ANTI-SCRATCH MASTERBATCH', desc: '本品適用於EVA發泡材、PVC、TPU線材、鞋材等磨耗測試。', id: 'anti-scratch' },
-                { title: '化學發泡劑 CHEMICAL FOAMING AGENT', desc: '減少流痕和縮痕，提升表面光滑度，縮短成型時間、減輕重量。', id: 'chemical-foaming' },
-                { title: '發泡助劑母粒 FOAMING AGENT MASTERBATCH', desc: '發泡助劑母粒，也稱為發泡母粒，是一種將發泡劑與載體樹脂混合。', id: 'foaming-masterbatch' },
-                { title: '顏料母粒-色母粒 COLOR MASTERBATCH', desc: '色母粒使顏料在製品中具有更好的分散性，有利於保持顏料的化學穩定性。', id: 'color-masterbatch' },
-                { title: '螢光增白劑 FLUORESCENT WHITENING AGENT', desc: '增白劑，是無色到淺色有機化合物。吸收紫外光轉化為紫至藍色螢光，產生更明亮外觀。', id: 'brightener' },
-                { title: '抗氧化劑 ANTIOXIDANT', desc: '主要用於防止聚合物材料和油脂、塗料在光照和熱作用下氧化降解。', id: 'antioxidant' },
-                { title: '紫外線吸收劑 ULTRAVIOLET ABSORBENT', desc: '可在 290-400 nm 範圍內吸收紫外線光，化學穩定性好，揮發性低。', id: 'uv-absorber' },
-                { title: 'EVA抗靜電助劑-粉末 EVA ANTISTATIC ADDITIVE', desc: 'EVP-715 為專用型醋酸乙烯抗靜電助劑，降低摩擦係數，抑制靜電產生。', id: 'antistatic-eva' },
-                { title: '螢光顏料 FLUORESCENT PIGMENTS', desc: '在受到紫外線或其他特定波長光照射時，呈現出鮮豔的「螢光」效果。', id: 'fluorescent-pigment-p18' },
-                { title: 'TPU耐黃變助劑母粒 TPU YELLOWING RESISTANCE MASTERBATCH', desc: '專用型聚氨酯耐黃變母粒，兼具抗熱氧化與光穩定劑作用，能有效與樹脂融合。', id: 'yellowing-resistance' },
-                { title: 'TPU抗靜電助劑母粒 TPU ANTISTATIC MASTERBATCH', desc: 'ESU-320 為專用型熱塑聚氨酯彈性體母粒，屬長效性內加型抗靜電添加劑。', id: 'antistatic-tpu' },
-                { title: '鐳雕助劑 LASER MARKING POWDER', desc: '塑料工藝中可進行直接混拌注塑或造粒再行加工，過程中不改變加工工藝參數。', id: 'laser-marking' },
-                { title: '紅色顏料 RED PIGMENT', desc: '提供優異之耐遷移性、耐光性及耐熱性能，廣泛適用於各類塑膠著色及高溫加工。', id: 'pigment-red' },
-                { title: '酞菁顏料/紫色顏料 PHTHALOCYANINE & VIOLET PIGMENT', desc: '高效能酞菁藍、酞菁綠及紫色顏料，耐光度達 7-8 級，耐溫高達 280-300℃。', id: 'pigment-phthalocyanine' },
-                { title: '螢光顏料 (高牢度) HIGH-FASTNESS FLUORESCENT PIGMENT', desc: '超亮螢光顏料，專為塑料與油墨著色調配，展現鮮明發光效果，兼顧耐溫性。', id: 'fluorescent-pigment-p24' },
-                { title: '氧化鐵顏料 IRON OXIDE PIGMENT', desc: '經典氧化鐵紅、鐵黃、鐵黑顏料，極佳耐遷移性與高化學穩定性，無機著色產品。', id: 'pigment-iron-oxide' },
-                { title: '群青/鈦白粉/炭黑 ULTRAMARINE & TITANIUM & CARBON BLACK', desc: '經典白、黑、群青藍無機顏料，擁有優異之耐光、高耐溫與極佳耐遷移性。', id: 'pigment-ultramarine' },
-                { title: '耐高溫無機顏料 HIGH TEMPERATURE INORGANIC PIGMENT', desc: '頂級複合無機金屬氧化物顏料 (CICP)，耐溫高達 750-1200℃，極佳耐化學性。', id: 'pigment-high-temp' },
-                { title: '紅色顏料/橙色顏料 RED & ORANGE PIGMENT', desc: '中高端工程著色紅色與橙色顏料，卓越抗遷移與耐候性能，無鹵素環保認證。', id: 'pigment-orange-red' },
-                { title: '黃色顏料 YELLOW PIGMENT', desc: '中高端工程著色黃色顏料，發色強度優異，分散性好，極佳熱穩定性與光穩定保護。', id: 'pigment-yellow' }
+            const categories = [
+                { group: '發泡與膨脹助劑', title: '熱膨脹微膠囊', enTitle: 'EXPANDABLE MICROSPHERES', desc: '發泡過程均勻平緩、粒徑分佈均一，適合輕量化與尺寸安定需求。', id: 'microspheres', keywords: '發泡 膨脹 微膠囊 輕量 注塑 擠出' },
+                { group: '發泡與膨脹助劑', title: '樹脂載體膨脹母粒', enTitle: 'EXPANSION MASTERBATCH', desc: '複合型膨脹發泡母粒，提升膨脹劑在塑料粒子中的分散效果。', id: 'expansion-masterbatch', keywords: '膨脹 母粒 TPE TPU PE 鞋材 密封條' },
+                { group: '發泡與膨脹助劑', title: '化學發泡劑', enTitle: 'CHEMICAL FOAMING AGENT', desc: '用於製造輕量化和多孔塑料製品，協助改善表面與成型效率。', id: 'chemical-foaming', keywords: '化學 發泡 AC 碳酸氫鈉 EVA PVC PE PP' },
+                { group: '發泡與膨脹助劑', title: '發泡助劑母粒', enTitle: 'FOAMING AGENT MASTERBATCH', desc: '將發泡劑與載體樹脂混合製成濃縮顆粒，利於穩定分散。', id: 'foaming-masterbatch', keywords: '發泡 母粒 DU-50 5315-P PE EVA' },
+                { group: '功能性助劑', title: '耐磨助劑/矽酮母粒/耐刮擦助劑', enTitle: 'ANTI-SCRATCH MASTERBATCH', desc: '適用 EVA、PVC、TPU 與鞋材等磨耗測試需求。', id: 'anti-scratch', keywords: '耐磨 矽酮 耐刮擦 EVA TPU PVC DIN SGS' },
+                { group: '功能性助劑', title: '螢光增白劑', enTitle: 'FLUORESCENT WHITENING AGENT', desc: '吸收紫外光並轉化為藍色螢光，改善白度與明亮外觀。', id: 'brightener', keywords: '增白 螢光 OB OB-1 127 PVC PS PP' },
+                { group: '功能性助劑', title: '抗氧化劑', enTitle: 'ANTIOXIDANT', desc: '抑制或延緩氧化反應，提升材料加工穩定性與耐用性。', id: 'antioxidant', keywords: '抗氧化 1010 1076 168 聚合物 熱穩定' },
+                { group: '功能性助劑', title: '紫外線吸收劑', enTitle: 'ULTRAVIOLET ABSORBENT', desc: '吸收紫外線並轉為無害能量，降低高分子材料老化。', id: 'uv-absorber', keywords: '紫外線 UV UV-201 UV-P UV-770 光穩定' },
+                { group: '功能性助劑', title: 'EVA抗靜電助劑-粉末', enTitle: 'EVA ANTISTATIC ADDITIVE', desc: 'EVP-715 為 EVA 專用型抗靜電助劑，適用薄膜、板材、鞋材。', id: 'antistatic-eva', keywords: 'EVA 抗靜電 EVP-715 粉末 電阻率 鞋材' },
+                { group: '功能性助劑', title: 'TPU耐黃變助劑母粒', enTitle: 'TPU YELLOWING RESISTANCE MASTERBATCH', desc: '兼具抗熱氧化與光穩定作用，延緩 TPU 因紫外光造成的老化。', id: 'yellowing-resistance', keywords: 'TPU 耐黃變 抗氧化 光穩定 母粒' },
+                { group: '功能性助劑', title: 'TPU抗靜電助劑母粒', enTitle: 'TPU ANTISTATIC MASTERBATCH', desc: '長效性內加型抗靜電添加劑，適用透明 TPU 製品需求。', id: 'antistatic-tpu', keywords: 'TPU 抗靜電 ESU-320 透明 電阻 母粒' },
+                { group: '顏料與色母', title: '顏料母粒-色母粒', enTitle: 'COLOR MASTERBATCH', desc: '提升顏料分散性與顏色穩定性，可依載體、用途、環保要求定製。', id: 'color-masterbatch', keywords: '色母 顏料 母粒 TPU PE EVA 黑 白 螢光' },
+                { group: '顏料與色母', title: '螢光顏料', enTitle: 'FLUORESCENT PIGMENTS', desc: '受紫外線或特定波長光照射時呈現鮮豔螢光效果。', id: 'fluorescent-pigment-p18', keywords: '螢光 顏料 5120 5121 5122 5123 5124 5126' },
+                { group: '顏料與色母', title: '紅色顏料', enTitle: 'RED PIGMENTS', desc: '紅色有機顏料系列，適用塑膠著色及高溫加工條件。', id: 'pigment-red', keywords: '紅色 顏料 Pigment Red 2501 2548 2503' },
+                { group: '顏料與色母', title: '酞菁顏料/紫色顏料', enTitle: 'PHTHALOCYANINE & VIOLET PIGMENTS', desc: '酞菁藍、酞菁綠與紫色顏料，具良好耐光與耐溫性能。', id: 'pigment-phthalocyanine', keywords: '酞菁 紫色 Blue Green Violet 6702 5501 7508' },
+                { group: '顏料與色母', title: '螢光顏料 (高牢度)', enTitle: 'HIGH-FASTNESS FLUORESCENT PIGMENTS', desc: '高牢度螢光顏料資料表，含 PP、PE、PVC、TPU 等應用參考。', id: 'fluorescent-pigment-p24', keywords: '高牢度 螢光 5120 5121 5123 5125 5126' },
+                { group: '顏料與色母', title: '氧化鐵顏料', enTitle: 'IRON OXIDE PIGMENTS', desc: '氧化鐵紅、鐵黃、鐵黑等無機顏料，耐遷移與化學穩定性佳。', id: 'pigment-iron-oxide', keywords: '氧化鐵 Pigment Red 101 Yellow 42 Black 11' },
+                { group: '顏料與色母', title: '群青/鈦白粉/炭黑', enTitle: 'ULTRAMARINE & TITANIUM & CARBON BLACK', desc: '經典白、黑與群青無機顏料，適用高要求著色場景。', id: 'pigment-ultramarine', keywords: '群青 鈦白粉 炭黑 Blue 29 White 6 Black 7' },
+                { group: '顏料與色母', title: '耐高溫無機顏料', enTitle: 'HIGH TEMPERATURE INORGANIC PIGMENTS', desc: '複合無機金屬氧化物顏料，適用高溫加工與戶外耐候需求。', id: 'pigment-high-temp', keywords: '耐高溫 無機 Yellow 53 Brown 24 Blue 28 Green 50' },
+                { group: '顏料與色母', title: '紅色顏料/橙色顏料', enTitle: 'RED & ORANGE PIGMENTS', desc: '中高端紅色與橙色工程著色顏料，兼顧抗遷移與耐候性能。', id: 'pigment-orange-red', keywords: '紅色 橙色 Red Orange Violet 2572 4584' },
+                { group: '顏料與色母', title: '黃色顏料', enTitle: 'YELLOW PIGMENTS', desc: '黃色工程顏料系列，發色強度與熱穩定性佳。', id: 'pigment-yellow', keywords: '黃色 Yellow 4562 4551 4568 4662 4563' },
+                { group: '特殊加工助劑', title: '鐳雕助劑', enTitle: 'LASER MARKING POWDER', desc: '可直接混拌注塑或造粒後加工，適用多波長激光打標。', id: 'laser-marking', keywords: '鐳雕 雷雕 激光 打標 PVC PS PE PP ABS TPU' }
             ];
+            const [query, setQuery] = useState('');
+            const [selectedId, setSelectedId] = useState(categories[0].id);
+            const r = useReveal();
+            const normalizedQuery = query.trim().toLowerCase();
+            const filteredCategories = categories.filter((cat) => {
+                if (!normalizedQuery) return true;
+                return `${cat.group} ${cat.title} ${cat.enTitle} ${cat.desc} ${cat.keywords}`.toLowerCase().includes(normalizedQuery);
+            });
+            const selected = filteredCategories.find((cat) => cat.id === selectedId) || filteredCategories[0] || categories.find((cat) => cat.id === selectedId) || categories[0];
+            const product = productDb[selected.id] || {};
+            const grouped = filteredCategories.reduce((acc, cat) => {
+                if (!acc[cat.group]) acc[cat.group] = [];
+                acc[cat.group].push(cat);
+                return acc;
+            }, {});
+            const groupOrder = ['發泡與膨脹助劑', '功能性助劑', '顏料與色母', '特殊加工助劑'];
+            const overviewText = (product.overview && product.overview[0]) || selected.desc;
+            const appText = product.apps && product.apps.length > 0 ? product.apps.slice(0, 2).join(' ') : '請查看技術數據與產品詳情。';
+            const storageText = product.storage && product.storage.length > 0 ? product.storage[0] : '依產品特性與客戶應用條件確認保存方式。';
+
+            useEffect(() => {
+                if (filteredCategories.length > 0 && !filteredCategories.some((cat) => cat.id === selectedId)) {
+                    setSelectedId(filteredCategories[0].id);
+                }
+            }, [query]);
+
             return (
                 <div className="container">
                     <div className="badge">PRODUCT SOLUTIONS / 產品中心</div>
-                    <h2 style={{fontSize:'56px', marginBottom:'80px'}}>高品質添加助劑全系列</h2>
-                    <div className="swd-grid reveal" ref={useReveal()}>
-                        {categories.map((cat, i) => (
-                            <div className="card col-4" key={i}>
-                                <div style={{width:'100%', aspectRatio:'16/9', background:'var(--bg)', marginBottom:'24px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'var(--radius-md)', overflow:'hidden', position:'relative', border:'1px solid var(--border)'}}>
-                                    <svg viewBox="0 0 200 112" style={{width:'100%', height:'100%', opacity:0.85}} xmlns="http://www.w3.org/2000/svg">
-                                        <defs>
-                                            <radialGradient id={`glow-${i}`} cx="50%" cy="50%" r="50%">
-                                                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.15" />
-                                                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-                                            </radialGradient>
-                                        </defs>
-                                        <rect width="200" height="112" fill="none"/>
-                                        <circle cx="100" cy="56" r="60" fill={`url(#glow-${i})`} />
-                                        
-                                        <path d="M 70 30 L 100 12 L 130 30 L 130 66 L 100 84 L 70 66 Z" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.3" />
-                                        <path d="M 100 12 L 100 30 M 70 30 L 85 38.5 M 130 30 L 115 38.5 M 130 66 L 115 57.5 M 70 66 L 85 57.5 M 100 84 L 100 66" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.2" />
-                                        
-                                        <path d="M 70 30 L 40 12 L 10 30 L 10 66 L 40 84 L 70 66" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.15" />
-                                        <path d="M 130 30 L 160 12 L 190 30 L 190 66 L 160 84 L 130 66" fill="none" stroke="var(--accent)" strokeWidth="1" strokeOpacity="0.15" />
-                                        
-                                        <circle cx="100" cy="12" r="3" fill="var(--accent)" />
-                                        <circle cx="70" cy="30" r="3" fill="var(--accent)" />
-                                        <circle cx="130" cy="30" r="3" fill="var(--accent)" />
-                                        <circle cx="130" cy="66" r="3" fill="var(--accent)" />
-                                        <circle cx="100" cy="84" r="3" fill="var(--accent)" />
-                                        <circle cx="70" cy="66" r="3" fill="var(--accent)" />
-                                        
-                                        <circle cx="40" cy="12" r="2" fill="var(--accent)" fillOpacity="0.5" />
-                                        <circle cx="160" cy="12" r="2" fill="var(--accent)" fillOpacity="0.5" />
-                                        <circle cx="10" cy="30" r="2" fill="var(--accent)" fillOpacity="0.5" />
-                                        <circle cx="190" cy="30" r="2" fill="var(--accent)" fillOpacity="0.5" />
-                                        
-                                        <circle cx="100" cy="48" r="12" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeOpacity="0.4" strokeDasharray="3 3" />
-                                    </svg>
-                                    <div style={{position:'absolute', bottom:'8px', right:'12px', fontSize:'9px', color:'var(--muted)', letterSpacing:'0.1em', fontFamily:'var(--font-mono)'}}>POLYMER SPEC</div>
+                    <h2 style={{fontSize:'56px', marginBottom:'20px'}}>產品目錄</h2>
+                    <p style={{fontSize:'17px', color:'var(--muted)', maxWidth:'760px', marginBottom:'48px'}}>
+                        以列表方式快速查找 22 項橡塑助劑與顏料產品，可用名稱、英文、型號或材料關鍵字搜尋。
+                    </p>
+
+                    <div className="product-browser reveal" ref={r}>
+                        <aside className="product-index-panel">
+                            <input
+                                className="product-search"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                placeholder="搜尋產品、英文、型號"
+                                aria-label="搜尋產品"
+                            />
+                            <div className="mono" style={{fontSize:'11px', color:'var(--muted)', marginTop:'12px'}}>
+                                {filteredCategories.length} / {categories.length} 項產品
+                            </div>
+                            {filteredCategories.length === 0 ? (
+                                <div className="product-empty">沒有符合的產品，請換一個關鍵字。</div>
+                            ) : (
+                                groupOrder.map((group) => grouped[group] && (
+                                    <div key={group}>
+                                        <div className="product-group-title">{group}</div>
+                                        {grouped[group].map((cat) => (
+                                            <button
+                                                key={cat.id}
+                                                className={`product-list-button ${selected.id === cat.id ? 'active' : ''}`}
+                                                onClick={() => setSelectedId(cat.id)}
+                                            >
+                                                <span className="product-list-name">{cat.title}</span>
+                                                <span className="product-list-en">{cat.enTitle}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                ))
+                            )}
+                        </aside>
+
+                        <section className="product-preview-panel">
+                            <div className="product-preview-kicker">
+                                <div>
+                                    <div className="product-preview-en">{selected.enTitle}</div>
+                                    <h3 className="product-preview-title">{selected.title}</h3>
+                                    <div className="mono" style={{fontSize:'12px', color:'var(--muted)'}}>{selected.group}</div>
                                 </div>
-                                <h4>{cat.title}</h4>
-                                <p style={{fontSize:'14px', color:'var(--muted)', marginTop:'16px', marginBottom:'32px', flex: 1}}>{cat.desc}</p>
-                                <button 
-                                    className="button" 
-                                    style={{width:'100%', background: 'var(--accent)', border:'1px solid var(--accent)', color: 'white'}} 
-                                    onClick={() => onNavigate('product-detail', cat.id)}
-                                >
+                                <button className="button" onClick={() => onNavigate('product-detail', selected.id)}>
                                     查看詳情
                                 </button>
                             </div>
-                        ))}
+
+                            <div>
+                                <h4 style={{fontSize:'18px', marginBottom:'14px'}}>產品特性</h4>
+                                <p style={{fontSize:'16px', color:'var(--muted)', lineHeight:1.85}}>{product.characteristics || selected.desc}</p>
+                            </div>
+
+                            <div className="product-summary-grid">
+                                <div className="product-summary-item">
+                                    <div className="product-summary-label">產品概述</div>
+                                    <div className="product-summary-value">{overviewText}</div>
+                                </div>
+                                <div className="product-summary-item">
+                                    <div className="product-summary-label">應用 / 搜尋線索</div>
+                                    <div className="product-summary-value">{appText}</div>
+                                </div>
+                                <div className="product-summary-item">
+                                    <div className="product-summary-label">資料狀態</div>
+                                    <div className="product-summary-value">含 {product.rows ? product.rows.length : 0} 筆技術數據；{storageText}</div>
+                                </div>
+                            </div>
+
+                            <div className="table-container" style={{maxHeight:'260px', overflow:'auto'}}>
+                                <SpecsTableRenderer tableType={product.tableType} rows={(product.rows || []).slice(0, 4)} />
+                            </div>
+                        </section>
                     </div>
                 </div>
             );
         };
 
-        // Database of all 6 products based exactly on PDF catalog pages 8-13
         const productDb = {
                 'microspheres': {
                     title: '熱膨脹微膠囊',
