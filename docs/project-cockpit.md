@@ -2,8 +2,8 @@
 
 ## Current State
 
-- Date: 2026-05-29
-- Status: First client revision is published to GitHub Pages and ready for client review.
+- Date: 2026-06-02
+- Status: Latest 22-product prototype is published to GitHub Pages; verifying Antig handoff items before continuing new work.
 - Source draft: `/Users/jacob/Downloads/琢石橡塑_網頁原型建議案_V1_20260524.html`
 - Local project folder: `/Users/jacob/Documents/zuoshi-rubber-prototype`
 
@@ -22,7 +22,8 @@
 
 ## Next Steps
 
-- Collect feedback on the first client revision.
+- Verify Antig's final handoff claims against the live prototype and source.
+- Collect feedback on the latest 22-product prototype.
 - Decide whether the next iteration remains a static prototype or becomes a structured Astro site.
 
 ## Custom Domain Handoff
@@ -59,6 +60,25 @@
 
 ## Shutdown Log
 
+### 2026-06-02
+
+- Resumed from Antig handoff and confirmed the latest local and remote commit is `cd1cedd`.
+- Latest public preview remains `https://jacob-cloud-n8n.github.io/zuoshi-rubber-prototype/`.
+- Verified Antig handoff items before continuing:
+  - Product card layout alignment CSS is present using Flexbox height and spacing rules.
+  - `fluorescent-pigment-p18` needed follow-up correction for the full instant-fluorescence characteristic text and special storage wording.
+  - Page 18 fluorescent pigment rows needed explicit `colorHex` values so the `呈色參考` pill column renders visible colors.
+  - Pigment table color badge logic needed fluorescent color checks before generic color checks.
+- `jasper-newmater.com` remains parked on the existing website service until client approval for DNS switch.
+
+### 2026-06-01 (22-Product Data Completion)
+
+- Added dynamic product detail rendering for the full 22-product dataset.
+- Fixed JavaScript syntax issues introduced during data patching.
+- Completed table/data alignment work including expandable microspheres and PDF product content.
+- Final pushed commit before this startup: `cd1cedd` (`feat: 修正版面對齊、補齊螢光顏料完整PDF文字與新增顏料類呈色參考`).
+- GitHub Pages deployment for `cd1cedd` completed successfully.
+
 ### 2026-05-29
 
 - Replaced `index.html` with the first client revision from `/Users/jacob/Downloads/zhuoshi-final-0529.html`.
@@ -88,4 +108,3 @@
   - Replaced `"PRODUCT IMAGE"` placeholder text with custom dynamic hex-grid polymer SVG illustrations.
   - Fixed single-page routing refresh bug with custom React Hash Router state tracking.
 - Successfully verified and pushed changes to GitHub Pages; verified the live preview returns HTTP 200.
-

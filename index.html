@@ -772,7 +772,7 @@
                 'fluorescent-pigment-p18': {
                     title: '螢光顏料',
                     enTitle: 'FLUORESCENT PIGMENTS',
-                    characteristics: '在受到紫外線或其他特定波長光照射時，吸收光能發出更長波長的可見光，呈現出鮮豔的「螢光」效果。',
+                    characteristics: '螢光顏料是一種特殊的顏料，在受到紫外線或其他特定波長光照射時，吸收光能發出更長波長的可見光，呈現出鮮豔的「螢光」效果。這種發光是即時的，當光源消失後，發光也會立即停止。',
                     overview: [
                         '具高亮度與高反射率，螢光顏料比普通顏料更亮，反射光線更強，色彩更鮮豔。',
                         '由超細均勻和不透明的熱固性氨基樹脂微球顆粒組成。濃度高，著色力強，易分散，抗粘輥和耐溶劑。它們適用於塑料，增塑溶膠和油墨。塗料和其他著色區域。適用於 PP，PE，EVA，硬質 PVC 等。'
@@ -781,22 +781,22 @@
                         '適用於塑料、增塑溶膠、油墨、塗料及其他著色領域，如 PP、PE、EVA、硬質 PVC 等。'
                     ],
                     storage: [
-                        '儲藏與搬運：內襯塑料袋、外覆紙箱包裝，避光防水保存，防潮防高溫。應採取必要的安全措施，避免接觸和誤食，並定期檢查儲存狀況。'
+                        '儲藏與搬運：內襯塑料袋、外覆紙箱包裝，避光防水保存，紫外線吸收劑的儲放需要注意陰涼乾燥、通風良好、避免高溫 and 陽光直射，以及使用密閉的耐腐蝕性容器。同時，應採取必要的安全措施，避免接觸和誤食，並定期檢查儲存狀況。'
                     ],
                     hasDiagram: false,
                     tableType: 'fluorescent_list',
                     rows: [
-                        { model: '5120', name: '檸檬黃 (LEMON YELLOW)' },
-                        { model: '5121', name: '綠色 (GREEN)' },
-                        { model: '5122', name: '橙黃 (ORANGE YELLOW)' },
-                        { model: '5123', name: '橙色 (ORANGE)' },
-                        { model: '5124', name: '橙紅 (ORANGE RED)' },
-                        { model: '5125', name: '粉紅 (PINK)' },
-                        { model: '5126', name: '大紅 (RED)' },
-                        { model: '5127', name: '玫紅 (ROSE)' },
-                        { model: '5128', name: '紫紅 (MAGENTA)' },
-                        { model: '5129', name: '藍色 (BLUE)' },
-                        { model: '5140', name: '紫色 (VIOLET)' }
+                        { model: '5120', name: '檸檬黃 (LEMON YELLOW)', colorHex: '#E2F033' },
+                        { model: '5121', name: '綠色 (GREEN)', colorHex: '#39FF14' },
+                        { model: '5122', name: '橙黃 (ORANGE YELLOW)', colorHex: '#FFD500' },
+                        { model: '5123', name: '橙色 (ORANGE)', colorHex: '#FF5F00' },
+                        { model: '5124', name: '橙紅 (ORANGE RED)', colorHex: '#FF2A00' },
+                        { model: '5125', name: '粉紅 (PINK)', colorHex: '#FF1493' },
+                        { model: '5126', name: '大紅 (RED)', colorHex: '#FF0000' },
+                        { model: '5127', name: '玫紅 (ROSE)', colorHex: '#FF007F' },
+                        { model: '5128', name: '紫紅 (MAGENTA)', colorHex: '#FF00FF' },
+                        { model: '5129', name: '藍色 (BLUE)', colorHex: '#1F75FE' },
+                        { model: '5140', name: '紫色 (VIOLET)', colorHex: '#7A00E6' }
                     ]
                 },
                 'yellowing-resistance': {
@@ -1328,7 +1328,15 @@
                         );
                     case 'pigment_table':
                         let dotColor = '#FF0000'; // default red
-                        if (row.ci.includes('Yellow')) dotColor = '#FFCC00';
+                        if (row.ci.includes('Fluorescent Yellow')) dotColor = '#E2F033';
+                        else if (row.ci.includes('Fluorescent Green')) dotColor = '#39FF14';
+                        else if (row.ci.includes('Fluorescent Orange')) dotColor = '#FF5F00';
+                        else if (row.ci.includes('Fluorescent Pink')) dotColor = '#FF1493';
+                        else if (row.ci.includes('Fluorescent Red')) dotColor = '#FF0000';
+                        else if (row.ci.includes('Fluorescent Rose')) dotColor = '#FF007F';
+                        else if (row.ci.includes('Fluorescent Violet')) dotColor = '#7A00E6';
+                        else if (row.ci.includes('Fluorescent Blue')) dotColor = '#1F75FE';
+                        else if (row.ci.includes('Yellow')) dotColor = '#FFCC00';
                         else if (row.ci.includes('Green')) dotColor = '#39FF14';
                         else if (row.ci.includes('Blue')) dotColor = '#1F75FE';
                         else if (row.ci.includes('Violet')) dotColor = '#7A00E6';
@@ -1336,14 +1344,6 @@
                         else if (row.ci.includes('Black')) dotColor = '#1A1A1A';
                         else if (row.ci.includes('White')) dotColor = '#FFFFFF';
                         else if (row.ci.includes('Orange')) dotColor = '#FF5F00';
-                        else if (row.ci.includes('Fluorescent Yellow') || row.ci.includes('Yellow')) dotColor = '#E2F033';
-                        else if (row.ci.includes('Fluorescent Green') || row.ci.includes('Green')) dotColor = '#39FF14';
-                        else if (row.ci.includes('Fluorescent Orange') || row.ci.includes('Orange')) dotColor = '#FF5F00';
-                        else if (row.ci.includes('Fluorescent Pink') || row.ci.includes('Pink')) dotColor = '#FF1493';
-                        else if (row.ci.includes('Fluorescent Red') || row.ci.includes('Red')) dotColor = '#FF0000';
-                        else if (row.ci.includes('Fluorescent Rose') || row.ci.includes('Rose')) dotColor = '#FF007F';
-                        else if (row.ci.includes('Fluorescent Violet') || row.ci.includes('Violet')) dotColor = '#7A00E6';
-                        else if (row.ci.includes('Fluorescent Blue') || row.ci.includes('Blue')) dotColor = '#1F75FE';
 
                         return (
                             <tr key={idx} style={{background: bg}}>
