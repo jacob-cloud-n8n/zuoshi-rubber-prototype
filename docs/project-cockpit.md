@@ -2,8 +2,8 @@
 
 ## Current State
 
-- Date: 2026-06-02
-- Status: Latest 22-product prototype is published to GitHub Pages; verifying Antig handoff items before continuing new work.
+- Date: 2026-06-03
+- Status: Latest mobile navigation and product browsing fixes are published to GitHub Pages for phone review.
 - Source draft: `/Users/jacob/Downloads/琢石橡塑_網頁原型建議案_V1_20260524.html`
 - Local project folder: `/Users/jacob/Documents/zuoshi-rubber-prototype`
 
@@ -59,6 +59,26 @@
 - [ ] Check both public URLs and preserve the previous DNS snapshot for rollback.
 
 ## Shutdown Log
+
+### 2026-06-03
+
+- Mobile product browsing revision:
+  - Converted the phone product catalog from desktop-style list/preview interaction into searchable product result cards.
+  - Preserved the approved desktop product list and preview layout.
+  - Reworked product detail pages on mobile into a single-column layout so tabs, text, and diagrams no longer squeeze horizontally.
+  - Converted product-detail and technical-spec tabs to real button controls for more stable touch behavior.
+  - Kept technical tables horizontally scrollable on mobile to protect chemical formulas, model names, and numeric columns.
+- Mobile navigation revision:
+  - Added a phone-only header menu button.
+  - Added menu entries for 首頁, 關於我們, 產品目錄, 技術規格, and 聯絡我們.
+  - Current mobile menu item highlights the active page and closes automatically after navigation.
+  - Hid the cropped mobile header quote button to avoid horizontal overflow.
+- Validation and publish:
+  - Local static preview returned HTTP 200.
+  - Chrome headless mobile screenshots verified product catalog, product detail, technical spec tabs, and mobile menu display.
+  - Published commit `1d01aba` (`Improve mobile product browsing`) to GitHub Pages.
+  - Published commit `1cd9860` (`Add mobile navigation menu`) to GitHub Pages.
+  - Latest public preview remains `https://jacob-cloud-n8n.github.io/zuoshi-rubber-prototype/`.
 
 ### 2026-06-02
 
