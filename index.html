@@ -73,6 +73,13 @@
         .nav-link:hover { color: var(--fg); background: var(--bg); }
         .nav-link.active { color: var(--accent); font-weight: 600; }
         .nav-link.active::after { content: ''; position: absolute; bottom: -8px; left: 18px; right: 18px; height: 3px; background: var(--accent); animation: slideIn 0.5s ease; }
+        .mobile-menu-toggle, .mobile-menu-panel { display: none; }
+        .mobile-menu-toggle { align-items: center; gap: 8px; min-height: 40px; padding: 8px 12px; background: var(--fg); color: white; border: 0; border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .mobile-menu-icon { display: grid; gap: 4px; width: 16px; }
+        .mobile-menu-icon span { display: block; height: 2px; background: currentColor; border-radius: 999px; }
+        .mobile-menu-panel { position: absolute; left: 20px; right: 20px; top: calc(100% + 10px); padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: 0 20px 48px rgba(0,0,0,0.12); }
+        .mobile-menu-link { width: 100%; min-height: 48px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; background: transparent; border: 0; border-radius: var(--radius-sm); color: var(--fg); font-family: inherit; font-size: 15px; font-weight: 700; text-align: left; cursor: pointer; }
+        .mobile-menu-link.active { background: var(--accent-soft); color: var(--accent); }
 
         @keyframes slideIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
@@ -165,6 +172,15 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             header .button { display: none; }
+            header { overflow: visible; }
+            nav { position: relative; }
+            .logo { min-width: 0; gap: 10px; }
+            .logo-img { height: 34px; }
+            .brand-name { min-width: 0; }
+            .brand-name span:first-child { font-size: 15px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .brand-name span:last-child { font-size: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .mobile-menu-toggle { display: inline-flex; flex: 0 0 auto; }
+            .mobile-menu-panel.open { display: grid; gap: 4px; }
             .container { padding: 0 20px; }
             .footer-grid { grid-template-columns: 1fr; gap: 60px; }
             .swd-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -224,6 +240,14 @@
 
             const [currentPage, setCurrentPage] = useState(getHashPage());
             const [scrolled, setScrolled] = useState(false);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const navItems = [
+                { id: 'home', label: '首頁' },
+                { id: 'about', label: '關於我們' },
+                { id: 'products', label: '產品目錄' },
+                { id: 'support', label: '技術規格' },
+                { id: 'contact', label: '聯絡我們' }
+            ];
 
             useEffect(() => {
                 const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -234,6 +258,7 @@
             useEffect(() => {
                 const handleHashChange = () => {
                     setCurrentPage(getHashPage());
+                    setMobileMenuOpen(false);
                     window.scrollTo({ top: 0, behavior: 'instant' });
                 };
                 window.addEventListener('hashchange', handleHashChange);
@@ -241,6 +266,7 @@
             }, []);
 
             const navigate = (p) => {
+                setMobileMenuOpen(false);
                 const nextHash = p === 'home' ? '' : p;
                 if (window.location.hash === `#${nextHash}` || (window.location.hash === '' && nextHash === '')) {
                     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -264,21 +290,40 @@
                                     </div>
                                 </div>
                                 <div className="nav-links">
-                                    {['home', 'about', 'products', 'support', 'contact'].map(p => (
+                                    {navItems.map(item => (
                                         <div 
-                                            key={p} 
-                                            className={`nav-link ${currentPage === p ? 'active' : ''}`}
-                                            onClick={() => navigate(p)}
+                                            key={item.id} 
+                                            className={`nav-link ${currentPage === item.id ? 'active' : ''}`}
+                                            onClick={() => navigate(item.id)}
                                         >
-                                            {p === 'home' && '首頁'}
-                                            {p === 'about' && '關於我們'}
-                                            {p === 'products' && '產品目錄'}
-                                            {p === 'support' && '技術規格'}
-                                            {p === 'contact' && '聯絡我們'}
+                                            {item.label}
                                         </div>
                                     ))}
                                 </div>
+                                <button
+                                    type="button"
+                                    className="mobile-menu-toggle"
+                                    aria-expanded={mobileMenuOpen}
+                                    aria-label="開啟頁面選單"
+                                    onClick={() => setMobileMenuOpen(open => !open)}
+                                >
+                                    <span className="mobile-menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+                                    選單
+                                </button>
                                 <button className="button" style={{padding: '10px 24px', fontSize: '14px'}} onClick={() => navigate('contact')}>詢問報價</button>
+                                <div className={`mobile-menu-panel ${mobileMenuOpen ? 'open' : ''}`}>
+                                    {navItems.map(item => (
+                                        <button
+                                            key={item.id}
+                                            type="button"
+                                            className={`mobile-menu-link ${currentPage === item.id ? 'active' : ''}`}
+                                            onClick={() => navigate(item.id)}
+                                        >
+                                            {item.label}
+                                            <span aria-hidden="true">›</span>
+                                        </button>
+                                    ))}
+                                </div>
                             </nav>
                         </div>
                     </header>
