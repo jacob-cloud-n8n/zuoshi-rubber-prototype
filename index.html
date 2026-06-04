@@ -73,6 +73,15 @@
         .nav-link:hover { color: var(--fg); background: var(--bg); }
         .nav-link.active { color: var(--accent); font-weight: 600; }
         .nav-link.active::after { content: ''; position: absolute; bottom: -8px; left: 18px; right: 18px; height: 3px; background: var(--accent); animation: slideIn 0.5s ease; }
+        .nav-dropdown-wrap { position: relative; height: 100%; display: flex; align-items: center; }
+        .nav-dropdown-wrap .nav-link { border: 0; background: transparent; font-family: inherit; font-size: inherit; font-weight: inherit; }
+        .nav-product-menu { display: none; position: absolute; top: calc(100% - 1px); left: 50%; transform: translateX(-50%); width: 340px; max-height: min(620px, calc(100vh - 120px)); overflow-y: auto; background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 0 0 var(--radius-md) var(--radius-md); box-shadow: 0 24px 60px rgba(0,0,0,0.14); padding: 8px 0; z-index: 1200; }
+        .nav-product-menu.open { display: block; }
+        .nav-product-link { width: 100%; min-height: 54px; padding: 12px 22px; display: grid; align-content: center; gap: 2px; background: transparent; border: 0; border-bottom: 1px solid var(--border); color: var(--fg); font-family: inherit; text-align: left; cursor: pointer; transition: 0.2s; }
+        .nav-product-link:hover { background: var(--accent-soft); color: var(--accent); }
+        .nav-product-link:last-child { border-bottom: 0; }
+        .nav-product-name { font-size: 15px; font-weight: 800; line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .nav-product-en { font-size: 10px; color: var(--muted); letter-spacing: 0.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .mobile-menu-toggle, .mobile-menu-panel { display: none; }
         .mobile-menu-toggle { align-items: center; gap: 8px; min-height: 40px; padding: 8px 12px; background: var(--fg); color: white; border: 0; border-radius: var(--radius-sm); font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
         .mobile-menu-icon { display: grid; gap: 4px; width: 16px; }
@@ -171,6 +180,7 @@
         }
         @media (max-width: 768px) {
             .nav-links { display: none; }
+            .nav-product-menu { display: none !important; }
             header .button { display: none; }
             header { overflow: visible; }
             nav { position: relative; }
@@ -241,12 +251,37 @@
             const [currentPage, setCurrentPage] = useState(getHashPage());
             const [scrolled, setScrolled] = useState(false);
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [desktopProductMenuOpen, setDesktopProductMenuOpen] = useState(false);
             const navItems = [
                 { id: 'home', label: '首頁' },
                 { id: 'about', label: '關於我們' },
                 { id: 'products', label: '產品目錄' },
                 { id: 'support', label: '技術規格' },
                 { id: 'contact', label: '聯絡我們' }
+            ];
+            const productNavItems = [
+                { title: '熱膨脹微膠囊', enTitle: 'EXPANDABLE MICROSPHERES', id: 'microspheres' },
+                { title: '樹脂載體膨脹母粒', enTitle: 'EXPANSION MASTERBATCH', id: 'expansion-masterbatch' },
+                { title: '化學發泡劑', enTitle: 'CHEMICAL FOAMING AGENT', id: 'chemical-foaming' },
+                { title: '發泡助劑母粒', enTitle: 'FOAMING AGENT MASTERBATCH', id: 'foaming-masterbatch' },
+                { title: '耐磨助劑/矽酮母粒/耐刮擦助劑', enTitle: 'ANTI-SCRATCH MASTERBATCH', id: 'anti-scratch' },
+                { title: '螢光增白劑', enTitle: 'FLUORESCENT WHITENING AGENT', id: 'brightener' },
+                { title: '抗氧化劑', enTitle: 'ANTIOXIDANT', id: 'antioxidant' },
+                { title: '紫外線吸收劑', enTitle: 'ULTRAVIOLET ABSORBENT', id: 'uv-absorber' },
+                { title: 'EVA抗靜電助劑-粉末', enTitle: 'EVA ANTISTATIC ADDITIVE', id: 'antistatic-eva' },
+                { title: 'TPU耐黃變助劑母粒', enTitle: 'TPU YELLOWING RESISTANCE MASTERBATCH', id: 'yellowing-resistance' },
+                { title: 'TPU抗靜電助劑母粒', enTitle: 'TPU ANTISTATIC MASTERBATCH', id: 'antistatic-tpu' },
+                { title: '顏料母粒-色母粒', enTitle: 'COLOR MASTERBATCH', id: 'color-masterbatch' },
+                { title: '螢光顏料', enTitle: 'FLUORESCENT PIGMENTS', id: 'fluorescent-pigment-p18' },
+                { title: '紅色顏料', enTitle: 'RED PIGMENTS', id: 'pigment-red' },
+                { title: '酞菁顏料/紫色顏料', enTitle: 'PHTHALOCYANINE & VIOLET PIGMENTS', id: 'pigment-phthalocyanine' },
+                { title: '螢光顏料 (高牢度)', enTitle: 'HIGH-FASTNESS FLUORESCENT PIGMENTS', id: 'fluorescent-pigment-p24' },
+                { title: '氧化鐵顏料', enTitle: 'IRON OXIDE PIGMENTS', id: 'pigment-iron-oxide' },
+                { title: '群青/鈦白粉/炭黑', enTitle: 'ULTRAMARINE & TITANIUM & CARBON BLACK', id: 'pigment-ultramarine' },
+                { title: '耐高溫無機顏料', enTitle: 'HIGH TEMPERATURE INORGANIC PIGMENTS', id: 'pigment-high-temp' },
+                { title: '紅色顏料/橙色顏料', enTitle: 'RED & ORANGE PIGMENTS', id: 'pigment-orange-red' },
+                { title: '黃色顏料', enTitle: 'YELLOW PIGMENTS', id: 'pigment-yellow' },
+                { title: '鐳雕助劑', enTitle: 'LASER MARKING POWDER', id: 'laser-marking' }
             ];
 
             useEffect(() => {
@@ -259,6 +294,7 @@
                 const handleHashChange = () => {
                     setCurrentPage(getHashPage());
                     setMobileMenuOpen(false);
+                    setDesktopProductMenuOpen(false);
                     window.scrollTo({ top: 0, behavior: 'instant' });
                 };
                 window.addEventListener('hashchange', handleHashChange);
@@ -267,12 +303,18 @@
 
             const navigate = (p) => {
                 setMobileMenuOpen(false);
+                setDesktopProductMenuOpen(false);
                 const nextHash = p === 'home' ? '' : p;
                 if (window.location.hash === `#${nextHash}` || (window.location.hash === '' && nextHash === '')) {
                     window.scrollTo({ top: 0, behavior: 'instant' });
                 } else {
                     window.location.hash = nextHash;
                 }
+            };
+            const navigateProduct = (id) => {
+                setMobileMenuOpen(false);
+                setDesktopProductMenuOpen(false);
+                window.location.hash = `product-detail-${id}`;
             };
 
             const COMPANY_EN = "ENGRAVE STONE RUBBER & PLASTIC PRODUCT CO., LTD.";
@@ -291,13 +333,47 @@
                                 </div>
                                 <div className="nav-links">
                                     {navItems.map(item => (
-                                        <div 
-                                            key={item.id} 
-                                            className={`nav-link ${currentPage === item.id ? 'active' : ''}`}
-                                            onClick={() => navigate(item.id)}
-                                        >
-                                            {item.label}
-                                        </div>
+                                        item.id === 'products' ? (
+                                            <div
+                                                key={item.id}
+                                                className="nav-dropdown-wrap"
+                                                onMouseEnter={() => setDesktopProductMenuOpen(true)}
+                                                onMouseLeave={() => setDesktopProductMenuOpen(false)}
+                                            >
+                                                <button
+                                                    type="button"
+                                                    className={`nav-link ${currentPage === item.id || currentPage === 'product-detail' ? 'active' : ''}`}
+                                                    onClick={() => setDesktopProductMenuOpen(open => !open)}
+                                                >
+                                                    {item.label}
+                                                </button>
+                                                <div className={`nav-product-menu ${desktopProductMenuOpen ? 'open' : ''}`}>
+                                                    <button className="nav-product-link" type="button" onClick={() => navigate('products')}>
+                                                        <span className="nav-product-name">全部產品目錄</span>
+                                                        <span className="nav-product-en">PRODUCT SOLUTIONS</span>
+                                                    </button>
+                                                    {productNavItems.map(product => (
+                                                        <button
+                                                            key={product.id}
+                                                            className="nav-product-link"
+                                                            type="button"
+                                                            onClick={() => navigateProduct(product.id)}
+                                                        >
+                                                            <span className="nav-product-name">{product.title}</span>
+                                                            <span className="nav-product-en">{product.enTitle}</span>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div 
+                                                key={item.id} 
+                                                className={`nav-link ${currentPage === item.id ? 'active' : ''}`}
+                                                onClick={() => navigate(item.id)}
+                                            >
+                                                {item.label}
+                                            </div>
+                                        )
                                     ))}
                                 </div>
                                 <button
