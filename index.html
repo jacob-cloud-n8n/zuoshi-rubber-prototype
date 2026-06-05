@@ -75,8 +75,9 @@
         .nav-link.active::after { content: ''; position: absolute; bottom: -8px; left: 18px; right: 18px; height: 3px; background: var(--accent); animation: slideIn 0.5s ease; }
         .nav-dropdown-wrap { position: relative; height: 100%; display: flex; align-items: center; }
         .nav-dropdown-wrap .nav-link { border: 0; background: transparent; font-family: inherit; font-size: inherit; font-weight: inherit; }
-        .nav-product-menu { display: none; position: absolute; top: calc(100% - 1px); left: 50%; transform: translateX(-50%); width: 340px; max-height: min(620px, calc(100vh - 120px)); overflow-y: auto; background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 0 0 var(--radius-md) var(--radius-md); box-shadow: 0 24px 60px rgba(0,0,0,0.14); padding: 8px 0; z-index: 1200; }
-        .nav-product-menu.open { display: block; }
+        .nav-product-menu, .nav-about-menu { display: none; position: absolute; top: calc(100% - 1px); left: 50%; transform: translateX(-50%); width: 340px; max-height: min(620px, calc(100vh - 120px)); overflow-y: auto; background: var(--surface); border: 1px solid var(--border); border-top: 4px solid var(--accent); border-radius: 0 0 var(--radius-md) var(--radius-md); box-shadow: 0 24px 60px rgba(0,0,0,0.14); padding: 8px 0; z-index: 1200; }
+        .nav-about-menu { width: 300px; }
+        .nav-product-menu.open, .nav-about-menu.open { display: block; }
         .nav-product-link { width: 100%; min-height: 54px; padding: 12px 22px; display: grid; align-content: center; gap: 2px; background: transparent; border: 0; border-bottom: 1px solid var(--border); color: var(--fg); font-family: inherit; text-align: left; cursor: pointer; transition: 0.2s; }
         .nav-product-link:hover { background: var(--accent-soft); color: var(--accent); }
         .nav-product-link:last-child { border-bottom: 0; }
@@ -252,6 +253,7 @@
             const [currentPage, setCurrentPage] = useState(getHashPage());
             const [scrolled, setScrolled] = useState(false);
             const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [desktopAboutMenuOpen, setDesktopAboutMenuOpen] = useState(false);
             const [desktopProductMenuOpen, setDesktopProductMenuOpen] = useState(false);
             const navItems = [
                 { id: 'home', label: '首頁' },
@@ -284,6 +286,11 @@
                 { title: '黃色顏料', enTitle: 'YELLOW PIGMENTS', id: 'pigment-yellow' },
                 { title: '鐳雕助劑', enTitle: 'LASER MARKING POWDER', id: 'laser-marking' }
             ];
+            const aboutNavItems = [
+                { title: '企業定位與區位優勢', enTitle: 'POSITIONING & LOCATION', id: 'position' },
+                { title: '核心實力技術、品控與定製化服務', enTitle: 'CAPABILITY & SERVICE', id: 'capability' },
+                { title: '技術研發中心', enTitle: 'R&D LABORATORY', id: 'laboratory' }
+            ];
 
             useEffect(() => {
                 const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -295,6 +302,7 @@
                 const handleHashChange = () => {
                     setCurrentPage(getHashPage());
                     setMobileMenuOpen(false);
+                    setDesktopAboutMenuOpen(false);
                     setDesktopProductMenuOpen(false);
                     window.scrollTo({ top: 0, behavior: 'instant' });
                 };
@@ -304,6 +312,7 @@
 
             const navigate = (p) => {
                 setMobileMenuOpen(false);
+                setDesktopAboutMenuOpen(false);
                 setDesktopProductMenuOpen(false);
                 const nextHash = p === 'home' ? '' : p;
                 if (window.location.hash === `#${nextHash}` || (window.location.hash === '' && nextHash === '')) {
@@ -314,8 +323,24 @@
             };
             const navigateProduct = (id) => {
                 setMobileMenuOpen(false);
+                setDesktopAboutMenuOpen(false);
                 setDesktopProductMenuOpen(false);
                 window.location.hash = `products-${id}`;
+            };
+            const navigateAboutSection = (id) => {
+                setMobileMenuOpen(false);
+                setDesktopAboutMenuOpen(false);
+                setDesktopProductMenuOpen(false);
+                const scrollToSection = () => {
+                    const target = document.getElementById(`about-${id}`);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                };
+                if (window.location.hash !== '#about') {
+                    window.location.hash = 'about';
+                    window.setTimeout(scrollToSection, 120);
+                } else {
+                    scrollToSection();
+                }
             };
 
             const COMPANY_EN = "ENGRAVE STONE RUBBER & PLASTIC PRODUCT CO., LTD.";
@@ -334,7 +359,35 @@
                                 </div>
                                 <div className="nav-links">
                                     {navItems.map(item => (
-                                        item.id === 'products' ? (
+                                        item.id === 'about' ? (
+                                            <div
+                                                key={item.id}
+                                                className="nav-dropdown-wrap"
+                                                onMouseEnter={() => setDesktopAboutMenuOpen(true)}
+                                                onMouseLeave={() => setDesktopAboutMenuOpen(false)}
+                                            >
+                                                <button
+                                                    type="button"
+                                                    className={`nav-link ${currentPage === item.id ? 'active' : ''}`}
+                                                    onClick={() => setDesktopAboutMenuOpen(open => !open)}
+                                                >
+                                                    {item.label}
+                                                </button>
+                                                <div className={`nav-about-menu ${desktopAboutMenuOpen ? 'open' : ''}`}>
+                                                    {aboutNavItems.map(section => (
+                                                        <button
+                                                            key={section.id}
+                                                            className="nav-product-link"
+                                                            type="button"
+                                                            onClick={() => navigateAboutSection(section.id)}
+                                                        >
+                                                            <span className="nav-product-name">{section.title}</span>
+                                                            <span className="nav-product-en">{section.enTitle}</span>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ) : item.id === 'products' ? (
                                             <div
                                                 key={item.id}
                                                 className="nav-dropdown-wrap"
@@ -557,7 +610,7 @@
             return (
                 <div className="fade-in">
                     <div className="container" style={{marginBottom: 'var(--section-gap)'}}>
-                        <section className="reveal" ref={r1}>
+                        <section id="about-position" className="reveal" ref={r1}>
                             <div className="badge">ABOUT US / 企業簡介</div>
                             <div className="swd-grid" style={{alignItems: 'start'}}>
                                 <div className="col-7">
@@ -588,7 +641,7 @@
                     </div>
 
                     <div className="container" style={{marginBottom: 'var(--section-gap)'}}>
-                        <section className="reveal" ref={useReveal()}>
+                        <section id="about-capability" className="reveal" ref={useReveal()}>
                             <h2 style={{fontSize: '40px', marginBottom: '60px', textAlign: 'center'}}>核心實力：技術、品控與定製化服務</h2>
                             <div className="swd-grid">
                                 <div className="card col-4">
@@ -607,7 +660,7 @@
                         </section>
                     </div>
 
-                    <div style={{background: 'white', padding: '120px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)'}}>
+                    <div id="about-laboratory" style={{background: 'white', padding: '120px 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)'}}>
                         <div className="container">
                             <section className="reveal" ref={r2}>
                                 <div style={{textAlign: 'center', marginBottom: '80px'}}><div className="badge">R&D LABORATORY / 技術研發中心</div><h2 style={{fontSize: '44px'}}>精密數據，定義品質高度</h2></div>
