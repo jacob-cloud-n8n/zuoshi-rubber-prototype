@@ -2,8 +2,8 @@
 
 ## Current State
 
-- Date: 2026-06-03
-- Status: Latest mobile navigation and product browsing fixes are published to GitHub Pages for phone review.
+- Date: 2026-06-07
+- Status: Latest desktop dropdown navigation and product content layout revisions are published to GitHub Pages; next work is moving to Meidi Home.
 - Source draft: `/Users/jacob/Downloads/琢石橡塑_網頁原型建議案_V1_20260524.html`
 - Local project folder: `/Users/jacob/Documents/zuoshi-rubber-prototype`
 
@@ -59,6 +59,22 @@
 - [ ] Check both public URLs and preserve the previous DNS snapshot for rollback.
 
 ## Shutdown Log
+
+### 2026-06-07
+
+- Follow-up note for 2026-06-04 and 2026-06-05 desktop revisions:
+  - Added desktop Product Catalog dropdown navigation from the top menu.
+  - Removed the non-working `全部產品目錄` dropdown item after review.
+  - Updated desktop product selection so menu choices open the selected product in the product page using a full-width content layout.
+  - Removed the desktop product page's left search/category column to give product content more reading space.
+  - Preserved the existing mobile product card list because the client had no mobile feedback on that area.
+  - Added desktop About Us dropdown navigation with three anchors: 企業定位與區位優勢, 核心實力技術、品控與定製化服務, and 技術研發中心.
+  - Verified the About Us dropdown shows three items and scrolls to the selected page section.
+- Published commits:
+  - `ab19f70` (`Add desktop product dropdown`)
+  - `1a39830` (`Expand desktop product view`)
+  - `96eeb05` (`Add about page dropdown navigation`)
+- Current public preview remains `https://jacob-cloud-n8n.github.io/zuoshi-rubber-prototype/`.
 
 ### 2026-06-03
 
